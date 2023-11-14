@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ENTITIES", "Project.ENTITIES\Project.ENTITIES.csproj", "{7E2D4654-2944-4D7E-BFA8-018FDD7A6300}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.MAP", "Project.MAP\Project.MAP.csproj", "{0FE00F51-CB30-448F-A5F6-FFC2C6F36714}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7E2D4654-2944-4D7E-BFA8-018FDD7A6300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E2D4654-2944-4D7E-BFA8-018FDD7A6300}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E2D4654-2944-4D7E-BFA8-018FDD7A6300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE00F51-CB30-448F-A5F6-FFC2C6F36714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE00F51-CB30-448F-A5F6-FFC2C6F36714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE00F51-CB30-448F-A5F6-FFC2C6F36714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE00F51-CB30-448F-A5F6-FFC2C6F36714}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
