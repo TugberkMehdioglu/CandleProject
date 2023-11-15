@@ -18,6 +18,55 @@ namespace Project.MAP.Configurations
 
             builder.HasOne(x => x.AppUserProfile).WithMany(x => x.Addresses).HasForeignKey(x => x.AppUserProfileID);//OneToMany relationship
             builder.HasMany(x => x.Orders).WithOne(x => x.Address).HasForeignKey(x => x.AddressID);//OneToMany relationship
+
+            HashSet<Address> addresses = new()
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "Ev",
+                    Country = "Türkiye",
+                    City = "İstanbul",
+                    District = "Kağıthane",
+                    Neighborhood = "Çeliktepe",
+                    Street = "ŞaşatuŞalat",
+                    AptNo = 11,
+                    Flat = 8,
+                    AppUserProfileID = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
+                    CreatedDate = DateTime.Now,
+                    Status = ENTITIES.Enums.DataStatus.Inserted
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "İş Yeri",
+                    Country = "Türkiye",
+                    City = "İstanbul",
+                    District = "Beşiktaş",
+                    Neighborhood = "Nispetiye",
+                    Street = "Aydın",
+                    AptNo = 7,
+                    AppUserProfileID = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
+                    CreatedDate = DateTime.Now,
+                    Status = ENTITIES.Enums.DataStatus.Inserted
+                },
+                new()
+                {
+                    Id = 3,
+                    Name = "Ev",
+                    Country = "Türkiye",
+                    City = "İstanbul",
+                    District = "Ataşehir",
+                    Neighborhood = "Küçükbakkalköy",
+                    Street = "Rüya",
+                    AptNo = 9,
+                    AppUserProfileID = "5c8defd5-91f2-4256-9f16-e7fa7546fec5",
+                    CreatedDate = DateTime.Now,
+                    Status = ENTITIES.Enums.DataStatus.Inserted
+                }
+            };
+
+            builder.HasData(addresses);
         }
     }
 }
