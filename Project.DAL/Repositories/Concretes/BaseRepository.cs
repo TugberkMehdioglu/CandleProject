@@ -152,7 +152,7 @@ namespace Project.DAL.Repositories.Concretes
             return _context.Set<T>().Select(expression);
         }
 
-        public virtual async Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression)
+        public virtual async Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression) where X : class
         {
             return await _context.Set<T>().Select(expression).FirstOrDefaultAsync();
         }

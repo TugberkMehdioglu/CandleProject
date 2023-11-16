@@ -38,7 +38,7 @@ namespace Project.DAL.Repositories.Abstracts
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
-        Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression);
+        Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression) where X : class;
         object Select(Expression<Func<T, object>> expression);
 
         //FindCommands
