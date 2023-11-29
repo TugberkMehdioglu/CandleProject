@@ -20,6 +20,11 @@ namespace Project.BLL.ManagerServices.Concretes
             _repository = repository;
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _repository.SaveChangesAsync();
+        }
+
         public virtual async Task<string?> AddAsync(T entity)
         {
             if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
@@ -52,134 +57,288 @@ namespace Project.BLL.ManagerServices.Concretes
             return null;
         }
 
-        public Task<string?> AddRangeWithOutSaveAsync(ICollection<T> entities)
+        public virtual async Task<string?> AddRangeWithOutSaveAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.AddRangeWithOutSaveAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> AddWithOutSaveAsync(T entity)
+        public virtual async Task<string?> AddWithOutSaveAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.AddWithOutSaveAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await _repository.AnyAsync(expression);
         }
 
-        public Task<string?> DeleteAsync(T entity)
+        public virtual async Task<string?> DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.DeleteAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> DeleteRangeAsync(ICollection<T> entities)
+        public virtual async Task<string?> DeleteRangeAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.DeleteRangeAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public string? DeleteRangeWithOutSave(ICollection<T> entities)
+        public virtual string? DeleteRangeWithOutSave(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                _repository.DeleteRangeWithOutSave(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public string? DeleteWithOutSave(T entity)
+        public virtual string? DeleteWithOutSave(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                _repository.DeleteWithOutSave(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> DestroyAsync(T entity)
+        public virtual async Task<string?> DestroyAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.DestroyAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> DestroyRangeAsync(ICollection<T> entities)
+        public virtual async Task<string?> DestroyRangeAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.DestroyRangeAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public string? DestroyRangeWithOutSave(ICollection<T> entities)
+        public virtual string? DestroyRangeWithOutSave(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                _repository.DestroyRangeWithOutSave(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public string? DestroyWithOutSave(T entity)
+        public virtual string? DestroyWithOutSave(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                _repository.DestroyWithOutSave(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<T?> FindAsync(params object[] id)
+        public virtual async Task<T?> FindAsync(params object[] id)
         {
-            throw new NotImplementedException();
+            return await _repository.FindAsync(id);
         }
 
-        public Task<T?> FindFirstDataAsync()
+        public virtual async Task<T?> FindFirstDataAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.FindFirstDataAsync();
         }
 
-        public Task<T?> FindLastDataAsync()
+        public virtual async Task<T?> FindLastDataAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.FindLastDataAsync();
         }
 
-        public Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await _repository.FirstOrDefaultAsync(expression);
         }
 
-        public IQueryable<T> GetActives()
+        public virtual IQueryable<T> GetActives()
         {
-            throw new NotImplementedException();
+            return _repository.GetActives();
         }
 
-        public IQueryable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _repository.GetAll();
         }
 
-        public IQueryable<T> GetModifieds()
+        public virtual IQueryable<T> GetModifieds()
         {
-            throw new NotImplementedException();
+            return _repository.GetModifieds();
         }
 
-        public IQueryable<T> GetPassives()
+        public virtual IQueryable<T> GetPassives()
         {
-            throw new NotImplementedException();
+            return _repository.GetPassives();
         }
 
-        public object Select(Expression<Func<T, object>> expression)
+        public virtual object Select(Expression<Func<T, object>> expression)
         {
-            throw new NotImplementedException();
+            return _repository.Select(expression);
         }
 
-        public Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression) where X : class
+        public virtual async Task<X?> SelectViaDtoAsync<X>(Expression<Func<T, X>> expression) where X : class
         {
-            throw new NotImplementedException();
+            return await _repository.SelectViaDtoAsync(expression);
         }
 
-        public Task<string?> UpdateAsync(T entity)
+        public virtual async Task<string?> UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.UpdateAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> UpdateRangeAsync(ICollection<T> entities)
+        public virtual async Task<string?> UpdateRangeAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.UpdateRangeAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> UpdateRangeWithOutSaveAsync(ICollection<T> entities)
+        public virtual async Task<string?> UpdateRangeWithOutSaveAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.UpdateRangeWithOutSaveAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> UpdateWithOutSaveAsync(T entity)
+        public virtual async Task<string?> UpdateWithOutSaveAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.UpdateWithOutSaveAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> expression)
+        public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _repository.Where(expression);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Project.BLL.ManagerServices.Abstarcts
         string? DestroyWithOutSave(T entity);
         Task<string?> DestroyRangeAsync(ICollection<T> entities);
         string? DestroyRangeWithOutSave(ICollection<T> entities);
+        Task SaveChangesAsync(); //For ...WithOutSaveAsync methods
 
         //Expression Commands
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
