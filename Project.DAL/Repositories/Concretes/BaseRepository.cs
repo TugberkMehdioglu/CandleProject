@@ -23,7 +23,7 @@ namespace Project.DAL.Repositories.Concretes
             _context = context;
         }
 
-        public async Task SaveAsync()
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
@@ -31,7 +31,7 @@ namespace Project.DAL.Repositories.Concretes
         public virtual async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await SaveAsync();          
+            await SaveChangesAsync();          
         }
 
         public virtual async Task AddWithOutSaveAsync(T entity)
@@ -42,7 +42,7 @@ namespace Project.DAL.Repositories.Concretes
         public virtual async Task AddRangeAsync(ICollection<T> entities)
         {
             await _context.Set<T>().AddRangeAsync(entities);
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task AddRangeWithOutSaveAsync(ICollection<T> entities)
@@ -59,7 +59,7 @@ namespace Project.DAL.Repositories.Concretes
         {
             entity.Status = DataStatus.Deleted;
             entity.DeletedDate = DateTime.Now;
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual void DeleteWithOutSave(T entity)
@@ -75,7 +75,7 @@ namespace Project.DAL.Repositories.Concretes
                 DeleteWithOutSave(entity);
             }
 
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual void DeleteRangeWithOutSave(ICollection<T> entities)
@@ -89,7 +89,7 @@ namespace Project.DAL.Repositories.Concretes
         public virtual async Task DestroyAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual void DestroyWithOutSave(T entity)
@@ -100,7 +100,7 @@ namespace Project.DAL.Repositories.Concretes
         public virtual async Task DestroyRangeAsync(ICollection<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual void DestroyRangeWithOutSave(ICollection<T> entities)
@@ -164,7 +164,7 @@ namespace Project.DAL.Repositories.Concretes
             entity.ModifiedDate = DateTime.Now;
             T toBeUpdated = (await FindAsync(entity.Id))!;
             _context.Entry(toBeUpdated).CurrentValues.SetValues(entity);
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task UpdateWithOutSaveAsync(T entity)
@@ -182,7 +182,7 @@ namespace Project.DAL.Repositories.Concretes
                 await UpdateWithOutSaveAsync(item);
             }
 
-            await SaveAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task UpdateRangeWithOutSaveAsync(ICollection<T> entities)
