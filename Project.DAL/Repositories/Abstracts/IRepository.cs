@@ -33,6 +33,7 @@ namespace Project.DAL.Repositories.Abstracts
         void DestroyWithOutSave(T entity);
         Task DestroyRangeAsync(ICollection<T> entities);
         void DestroyRangeWithOutSave(ICollection<T> entities);
+        Task SaveAsync(); //For ...WithOutSaveAsync methods
 
         //Expression Commands
         IQueryable<T> Where(Expression<Func<T, bool>> expression);

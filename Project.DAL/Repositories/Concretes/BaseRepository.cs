@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace Project.DAL.Repositories.Concretes
             _context = context;
         }
 
-        protected async Task SaveAsync()
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
@@ -30,7 +31,7 @@ namespace Project.DAL.Repositories.Concretes
         public virtual async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await SaveAsync();
+            await SaveAsync();          
         }
 
         public virtual async Task AddWithOutSaveAsync(T entity)
