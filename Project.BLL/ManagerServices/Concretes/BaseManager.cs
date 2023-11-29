@@ -1,5 +1,6 @@
 ﻿using Project.BLL.ManagerServices.Abstarcts;
 using Project.DAL.Repositories.Abstracts;
+using Project.ENTITIES.Enums;
 using Project.ENTITIES.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,36 @@ namespace Project.BLL.ManagerServices.Concretes
             _repository = repository;
         }
 
-        public Task<string?> AddAsync(T entity)
+        public virtual async Task<string?> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.AddAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
-        public Task<string?> AddRangeAsync(ICollection<T> entities)
+        public virtual async Task<string?> AddRangeAsync(ICollection<T> entities)
         {
-            throw new NotImplementedException();
+            if (entities == null || entities.Count < 1) return "Lütfen gerekli alanları doldurun";
+
+            try
+            {
+                await _repository.AddRangeAsync(entities);
+            }
+            catch (Exception exception)
+            {
+                return $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}";
+            }
+
+            return null;
         }
 
         public Task<string?> AddRangeWithOutSaveAsync(ICollection<T> entities)
