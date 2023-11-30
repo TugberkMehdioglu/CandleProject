@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Project.BLL.Localizations;
 using Project.DAL.ContextClasses;
 using Project.ENTITIES.Models;
 using System;
@@ -33,7 +34,10 @@ namespace Project.BLL.ServiceExtensions
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
             }).AddEntityFrameworkStores<MyContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddErrorDescriber<LocalizationIdentityErrorDescriber>();
+
+            return services;
         }
     }
 }
