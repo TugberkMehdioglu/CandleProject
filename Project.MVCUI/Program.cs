@@ -1,7 +1,14 @@
+using Project.BLL.ServiceExtensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthentication();
+
+builder.Services.AddDbContextService();
+builder.Services.AddIdentityService();
+builder.Services.AddManagerRepositoy();
 
 var app = builder.Build();
 
@@ -18,6 +25,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
