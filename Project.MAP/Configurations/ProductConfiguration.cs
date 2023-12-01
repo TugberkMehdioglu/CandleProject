@@ -14,7 +14,7 @@ namespace Project.MAP.Configurations
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Price).HasPrecision(2);
+            builder.Property(x => x.Price).HasPrecision(18,2);
         }
     }
 }

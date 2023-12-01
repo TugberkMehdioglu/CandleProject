@@ -21,7 +21,7 @@ namespace Project.MAP.Configurations
                 x.ProductID
             });
 
-            builder.Property(x => x.SubTotal).HasPrecision(2);
+            builder.Property(x => x.SubTotal).HasPrecision(18,2);
         }
     }
 }
