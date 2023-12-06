@@ -52,14 +52,14 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "4d7b3bc1-f3aa-48ce-b587-5e7dc5557634",
-                            ConcurrencyStamp = "3eae0563-bc70-4fad-be47-7616167ea097",
+                            ConcurrencyStamp = "4fddc2f3-bf4b-4c7b-a818-1ccf1cb8a800",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "4d7b3bc1-f3aa-48ce-b587-5e7dc5553134",
-                            ConcurrencyStamp = "cd1bf5da-9881-4370-a94c-2d6c10c15d42",
+                            ConcurrencyStamp = "3ce18d41-e4b1-4b05-95bd-b793e3ba848e",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -251,7 +251,7 @@ namespace Project.DAL.Migrations
                             AptNo = 11,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8239),
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7533),
                             District = "Kağıthane",
                             Flat = (byte)8,
                             Name = "Ev",
@@ -266,7 +266,7 @@ namespace Project.DAL.Migrations
                             AptNo = 7,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8245),
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7540),
                             District = "Beşiktaş",
                             Name = "İş Yeri",
                             Neighborhood = "Nispetiye",
@@ -280,7 +280,7 @@ namespace Project.DAL.Migrations
                             AptNo = 9,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8248),
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7542),
                             District = "Ataşehir",
                             Name = "Ev",
                             Neighborhood = "Küçükbakkalköy",
@@ -370,17 +370,17 @@ namespace Project.DAL.Migrations
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6406c507-8e0a-4c20-b791-db36a7807fb7",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 78, DateTimeKind.Local).AddTicks(98),
+                            ConcurrencyStamp = "d3c88936-f216-4cc5-9479-51736c976087",
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8768),
                             Email = "Admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPFH8IKMtOht853hM7oqoQ+HsUeITy3SHD41GJZY+FMahZ/fJag+bGZNLKLF4bSUvA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENc/gj/QZzfTPxop3y4Ba9LqyvCetW3lNczRvDifVIbKITeEBboy6Yss4EHSti76IA==",
                             PhoneNumber = "5312292928",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "fc1f0b62-022c-4f63-8716-f18c048473a1",
+                            SecurityStamp = "1275b19e-fed2-4443-a14f-ed83ed0fe010",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "Admin"
@@ -389,17 +389,17 @@ namespace Project.DAL.Migrations
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546fec5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a2d7ab7-ee85-4a89-aa65-e2a4da6e0af6",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 78, DateTimeKind.Local).AddTicks(119),
+                            ConcurrencyStamp = "6b69e06f-18d5-4466-9cf8-6cd6dbb913a1",
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8807),
                             Email = "Member@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEMBER@GMAIL.COM",
                             NormalizedUserName = "MEMBER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG86GVrcjeYPWigHrKVIIssSvsHApO6J8WbgpyAUEVmgswq8zMG7DCzcA21qwQ8lqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED5b+67kz8MN9FBzqjKL//DLrHMtI9Rke4xYh/Nb7uan96D9hbn3HaeXNzC8zIfDcA==",
                             PhoneNumber = "5446340539",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b24472f6-32ab-434c-9541-1dc74f38bc3f",
+                            SecurityStamp = "3abe98a2-5f1a-4f52-9323-9d0e2dbed3e2",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "Member"
@@ -439,7 +439,7 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 80, DateTimeKind.Local).AddTicks(9150),
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2305),
                             FirstName = "Tuğberk",
                             LastName = "Mehdioğlu",
                             Status = 1
@@ -447,7 +447,7 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546fec5",
-                            CreatedDate = new DateTime(2023, 12, 1, 14, 3, 21, 80, DateTimeKind.Local).AddTicks(9154),
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2310),
                             FirstName = "Dilan",
                             LastName = "Polat",
                             Status = 1
@@ -484,6 +484,29 @@ namespace Project.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2876),
+                            Name = "Oda Kokusu & Mum",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2879),
+                            Name = "Difüzör",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2881),
+                            Name = "Ev Parfümü",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("Project.ENTITIES.Models.Order", b =>
@@ -606,6 +629,116 @@ namespace Project.DAL.Migrations
                     b.HasIndex("CategoryID");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4447),
+                            Description = "Oud Nobile Sprey Cam Şişe Koku 100 ml",
+                            ImagePath = "Dr.VranjesFirenze.jpg",
+                            Name = "Dr. Vranjes Firenze",
+                            Price = 1199m,
+                            Status = 1,
+                            Stock = (short)60
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4453),
+                            Description = "Bereket Çubuklu Oda Kokusu 200ml",
+                            ImagePath = "Dr.VranjesFirenze.jpg",
+                            Name = "Atelier Rebul",
+                            Price = 1249m,
+                            Status = 1,
+                            Stock = (short)5
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryID = 2,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4455),
+                            Description = "Leather Oud 100 ml Difüzör",
+                            ImagePath = "LeatherOud100mlDifüzör.jpg",
+                            Name = "Dr. Vranjes Firenze",
+                            Price = 1199m,
+                            Status = 1,
+                            Stock = (short)30
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryID = 2,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4456),
+                            Description = "Ginger Lime 2500 ml Difüzör",
+                            ImagePath = "5pnyh3oo.g0a_IMG_01_2110095020048.jpg",
+                            Name = "Dr. Vranjes Firenze",
+                            Price = 8950m,
+                            Status = 1,
+                            Stock = (short)80
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryID = 3,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4458),
+                            Description = "Penelope Refill 500 ml Oda Kokusu",
+                            ImagePath = "qsbkczrj.lq0_IMG_01_2110089386044.jpg",
+                            Name = "Etro",
+                            Price = 1249m,
+                            Status = 1,
+                            Stock = (short)43
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryID = 3,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4460),
+                            Description = "Eos 100 ml Oda Kokusu",
+                            ImagePath = "kh1gwhxa.2uh_IMG_01_2110089385948.jpg",
+                            Name = "Etro",
+                            Price = 1449m,
+                            Status = 1,
+                            Stock = (short)100
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4461),
+                            Description = "Bubble Mor Pembe ve Su Yeşili 3'lü Mum Seti",
+                            ImagePath = "ptowbl3w.zkq_MP_1b565ca5-4923-4c99-9313-e81502939778_1_43487206954810324050030543535_563.jpg",
+                            Name = "Lagom Candle",
+                            Price = 1280m,
+                            Status = 1,
+                            Stock = (short)8
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4463),
+                            Description = "Baccarat Rouge 540 Kokulu Mum 280 gr",
+                            ImagePath = "x5p2g5gu.4fw_IMG_01_3700559608067.jpg",
+                            Name = "Maison Francis Kurkdjian",
+                            Price = 4590m,
+                            Status = 1,
+                            Stock = (short)24
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryID = 1,
+                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4464),
+                            Description = "İstanbul Çubuklu Oda Kokusu 2500ml",
+                            ImagePath = "ihlf3u2z.vwy_IMG_01_8691226631783.jpg",
+                            Name = "Atelier Rebul",
+                            Price = 10250m,
+                            Status = 1,
+                            Stock = (short)18
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

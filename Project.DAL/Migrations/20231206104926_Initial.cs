@@ -323,8 +323,8 @@ namespace Project.DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4d7b3bc1-f3aa-48ce-b587-5e7dc5553134", "cd1bf5da-9881-4370-a94c-2d6c10c15d42", "Member", "MEMBER" },
-                    { "4d7b3bc1-f3aa-48ce-b587-5e7dc5557634", "3eae0563-bc70-4fad-be47-7616167ea097", "Admin", "ADMIN" }
+                    { "4d7b3bc1-f3aa-48ce-b587-5e7dc5553134", "3ce18d41-e4b1-4b05-95bd-b793e3ba848e", "Member", "MEMBER" },
+                    { "4d7b3bc1-f3aa-48ce-b587-5e7dc5557634", "4fddc2f3-bf4b-4c7b-a818-1ccf1cb8a800", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -332,8 +332,18 @@ namespace Project.DAL.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DeletedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 0, "6406c507-8e0a-4c20-b791-db36a7807fb7", new DateTime(2023, 12, 1, 14, 3, 21, 78, DateTimeKind.Local).AddTicks(98), null, "Admin@gmail.com", true, true, null, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEPFH8IKMtOht853hM7oqoQ+HsUeITy3SHD41GJZY+FMahZ/fJag+bGZNLKLF4bSUvA==", "5312292928", true, "fc1f0b62-022c-4f63-8716-f18c048473a1", 1, false, "Admin" },
-                    { "5c8defd5-91f2-4256-9f16-e7fa7546fec5", 0, "3a2d7ab7-ee85-4a89-aa65-e2a4da6e0af6", new DateTime(2023, 12, 1, 14, 3, 21, 78, DateTimeKind.Local).AddTicks(119), null, "Member@gmail.com", true, true, null, null, "MEMBER@GMAIL.COM", "MEMBER", "AQAAAAEAACcQAAAAEG86GVrcjeYPWigHrKVIIssSvsHApO6J8WbgpyAUEVmgswq8zMG7DCzcA21qwQ8lqQ==", "5446340539", true, "b24472f6-32ab-434c-9541-1dc74f38bc3f", 1, false, "Member" }
+                    { "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 0, "d3c88936-f216-4cc5-9479-51736c976087", new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8768), null, "Admin@gmail.com", true, true, null, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAENc/gj/QZzfTPxop3y4Ba9LqyvCetW3lNczRvDifVIbKITeEBboy6Yss4EHSti76IA==", "5312292928", true, "1275b19e-fed2-4443-a14f-ed83ed0fe010", 1, false, "Admin" },
+                    { "5c8defd5-91f2-4256-9f16-e7fa7546fec5", 0, "6b69e06f-18d5-4466-9cf8-6cd6dbb913a1", new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8807), null, "Member@gmail.com", true, true, null, null, "MEMBER@GMAIL.COM", "MEMBER", "AQAAAAEAACcQAAAAED5b+67kz8MN9FBzqjKL//DLrHMtI9Rke4xYh/Nb7uan96D9hbn3HaeXNzC8zIfDcA==", "5446340539", true, "3abe98a2-5f1a-4f52-9323-9d0e2dbed3e2", 1, false, "Member" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "ModifiedDate", "Name", "Status" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2876), null, null, null, "Oda Kokusu & Mum", 1 },
+                    { 2, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2879), null, null, null, "Difüzör", 1 },
+                    { 3, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2881), null, null, null, "Ev Parfümü", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -341,8 +351,8 @@ namespace Project.DAL.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "FirstName", "LastName", "ModifiedDate", "Status" },
                 values: new object[,]
                 {
-                    { "5c8defd5-91f2-4256-9f16-e7fa7546dec4", new DateTime(2023, 12, 1, 14, 3, 21, 80, DateTimeKind.Local).AddTicks(9150), null, "Tuğberk", "Mehdioğlu", null, 1 },
-                    { "5c8defd5-91f2-4256-9f16-e7fa7546fec5", new DateTime(2023, 12, 1, 14, 3, 21, 80, DateTimeKind.Local).AddTicks(9154), null, "Dilan", "Polat", null, 1 }
+                    { "5c8defd5-91f2-4256-9f16-e7fa7546dec4", new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2305), null, "Tuğberk", "Mehdioğlu", null, 1 },
+                    { "5c8defd5-91f2-4256-9f16-e7fa7546fec5", new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2310), null, "Dilan", "Polat", null, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -355,19 +365,35 @@ namespace Project.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Addresses",
-                columns: new[] { "Id", "AppUserProfileID", "AptNo", "City", "Country", "CreatedDate", "DeletedDate", "District", "Flat", "ModifiedDate", "Name", "Neighborhood", "Status", "Street" },
-                values: new object[] { 1, "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 11, "İstanbul", "Türkiye", new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8239), null, "Kağıthane", (byte)8, null, "Ev", "Çeliktepe", 1, "ŞaşatuŞalat" });
+                table: "Products",
+                columns: new[] { "Id", "CategoryID", "CreatedDate", "DeletedDate", "Description", "ImagePath", "ModifiedDate", "Name", "Price", "Status", "Stock" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4447), null, "Oud Nobile Sprey Cam Şişe Koku 100 ml", "Dr.VranjesFirenze.jpg", null, "Dr. Vranjes Firenze", 1199m, 1, (short)60 },
+                    { 2, 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4453), null, "Bereket Çubuklu Oda Kokusu 200ml", "Dr.VranjesFirenze.jpg", null, "Atelier Rebul", 1249m, 1, (short)5 },
+                    { 3, 2, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4455), null, "Leather Oud 100 ml Difüzör", "LeatherOud100mlDifüzör.jpg", null, "Dr. Vranjes Firenze", 1199m, 1, (short)30 },
+                    { 4, 2, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4456), null, "Ginger Lime 2500 ml Difüzör", "5pnyh3oo.g0a_IMG_01_2110095020048.jpg", null, "Dr. Vranjes Firenze", 8950m, 1, (short)80 },
+                    { 5, 3, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4458), null, "Penelope Refill 500 ml Oda Kokusu", "qsbkczrj.lq0_IMG_01_2110089386044.jpg", null, "Etro", 1249m, 1, (short)43 },
+                    { 6, 3, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4460), null, "Eos 100 ml Oda Kokusu", "kh1gwhxa.2uh_IMG_01_2110089385948.jpg", null, "Etro", 1449m, 1, (short)100 },
+                    { 7, 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4461), null, "Bubble Mor Pembe ve Su Yeşili 3'lü Mum Seti", "ptowbl3w.zkq_MP_1b565ca5-4923-4c99-9313-e81502939778_1_43487206954810324050030543535_563.jpg", null, "Lagom Candle", 1280m, 1, (short)8 },
+                    { 8, 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4463), null, "Baccarat Rouge 540 Kokulu Mum 280 gr", "x5p2g5gu.4fw_IMG_01_3700559608067.jpg", null, "Maison Francis Kurkdjian", 4590m, 1, (short)24 },
+                    { 9, 1, new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4464), null, "İstanbul Çubuklu Oda Kokusu 2500ml", "ihlf3u2z.vwy_IMG_01_8691226631783.jpg", null, "Atelier Rebul", 10250m, 1, (short)18 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Addresses",
                 columns: new[] { "Id", "AppUserProfileID", "AptNo", "City", "Country", "CreatedDate", "DeletedDate", "District", "Flat", "ModifiedDate", "Name", "Neighborhood", "Status", "Street" },
-                values: new object[] { 2, "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 7, "İstanbul", "Türkiye", new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8245), null, "Beşiktaş", null, null, "İş Yeri", "Nispetiye", 1, "Aydın" });
+                values: new object[] { 1, "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 11, "İstanbul", "Türkiye", new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7533), null, "Kağıthane", (byte)8, null, "Ev", "Çeliktepe", 1, "ŞaşatuŞalat" });
 
             migrationBuilder.InsertData(
                 table: "Addresses",
                 columns: new[] { "Id", "AppUserProfileID", "AptNo", "City", "Country", "CreatedDate", "DeletedDate", "District", "Flat", "ModifiedDate", "Name", "Neighborhood", "Status", "Street" },
-                values: new object[] { 3, "5c8defd5-91f2-4256-9f16-e7fa7546fec5", 9, "İstanbul", "Türkiye", new DateTime(2023, 12, 1, 14, 3, 21, 77, DateTimeKind.Local).AddTicks(8248), null, "Ataşehir", null, null, "Ev", "Küçükbakkalköy", 1, "Rüya" });
+                values: new object[] { 2, "5c8defd5-91f2-4256-9f16-e7fa7546dec4", 7, "İstanbul", "Türkiye", new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7540), null, "Beşiktaş", null, null, "İş Yeri", "Nispetiye", 1, "Aydın" });
+
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "AppUserProfileID", "AptNo", "City", "Country", "CreatedDate", "DeletedDate", "District", "Flat", "ModifiedDate", "Name", "Neighborhood", "Status", "Street" },
+                values: new object[] { 3, "5c8defd5-91f2-4256-9f16-e7fa7546fec5", 9, "İstanbul", "Türkiye", new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7542), null, "Ataşehir", null, null, "Ev", "Küçükbakkalköy", 1, "Rüya" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_AppUserProfileID",
