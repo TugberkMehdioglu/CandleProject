@@ -277,10 +277,8 @@ strong {
   NAVIGATION              
 -----------------------------------------*/
 .sticky-wrapper {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
+    background: none !important;
+    background-color: var(--secondary-color);
 }
 
 .sticky-wrapper.is-sticky .navbar {
@@ -288,9 +286,10 @@ strong {
 }
 
 .navbar {
-  background: transparent;
-  border-bottom: 1px solid rgba(128, 208, 199, 0.35);
-  z-index: 9;
+    background: none !important;
+    background-color: var(--secondary-color);
+    border-bottom: 1px solid rgba(128, 208, 199, 0.35);
+    z-index: 9;
 }
 
 .navbar-brand,
@@ -368,7 +367,7 @@ strong {
 .navbar .dropdown-item:active,
 .navbar .dropdown-item:focus, 
 .navbar .dropdown-item:hover {
-  background: transparent;
+  
   color: var(--primary-color);
 }
 
@@ -431,7 +430,7 @@ strong {
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-  background: transparent;
+  
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before,
@@ -500,7 +499,7 @@ strong {
 }
 
 .hero-section .input-group-text {
-  background-color: transparent;
+  
   border: 0;
 }
 
@@ -812,7 +811,7 @@ blockquote {
   position: absolute;
   height: 100%;
   width: 8px;
-  background-color: transparent;
+  
   left: 52px;
   z-index: 0;
 }
