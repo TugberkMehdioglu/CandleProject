@@ -2,7 +2,258 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section HomePage{
+
+    <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-8 col-12 mx-auto">
+                    <h1 class="text-white text-center">Keşfet ve Deneyimle</h1>
+
+                    <h6 class="text-center">Tüm Türkiye ve Dünyaya ücretsiz kargo fırsatı</h6>
+
+                    <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bi-search" id="basic-addon1">
+
+                            </span>
+
+                            <input name="keyword" type="search" class="form-control" id="keyword" placeholder="Kendine uygun mum bul..." aria-label="Search">
+
+                            <button type="submit" class="form-control">Ara</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-lg-4 col-12 mb-4 mb-lg-0" style="height:400px;">
+                    <div class="custom-block bg-white shadow-lg">
+                        <a asp-controller="Shopping" asp-action="ShoppingList">
+                            <div class="d-flex">
+                                <div>
+                                    <h5 class="mb-2">Mağazamıza Gözat</h5>
+
+                                    <p class="mb-0">Mum çeşitlerimiz arasından kendine en uygun olanı bul.</p>
+                                </div>
+
+                            </div>
+
+                            <img src="~/outerTools/images/topics/undraw_happy_music_g6wc.png" class="custom-block-image img-fluid" alt="Resim Yüklenemedi">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-12" style="height:400px;">
+                    <div class="custom-block custom-block-overlay">
+                        <div class="d-flex flex-column h-100">
+                            <img src="~/outerTools/images/faq_graphic.jpg" class="custom-block-image img-fluid" alt="Resim Yüklenemedi">
+
+                            <div class="custom-block-overlay-text d-flex">
+                                <div>
+                                    <h5 class="text-white mb-2">Sıkça Sorulan Sorular</h5>
+
+                                    <p class="text-white">Aklınıza takılan herhangi bir sorunda buraya bakarak çözüm bulabilirsiniz yada müşteri temsilcimizle iletişime geçebilirsiniz.</p>
+
+                                    <a href="#section_4" class="btn custom-btn mt-2 mt-lg-3">Sorulara Gözat</a>
+                                </div>
+
+                            </div>
+
+                            <div class="section-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+}
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+
+
+<section class="faq-section section-padding" id="section_4">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Sıkça Sorulan Sorular</h2>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-lg-5 col-12">
+                <img src="~/outerTools/images/faq_graphic.jpg" class="img-fluid" alt="FAQs">
+            </div>
+
+            <div class="col-lg-6 col-12 m-auto">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Hangi kargo firmaları ile çalışıyorsunuz?
+                            </button>
+                        </h2>
+
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Standart teslimatı tercih etmiş olduğunuz tüm siparişleriniz Yurtiçi Kargo ile tarafınıza teslim edilmektedir.
+                                <br /><br />
+
+                                Aynı Gün Teslimat ve Ertesi Gün Teslimat siparişleriniz ise Motto Kurye ile tarafınıza teslim edilmektedir.
+                                <br /><br />
+
+                                *Aynı Gün Teslimat ve Ertesi Gün Teslimat hizmeti yalnızca iş günlerinde geçerlidir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                İnternet sitenizde ödeme yapmak güvenli mi?
+                            </button>
+                        </h2>
+
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Kredi kartı ve ATM/debit kartı ile alışveriş yapabilirsiniz. SSL (Secure Socket Layer) güvenliği içerisinde kredi kartı numaranızı, sizin dışınızda kimse görüntüleyemez ve ulaşamaz. Kredi kartı numaranızı girdiğiniz anda numaranıza ait bilgiler şifrelenerek bankanıza gönderilir. Şirketimiz dahil olmak üzere üçüncü şahıslar tarafından bilgilerinizin görüntülenmesi veya ulaşılması mümkün değildir. Kart bilgileriniz, sadece siz ve bankanız arasındadır.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Bir ürünü nasıl iade edebilir ya da değiştirebilirim?
+                            </button>
+                        </h2>
+
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                İade ve değişim için öncelikle mail veya telefon yolu ile müşteri hizmetlerine ulaşmanız gerekmektedir. Gerekli yönlendirme müşteri hizmetlerimiz tarafından yapılacaktır.
+                                <br /><br />
+
+                                Açılmamış ve kullanılmamış ürünler aynı tutardaki farklı ürünlerle değişim yapılabilir, ya da iade için kabul edilebilir bulundu ise 30 gün içinde orijinal faturası ile iade edilebilir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="timeline-section section-padding" id="section_3">
+    <div class="section-overlay"></div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                <h1 class="text-white mb-4">Sipariş ve teslimat süreci</h1>
+            </div>
+
+            <div class="col-lg-10 col-12 mx-auto">
+                <div class="timeline-container">
+                    <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                        <div class="list-progress">
+                            <div class="inner"></div>
+                        </div>
+
+                        <li>
+                            <h4 class="text-white mb-3">Favori mumlarınızı seçin</h4>
+
+                            <p class="text-white">
+                                <br /><br />
+                                Onlarca çeşit arasından beğendiklerinizi seçin
+                                <br />
+                                Kararsız kalırsanız müşteri temsilcilerimiz sizin için bekliyor
+                                <br />
+                                Ya da sizi mağazalarımıza bekliyoruz.
+                            </p>
+
+                            <div class="icon-holder">
+                                <i class="bi-search"></i>
+                            </div>
+                        </li>
+
+                        <li>
+                            <h4 class="text-white mb-3">Sepetinize ekleyin</h4>
+
+                            <p class="text-white">
+                                <br /><br />
+                                Seçtiğiniz ürün/ürünleri sepetinize ekleyip, ister alışverişe devam edip daha fazla mum çeşidimizden yararlanabilirsiniz ya da isterseniz ödeme sayfasına geçebilirsiniz.
+                            </p>
+
+                            <div class="icon-holder">
+                                <i class="bi-cart2"></i>
+                            </div>
+                        </li>
+
+                        <li>
+                            <h4 class="text-white mb-3">Ödemesini gerçekleştirip ürününüzün gelmesini bekleyin</h4>
+
+                            <p class="text-white">
+                                Ödemesi gerçekleşen siparişinizin en kısa sürede kargolama işlemlerini gerçekleştiriyoruz, kargo firması takip numarasını oluşturduğunda derhal sizinle paylaşıyoruz böylece siparişinizin nerede olduğunu takip edebilirsiniz.
+                            </p>
+
+                            <div class="icon-holder">
+                                <i class="bi-hand-thumbs-up"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="contact-section section-padding section-bg" id="section_5">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-12 text-center">
+                <h2 class="mb-5">Bizimle iletişime geçin</h2>
+            </div>
+
+            <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d894.7548097931028!2d28.978080497380986!3d41.03434653037421!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab760dcd8662f%3A0x7bf3f20167531761!2sJames%20Joyce%20Irish%20Pub!5e0!3m2!1str!2sus!4v1702143437032!5m2!1str!2sus" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-12 mb-3 mb-lg- mb-md-0 ms-auto">
+                <h4 class="mb-3">İstanbul şubesi</h4>
+
+                <p>Hüseyinağa, Balo Sk. No:26, 34435 Beyoğlu/İstanbul, Türkiye</p>
+
+                <hr>
+
+                <p class="d-flex align-items-center mb-1">
+                    <span class="me-2">Telefon</span>
+
+                    <a href="tel: 02122447973" class="site-footer-link">
+                        02122447973
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
