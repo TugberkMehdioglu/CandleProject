@@ -7,12 +7,6 @@ namespace Project.MVCUI.Controllers
     [Route("[Controller]/[Action]")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         [Route("/")]
         [Route("/Home")]
