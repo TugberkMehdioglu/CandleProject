@@ -28,6 +28,8 @@
     https://templatemo.com/tm-590-topic-listing
 
     -->
+
+    @await RenderSectionAsync("Css", required: false);
 </head>
 
 <body id="top">
@@ -148,6 +150,6 @@
     <script src="~/outerTools/js/jquery.sticky.js"></script>
     <script src="~/outerTools/js/click-scroll.js"></script>
     <script src="~/outerTools/js/custom.js"></script>
-
+    @await RenderSectionAsync("Scripts", required: false);
 </body>
 </html>
