@@ -499,8 +499,8 @@ strong {
 }
 
 .hero-section .input-group-text {
-  
-  border: 0;
+    background-color: transparent;
+    border: 0;
 }
 
 .hero-section input[type="search"] {
@@ -933,11 +933,11 @@ blockquote {
     margin-bottom: 0;
 }
 
-.custom-form button[type="submit"]:hover,
-.custom-form button[type="submit"]:focus {
-  background: var(--custom-btn-bg-hover-color);
-  border-color: transparent;
-}
+    .custom-form button[type="submit"]:hover,
+    .custom-form button[type="submit"]:focus {
+        background: var(--custom-btn-bg-hover-color);
+        border-color: transparent;
+    }
 
 
 /*---------------------------------------
