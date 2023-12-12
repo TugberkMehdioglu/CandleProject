@@ -25,7 +25,7 @@ namespace Project.BLL.ServiceExtensions
             {
                 options.User.RequireUniqueEmail = true;
 
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.MaxFailedAccessAttempts = 4;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
 
                 options.Password.RequireNonAlphanumeric = true;
