@@ -68,6 +68,11 @@ namespace Project.MVCUI.Controllers
             else return Redirect(returnUrl);
         }
 
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

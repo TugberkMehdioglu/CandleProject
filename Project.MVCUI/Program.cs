@@ -10,6 +10,19 @@ builder.Services.AddDbContextService();
 builder.Services.AddIdentityService();
 builder.Services.AddManagerRepositoy();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Home/Login";
+    options.LogoutPath = new PathString("/Home/Logout");
+    options.AccessDeniedPath = "/Home/AccessDenied";
+
+    options.Cookie.Name = "HiGuys";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
