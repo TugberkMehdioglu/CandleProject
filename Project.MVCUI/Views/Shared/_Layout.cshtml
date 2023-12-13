@@ -48,11 +48,7 @@
                 </a>
 
                 <div class="d-lg-none ms-auto me-4">
-                    @if (isAuthenticated)
-                    {
-                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-                    }
-                    else
+                    @if(!isAuthenticated)
                     {
                         <a class="btn custom-btn" asp-controller="Home" asp-action="Login">Giriş Yap</a>
                         <a class="btn custom-btn">Üye Ol</a>
@@ -82,13 +78,30 @@
                                 <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
                             </ul>
                         </li>
+                        @if (isAuthenticated)
+                        {
+                            <li class="nav-item dropdown d-lg-none">
+                                <a href="#top" class="navbar-icon bi-person smoothscroll" role="button" id="dropdownUserMenu1" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu dropdown-menu-light " id="userIconsUl" aria-labelledby="dropdownUserMenu1">
+                                    <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+                                    <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
 
                     <div class="d-none d-lg-block">
 
                         @if (isAuthenticated)
                         {
-                            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                            <div class="dropdown me-5">
+                                <a href="#top" class="navbar-icon bi-person smoothscroll" role="button" id="dropdownUserMenu" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                <ul class="dropdown-menu dropdown-menu-light mt-2 me-3" aria-labelledby="dropdownUserMenu">
+                                    <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+                                    <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                                </ul>
+                            </div>
+
                         }
                         else
                         {
