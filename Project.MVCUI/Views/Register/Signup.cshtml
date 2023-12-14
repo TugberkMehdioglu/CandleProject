@@ -1,0 +1,74 @@
+﻿@model SignupViewModel
+
+@{
+    ViewData["Title"] = "Signup";
+}
+
+
+<div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <h1 class="text-center text-white">Üye Ol</h1>
+
+        <form method="post" class="col-12 custom-form contact-form">
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="123" asp-for="AppUser.UserName" />
+                <label class="form-label" asp-for="AppUser.UserName">Kullanıcı Adı</label>
+                <span asp-validation-for="AppUser.UserName" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="ornek@gmail.com" asp-for="AppUser.Email" />
+                <label class="form-label" asp-for="AppUser.Email">Email</label>
+                <span asp-validation-for="AppUser.Email" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="05323323232" asp-for="AppUser.PhoneNumber" />
+                <label class="form-label" asp-for="AppUser.PhoneNumber">Cep No</label>
+                <span asp-validation-for="AppUser.PhoneNumber" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="***" asp-for="AppUser.Password" />
+                <label class="form-label" asp-for="AppUser.Password">Şifre</label>
+                <span asp-validation-for="AppUser.Password" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="***" asp-for="AppUser.PasswordConfirm" />
+                <label class="form-label" asp-for="AppUser.PasswordConfirm">Şifre Onay</label>
+                <span asp-validation-for="AppUser.PasswordConfirm" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="Alp" asp-for="AppUserProfile.FirstName" />
+                <label class="form-label" asp-for="AppUserProfile.FirstName">İsim</label>
+                <span asp-validation-for="AppUserProfile.FirstName" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control mb-0" placeholder="Kaya" asp-for="AppUserProfile.LastName" />
+                <label class="form-label" asp-for="AppUserProfile.LastName">Soyisim</label>
+                <span asp-validation-for="AppUserProfile.LastName" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="mb-3 w-50 mx-auto text-center">
+                <button class="btn btn-outline-light w-100 mt-3" style="border-radius:20px; color:#f8f9fa; border-color: #f8f9fa;" type="submit">Üye Ol</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+            
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial"></partial>
+
+
+}
