@@ -106,7 +106,7 @@ namespace Project.MVCUI.Controllers
             }
 
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(RegistrationCompleted), "Register", new { appUser.Email });//Todo: Yönlendirmeyi alışveriş sayfasına yap
+            return RedirectToAction(nameof(RegistrationCompleted), "Register", new { appUser.Email });
         }
 
         [HttpGet("{email}")]
