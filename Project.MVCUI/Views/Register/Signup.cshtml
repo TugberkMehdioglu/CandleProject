@@ -4,6 +4,8 @@
     ViewData["Title"] = "Signup";
 }
 
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
 
 <div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
@@ -11,49 +13,55 @@
 
         <h1 class="text-center text-white mb-4">Üye Ol</h1>
 
-        <form method="post" class="col-12 custom-form contact-form">
+        <form method="post" class="col-12 custom-form contact-form" id="myForm">
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="123" asp-for="AppUser.UserName" />
                 <label class="form-label" asp-for="AppUser.UserName">Kullanıcı Adı</label>
-                <span asp-validation-for="AppUser.UserName" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUser.UserName" class="text-danger p-2" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="ornek@gmail.com" asp-for="AppUser.Email" />
                 <label class="form-label" asp-for="AppUser.Email">Email</label>
-                <span asp-validation-for="AppUser.Email" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUser.Email" class="text-danger p-2" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="05323323232" asp-for="AppUser.PhoneNumber" />
                 <label class="form-label" asp-for="AppUser.PhoneNumber">Cep No</label>
-                <span asp-validation-for="AppUser.PhoneNumber" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUser.PhoneNumber" class="text-danger p-2" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="***" asp-for="AppUser.Password" aria-describedby="passwordHelp"/>
                 <label class="form-label" asp-for="AppUser.Password">Şifre</label>
                 <div id="passwordHelp" class="form-text p-2">En az 1 rakam, en az 1 büyük harf, en az 1 küçük harf, en az 1 özel karakter ve en az 6 karakter olmalıdır.</div>
                 <span asp-validation-for="AppUser.Password" class="text-danger" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="***" asp-for="AppUser.PasswordConfirm" />
                 <label class="form-label" asp-for="AppUser.PasswordConfirm">Şifre Onay</label>
-                <span asp-validation-for="AppUser.PasswordConfirm" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUser.PasswordConfirm" class="text-danger p-2" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="Alp" asp-for="AppUserProfile.FirstName" />
                 <label class="form-label" asp-for="AppUserProfile.FirstName">İsim</label>
-                <span asp-validation-for="AppUserProfile.FirstName" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUserProfile.FirstName" class="text-danger p-2" style="font-weight:bold;"></span>
             </div>
 
-            <div class="form-floating mb-4">
+            <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder="Kaya" asp-for="AppUserProfile.LastName" />
                 <label class="form-label" asp-for="AppUserProfile.LastName">Soyisim</label>
-                <span asp-validation-for="AppUserProfile.LastName" class="text-danger" style="font-weight:bold;"></span>
+                <span asp-validation-for="AppUserProfile.LastName" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="required" name="termCheckBox" />
+                <label class="form-check-label" for="required"><a asp-controller="Home" asp-action="Terms">KKVK Aydınlatma Metni</a>'ni ve <a asp-controller="Home" asp-action="Terms">Üyelik Sözleşmesi</a>'ni okudum, onaylıyorum.</label>
+                <span style="display:none; font-weight:bold;" class="text-danger" id="errorMessage">Üyelik sözleşmesini kabul etmelisiniz</span>
             </div>
 
             <div class="mb-3 w-50 mx-auto text-center">
@@ -72,4 +80,31 @@
     <partial name="_ValidationScriptsPartial"></partial>
 
 
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let myForm = document.getElementById("myForm");
+            let checkBox = document.getElementById("required");
+            let checkBoxErrorMessage = document.getElementById("errorMessage");
+
+            myForm.addEventListener("submit", function (event) {
+
+                if (!checkBox.checked) {
+
+                    event.preventDefault();
+                    checkBoxErrorMessage.style.display = "inline";
+                };
+            });
+
+            checkBox.addEventListener("change", function () {
+
+                if (checkBox.checked) {
+
+                    checkBoxErrorMessage.style.display = "none";
+                };
+            });
+        });
+
+    </script>
 }

@@ -1,4 +1,5 @@
 using Project.BLL.ServiceExtensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddAuthentication();
 builder.Services.AddDbContextService();
 builder.Services.AddIdentityService();
 builder.Services.AddManagerRepositoy();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -1,0 +1,19 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "RegistrationCompleted";
+}
+
+<div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <h1 class="text-center text-white">Üyeliğiniz Oluşturuldu</h1>
+
+        <p>
+            <strong>@Model</strong> adresine aktivasyon mail'i gönderdik. Mail'deki linke tıkalyarak e-posta adresini onaylayabilirsin.
+        </p>
+
+        <a class="btn btn-outline-light w-100" style="border-radius:20px;">Ana Sayfaya Dön</a>
+    </div>
+</div>
