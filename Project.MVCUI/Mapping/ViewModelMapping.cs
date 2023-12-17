@@ -8,7 +8,10 @@ namespace Project.MVCUI.Mapping
     {
         public ViewModelMapping()
         {
-            CreateMap<AppUser, AppUserViewModel>().ReverseMap();
+            CreateMap<AppUser, AppUserViewModel>()
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
+                .ReverseMap();
+
             CreateMap<AppUserProfile, AppUserProfileViewModel>().ReverseMap();
         }
     }

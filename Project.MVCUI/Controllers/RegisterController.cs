@@ -52,7 +52,7 @@ namespace Project.MVCUI.Controllers
 
             appUser.Id = Guid.NewGuid().ToString();
             var (errors, error) = await _appUserManager.AddUserByIdentityAsync(appUser);
-            if (errors != null)
+            if (errors != null && errors.Count() > 0)
             {
                 ModelState.AddModelErrorListWithOutKey(errors);
                 return View(request);

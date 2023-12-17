@@ -22,7 +22,7 @@ namespace Project.DAL.Repositories.Concretes
 
         public override async Task<IEnumerable<IdentityError>?> AddAsync(AppUser entity)
         {
-            IdentityResult result = await _userManager.CreateAsync(entity);
+            IdentityResult result = await _userManager.CreateAsync(entity, entity.PasswordHash);
             if (result.Succeeded!) return result.Errors;
 
             await _signInManager.SignInAsync(entity, true);
