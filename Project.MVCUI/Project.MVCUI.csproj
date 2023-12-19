@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Member\Data\" />
+    <Folder Include="Areas\Member\Models\" />
     <Folder Include="wwwroot\outerTools\" />
     <Folder Include="wwwroot\productPics\" />
   </ItemGroup>

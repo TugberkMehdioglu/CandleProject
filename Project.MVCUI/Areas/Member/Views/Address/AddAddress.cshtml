@@ -1,0 +1,79 @@
+﻿@model AddressViewModel
+
+@{
+    ViewData["Title"] = "AddAddress";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+
+<div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <h1 class="text-center text-white mb-4">Adres Ekle</h1>
+
+        <form method="post" class="col-12 custom-form contact-form">
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="Name" />
+                <label class="form-label" asp-for="Name">Adres Adı</label>
+                <span asp-validation-for="Name" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="Country" />
+                <label class="form-label" asp-for="Country">Ülke</label>
+                <span asp-validation-for="Country" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="City" />
+                <label class="form-label" asp-for="City">Şehir</label>
+                <span asp-validation-for="City" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="District" />
+                <label class="form-label" asp-for="District">Semt</label>
+                <span asp-validation-for="District" class="text-danger" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="Neighborhood" />
+                <label class="form-label" asp-for="Neighborhood">Mahalle</label>
+                <span asp-validation-for="Neighborhood" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder=" " asp-for="Street" />
+                <label class="form-label" asp-for="Street">Sokak</label>
+                <span asp-validation-for="Street" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="form-floating col-6">
+                    <input class="form-control mb-0" placeholder=" " asp-for="AptNo" />
+                    <label class="form-label" asp-for="AptNo">Apt No</label>
+                    <span asp-validation-for="AptNo" class="text-danger p-2" style="font-weight:bold;"></span>
+                </div>
+
+                <div class="form-floating col-6">
+                    <input class="form-control mb-0" placeholder=" " asp-for="Flat" />
+                    <label class="form-label" asp-for="Flat">Daire No</label>
+                    <span asp-validation-for="Flat" class="text-danger p-2" style="font-weight:bold;"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 w-50 mx-auto text-center">
+                <button class="btn btn-outline-light w-100 mt-3" type="submit">Adres Ekle</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"></partial>
+}
