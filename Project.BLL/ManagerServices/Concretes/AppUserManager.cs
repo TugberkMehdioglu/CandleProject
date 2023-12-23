@@ -28,5 +28,44 @@ namespace Project.BLL.ManagerServices.Concretes
             if (errors != null) return (errors, null);
             else return (null, null);
         }
+
+        public async Task<(string?, IEnumerable<IdentityError>?)> UpdateUserByIdentityAsync(AppUser entity)
+        {
+            if (entity == null || entity.Status == DataStatus.Deleted) return ("Lütfen gerekli alanları doldurun", null);
+
+            IEnumerable<IdentityError>? errors;
+
+            try
+            {
+                errors = await _appUserRepository.UpdateAsync(entity);
+            }
+            catch (Exception exception)
+            {
+                return ($"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}", null);
+            }
+
+            if (errors != null) return (null, errors);
+
+            return (null, null);
+        }
+
+        public async Task<(AppUser?, string?)> GetUserWithProfile(string userName)
+        {
+            if (userName == null) return (null, "Kullanıcı adı boş olamaz");
+
+            AppUser? appUser;
+
+            try
+            {
+                appUser = await _appUserRepository.GetUserWithProfile(userName);
+            }
+            catch (Exception exception)
+            {
+                return (null, $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}");
+            }
+
+            if (appUser == null) return (null, "Kullanıcı bulunamadı");
+            else return (appUser, null);
+        }
     }
 }

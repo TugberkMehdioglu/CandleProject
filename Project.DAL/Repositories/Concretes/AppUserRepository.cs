@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Project.DAL.ContextClasses;
 using Project.DAL.Repositories.Abstracts;
+using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,28 @@ namespace Project.DAL.Repositories.Concretes
             if (result.Succeeded!) return result.Errors;
 
             await _signInManager.SignInAsync(entity, true);
+            return null;
+        }
+
+        public async Task<AppUser?> GetUserWithProfile(string userName) => await _context.AppUsers!.Where(x => x.UserName == userName && x.Status != DataStatus.Deleted).Include(x => x.AppUserProfile).FirstOrDefaultAsync();
+
+        public override async Task<IEnumerable<IdentityError>?> UpdateAsync(AppUser entity)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(entity.Id);
+            appUser.Email = entity.Email;
+            appUser.UserName = entity.UserName;
+            appUser.PhoneNumber = entity.PhoneNumber;
+            appUser.ModifiedDate = DateTime.Now;
+            appUser.Status = DataStatus.Updated;
+
+            IdentityResult result = await _userManager.UpdateAsync(appUser);
+            if (!result.Succeeded) return result.Errors;
+
+            IdentityResult securityStampResult = await _userManager.UpdateSecurityStampAsync(appUser);
+            if (!securityStampResult.Succeeded) return securityStampResult.Errors;
+
+            await _signInManager.SignOutAsync();//Because SecurityStamp updated
+            await _signInManager.SignInAsync(appUser, true);
             return null;
         }
     }

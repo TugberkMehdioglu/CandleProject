@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Project.ENTITIES.Models;
-using Project.MVCUI.Areas.Member.MemberViewModels;
+using MemberViewModels = Project.MVCUI.Areas.Member.MemberViewModels;
 using Project.MVCUI.ViewModels;
 
 namespace Project.MVCUI.Mapping
@@ -14,7 +14,14 @@ namespace Project.MVCUI.Mapping
                 .ReverseMap();
 
             CreateMap<AppUserProfile, AppUserProfileViewModel>().ReverseMap();
-            CreateMap<Address, AddressViewModel>().ReverseMap();
+
+            CreateMap<AppUser, MemberViewModels.AppUserViewModel>()
+                .ForMember(x => x.Password, opt => opt.MapFrom(src => src.PasswordHash))
+                .ReverseMap();
+
+            CreateMap<AppUserProfile, MemberViewModels.AppUserProfileViewModel>().ReverseMap();
+
+            CreateMap<Address, MemberViewModels.AddressViewModel>().ReverseMap();
         }
     }
 }

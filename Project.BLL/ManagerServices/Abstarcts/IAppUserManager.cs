@@ -11,5 +11,7 @@ namespace Project.BLL.ManagerServices.Abstarcts
     public interface IAppUserManager : IManager<AppUser>
     {
         public Task<(IEnumerable<IdentityError>?, string?)> AddUserByIdentityAsync(AppUser entity);
+        public Task<(AppUser?, string?)> GetUserWithProfile(string userName);
+        public Task<(string?, IEnumerable<IdentityError>?)> UpdateUserByIdentityAsync(AppUser entity);
     }
 }

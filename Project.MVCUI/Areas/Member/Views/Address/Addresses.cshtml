@@ -1,4 +1,4 @@
-﻿@model List<AddressViewModel>
+﻿@model List<MemberViewModels.AddressViewModel>
 
 @{
     ViewData["Title"] = "Addresses";
@@ -33,7 +33,7 @@ else if (TempData["fail"] != null)
                 </tr>
             </thead>
             <tbody>
-                @foreach (AddressViewModel item in Model)
+                @foreach (MemberViewModels.AddressViewModel item in Model)
                 {
                     <tr class="align-middle text-center">
                         <td>@item.Name</td>

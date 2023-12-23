@@ -1,0 +1,85 @@
+﻿@model AppUserEditWrapper
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+<div class="container  col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <h1 class="text-center text-white mb-5">Profil Bilgilerini Güncelle</h1>
+
+        <form method="post" class="col-12 col-md-6 custom-form contact-form border border-3 rounded-5">
+
+            <h2 class="text-center text-white my-3">Profilimi Güncelle</h2>
+
+
+            <input type="hidden" asp-for="AppUser!.Id"/>
+            <input type="hidden" asp-for="AppUser!.UserName" />
+            <input type="hidden" asp-for="AppUser!.Email" />
+            <input type="hidden" asp-for="AppUser!.AppUserProfile!.Id" />
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="AppUser!.AppUserProfile!.FirstName" />
+                <label class="form-label" asp-for="AppUser!.AppUserProfile!.FirstName">İsim</label>
+                <span asp-validation-for="AppUser!.AppUserProfile!.FirstName" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="AppUser!.AppUserProfile!.LastName" />
+                <label class="form-label" asp-for="AppUser!.AppUserProfile!.LastName">Soyisim</label>
+                <span asp-validation-for="AppUser!.AppUserProfile!.LastName" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="AppUser!.PhoneNumber" />
+                <label class="form-label" asp-for="AppUser!.PhoneNumber">Cep No</label>
+                <span asp-validation-for="AppUser!.PhoneNumber" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+
+            <div class="mb-3 w-50 mx-auto text-center">
+                <button class="btn btn-outline-light w-100 mt-3" style="border-radius:20px;" type="submit">Profilimi Güncelle</button>
+            </div>
+
+        </form>
+
+        <form method="post" asp-area="Member" asp-controller="Profile" asp-action="ChangePassword" class="col-12 col-md-6 custom-form contact-form border border-3 rounded-5">
+
+            <h2 class="text-center text-white my-3">Şifremi Güncelle</h2>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="PasswordChange!.Password" />
+                <label class="form-label" asp-for="PasswordChange!.Password">Mevcut Şifre</label>
+                <span asp-validation-for="PasswordChange!.Password" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="PasswordChange!.NewPassword" />
+                <label class="form-label" asp-for="PasswordChange!.NewPassword">Yeni Şifre</label>
+                <span asp-validation-for="PasswordChange!.NewPassword" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control mb-0" placeholder="123" asp-for="PasswordChange!.NewPasswordConfirm" />
+                <label class="form-label" asp-for="PasswordChange!.NewPasswordConfirm">Yeni Şifre Tekrar</label>
+                <span asp-validation-for="PasswordChange!.NewPasswordConfirm" class="text-danger p-2" style="font-weight:bold;"></span>
+            </div>
+
+            <div class="mb-3 w-50 mx-auto text-center">
+                <button class="btn btn-outline-light w-100 mt-3" style="border-radius:20px;" type="submit">Şifremi Güncelle</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial"></partial>
+}

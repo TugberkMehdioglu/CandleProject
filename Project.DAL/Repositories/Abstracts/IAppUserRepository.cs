@@ -12,5 +12,9 @@ namespace Project.DAL.Repositories.Abstracts
     public interface IAppUserRepository : IRepository<AppUser>
     {
         new Task<IEnumerable<IdentityError>?> AddAsync(AppUser user);
+
+        public Task<AppUser?> GetUserWithProfile(string userName);
+
+        new Task<IEnumerable<IdentityError>?> UpdateAsync(AppUser entity);
     }
 }
