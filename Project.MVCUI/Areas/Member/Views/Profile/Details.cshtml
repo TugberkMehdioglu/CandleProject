@@ -1,0 +1,56 @@
+﻿@model SignupViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+<div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <h1 class="text-center text-white mb-3">Profilim</h1>
+
+        <div class="mb-3 row">
+            <label class="col-form-label text-white col-sm-3" for="UserName" asp-for="AppUser.UserName">Kullanıcı Adı :</label>
+            <div class="col-sm-9 d-flex align-content-center">
+                <input class="form-control" id="UserName" asp-for="AppUser.UserName" readonly />
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label text-white col-sm-3" for="Email" asp-for="AppUser.Email">Email :</label>
+            <div class="col-sm-9 d-flex align-content-center">
+                <input class="form-control" id="Email" asp-for="AppUser.Email" readonly />
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label text-white col-sm-3" for="PhoneNumber" asp-for="AppUser.PhoneNumber">Cep No :</label>
+            <div class="col-sm-9 d-flex align-content-center">
+                <input class="form-control" id="PhoneNumber" asp-for="AppUser.PhoneNumber" readonly />
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label text-white col-sm-3" for="FirstName" asp-for="AppUserProfile.FirstName">İsim :</label>
+            <div class="col-sm-9 d-flex align-content-center">
+                <input class="form-control" id="FirstName" asp-for="AppUserProfile.FirstName" readonly />
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label text-white col-sm-3" for="LastName" asp-for="AppUserProfile.LastName">Soyisim :</label>
+            <div class="col-sm-9 d-flex align-content-center">
+                <input class="form-control" id="LastName" asp-for="AppUserProfile.LastName" readonly />
+            </div>
+        </div>
+
+
+        <div class="mb-3 w-50 mx-auto text-center">
+            <button class="btn btn-outline-light w-100 mt-3" style="border-radius:20px;" type="submit">Düzenle</button>
+        </div>
+
+    </div>
+</div>
