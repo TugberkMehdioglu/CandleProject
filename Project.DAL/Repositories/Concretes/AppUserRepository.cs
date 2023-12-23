@@ -52,5 +52,17 @@ namespace Project.DAL.Repositories.Concretes
             await _signInManager.SignInAsync(appUser, true);
             return null;
         }
+
+        public async Task<IEnumerable<IdentityError>?> ChangePasswordAsync(AppUser appUser, string currentPassword, string newPassword)
+        {
+            IdentityResult result = await _userManager.ChangePasswordAsync(appUser, currentPassword, newPassword);
+            if (!result.Succeeded) return result.Errors;
+
+            await _userManager.UpdateSecurityStampAsync(appUser);
+            await _signInManager.SignOutAsync();
+            await _signInManager.PasswordSignInAsync(appUser, newPassword, true, true);
+
+            return null;
+        }
     }
 }

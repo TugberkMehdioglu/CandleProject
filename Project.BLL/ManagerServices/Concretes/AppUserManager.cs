@@ -67,5 +67,25 @@ namespace Project.BLL.ManagerServices.Concretes
             if (appUser == null) return (null, "Kullanıcı bulunamadı");
             else return (appUser, null);
         }
+
+        public async Task<(IEnumerable<IdentityError>?, string?)> ChangePasswordAsync(AppUser appUser, string currentPassword, string newPassword)
+        {
+            if (appUser == null) return (null, "Lütfen gerekli alanları doldurun");
+
+            IEnumerable<IdentityError>? errors;
+
+            try
+            {
+                errors = await _appUserRepository.ChangePasswordAsync(appUser, currentPassword, newPassword);
+            }
+            catch (Exception exception)
+            {
+                return (null, $"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}");
+            }
+
+            if (errors != null) return (errors, null);
+
+            return (null, null);
+        }
     }
 }
