@@ -38,10 +38,10 @@ else if (TempData["fail"] != null)
                     <tr class="align-middle text-center">
                         <td>@item.Name</td>
                         <td>@(item.FullAddress ?? "Adres Yok")</td>
-                        <td>
+                        <td class="text-end">
                             <a asp-area="Member" asp-controller="Address" asp-action="UpdateAddress" asp-route-id="@item.Id" class="btn btn-warning rounded-5">Güncelle</a>
                         </td>
-                        <td>
+                        <td class="text-start">
                             <a id="deleteAddressId" data-id="@item.Id" data-name="@item.Name" data-bs-toggle="modal" data-bs-target="#modal5" asp-area="Member" asp-controller="Address" asp-action="DeleteAddress" asp-route-id="@item.Id" class="btn btn-danger rounded-5">Sil</a>
                         </td>
                     </tr>
