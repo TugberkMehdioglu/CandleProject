@@ -1,0 +1,40 @@
+﻿@model List<AssignRoleToUserViewModel>
+
+@{
+    ViewData["Title"] = "AssignRoleToUser";
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-6 offset-lg-3 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+<div class="col-lg-6 offset-lg-3 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <h1 class="text-center text-white mb-5">Rol Atama</h1>
+
+    <form method="post" class="col-12 custom-form contact-form">
+
+        <div>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-check mb-2 d-flex justify-content-center">
+
+                    <input class="form-check-input" type="checkbox" asp-for="@Model[i].Exist" id="{@i}Exist">
+                    <label class="form-check-label ms-1" for="{@i}Exist">
+                        @Model[i].Name
+                    </label>
+
+                    <input type="hidden" asp-for="@Model[i].Id">
+                    <input type="hidden" asp-for="@Model[i].Name">
+
+                </div>
+            }
+
+        </div>
+
+        <div class="mb-3 w-50 mx-auto text-center">
+            <button class="btn btn-outline-light w-75 mt-3" type="submit">Rol Ata</button>
+            <a class="btn btn-outline-dark w-75 mt-3 rounded-pill" asp-area="Admin" asp-controller="User" asp-action="UserList">Geri Dön</a>
+        </div>
+
+    </form>
+</div>
