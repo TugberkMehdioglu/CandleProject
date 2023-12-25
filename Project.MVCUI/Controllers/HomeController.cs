@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Project.BLL.ManagerServices.Abstarcts;
 using Project.COMMON.Extensions;
 using Project.COMMON.Tools;
+using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Extensions;
 using Project.MVCUI.ViewModels;
@@ -48,7 +49,7 @@ namespace Project.MVCUI.Controllers
             returnUrl ??= "/Home";
 
             AppUser? appUser = await _userManager.FindByEmailAsync(request.Email);
-            if(appUser == null)
+            if (appUser == null || appUser.Status == DataStatus.Deleted)
             {
                 ModelState.AddModelErrorWithOutKey("Email veya şifre hatalı");
                 return View(request);

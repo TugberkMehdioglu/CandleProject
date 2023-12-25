@@ -2,9 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
+using Project.BLL.ManagerServices.Abstarcts;
+using Project.COMMON.Extensions;
 using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
+using Project.MVCUI.Extensions;
 
 namespace Project.MVCUI.Areas.Admin.Controllers
 {
@@ -15,16 +19,18 @@ namespace Project.MVCUI.Areas.Admin.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAppUserManager _appUserManager;
 
-        public UserController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserManager appUserManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _appUserManager = appUserManager;
         }
 
         public async Task<IActionResult> UserList()
         {
-            List<UserViewModel> userViewModels = await _userManager.Users.Where(x => x.Status != DataStatus.Deleted).Select(x => new UserViewModel()
+            List<UserViewModel> userViewModels = await _userManager.Users.Where(x => x.Status != DataStatus.Deleted).OrderBy(x => x.CreatedDate).Select(x => new UserViewModel()
             {
                 Id = x.Id,
                 UserName = x.UserName,
@@ -37,6 +43,10 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             {
                 user.Roles = await _userManager.GetRolesAsync(new AppUser() { Id = user.Id });
             }
+
+            IEnumerable<IdentityError>? identityErrors = HttpContext.Session.GetSession<IEnumerable<IdentityError>>("identityErros");
+            
+            if (identityErrors != null) ModelState.AddModelErrorListWithOutKey(identityErrors);
 
             return View(userViewModels);
         }
@@ -95,6 +105,65 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             }
 
             TempData["success"] = "Rol atama gerçekleştirildi";
+            return RedirectToAction(nameof(UserList));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> MailConfirmation(string id)
+        {
+            AppUser? appUser = await _userManager.FindByIdAsync(id);
+
+            if(appUser == null)
+            {
+                TempData["fail"] = "Kullanıcı bulunamadı";
+                return RedirectToAction(nameof(UserList));
+            }
+
+            if (appUser.Id == "5c8defd5-91f2-4256-9f16-e7fa7546dec4")
+            {
+                TempData["fail"] = "Admin üzerinde değişiklik yapılamaz";
+                return RedirectToAction(nameof(UserList));
+            }
+
+            bool emailConfirmation = await _userManager.IsEmailConfirmedAsync(appUser);
+
+            appUser.EmailConfirmed = (!emailConfirmation);
+
+            IdentityResult result = await _userManager.UpdateAsync(appUser);
+            if (!result.Succeeded)
+            {
+                HttpContext.Session.SetSession("identityErros", result.Errors);
+                return RedirectToAction(nameof(UserList));
+            }
+
+            TempData["success"] = "Mail onay değişimi gerçekleşti";
+            return RedirectToAction(nameof(UserList));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == "5c8defd5-91f2-4256-9f16-e7fa7546dec4")
+            {
+                TempData["fail"] = "Admin üzerinde değişiklik yapılamaz";
+                return RedirectToAction(nameof(UserList));
+            }
+
+            AppUser? appUser = await _userManager.FindByIdAsync(id);
+            if (appUser == null)
+            {
+                TempData["fail"] = "Kullanıcı bulunamadı";
+                return RedirectToAction(nameof(UserList));
+            }
+
+            string? result = await _appUserManager.DeleteAsync(appUser);
+            if(result != null)
+            {
+                TempData["fail"] = result;
+                return RedirectToAction(nameof(UserList));
+            }
+
+            TempData["success"] = "Kullanıcı silindi";
             return RedirectToAction(nameof(UserList));
         }
     }
