@@ -2,6 +2,7 @@
 using Project.ENTITIES.Models;
 using MemberViewModels = Project.MVCUI.Areas.Member.MemberViewModels;
 using Project.MVCUI.ViewModels;
+using Project.MVCUI.Areas.Admin.AdminViewModels;
 
 namespace Project.MVCUI.Mapping
 {
@@ -22,6 +23,8 @@ namespace Project.MVCUI.Mapping
             CreateMap<AppUserProfile, MemberViewModels.AppUserProfileViewModel>().ReverseMap();
 
             CreateMap<Address, MemberViewModels.AddressViewModel>().ReverseMap();
+
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
         }
     }
 }
