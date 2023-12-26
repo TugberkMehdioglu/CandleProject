@@ -46,6 +46,9 @@ namespace Project.MVCUI.Controllers
         {
             if (!ModelState.IsValid) return View(request);
 
+            //If the cookie still remains in the browser
+            if (User.Identity != null && User.Identity.IsAuthenticated) await _signInManager.SignOutAsync();
+
             returnUrl ??= "/Home";
 
             AppUser? appUser = await _userManager.FindByEmailAsync(request.Email);
@@ -185,6 +188,14 @@ namespace Project.MVCUI.Controllers
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        [HttpGet("{ReturnUrl?}")]
+        public IActionResult AccessDenied(string? ReturnUrl)
+        {
+            ReturnUrl ??= "/Home";
+
+            return View(model: ReturnUrl);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

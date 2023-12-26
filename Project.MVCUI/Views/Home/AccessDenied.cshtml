@@ -1,0 +1,26 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "AccessDenied";
+}
+
+<div class="container col-lg-4 offset-lg-4 col-sm-12 " style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="row">
+
+        <i class="bi bi-exclamation-circle-fill display-1 text-white text-center"></i>
+
+        <p style="font-weight:600; font-weight:700; font-style: oblique;" class="mt-3 text-center text-white">
+            Bu sayfayı görüntülemek için yetkiniz yoktur,
+            <span class="d-block">bir hata olduğunu düşünüyorsanız lütfen bizimle iletişime geçin.</span>
+        </p>
+
+        @if(Model != null)
+        {
+            <div class="w-50 mx-auto text-center">
+                <a class="btn btn-outline-light" asp-controller="Home" asp-action="Login" asp-route-returnUrl="@Model.ToString()">Girmek istediğin sayfa için yekili bir kullanıcı girişi yap</a>
+            </div>
+        }
+    </div>
+
+</div>
