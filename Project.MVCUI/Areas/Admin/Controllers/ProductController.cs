@@ -28,8 +28,8 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         {
             IQueryable<Product> query = _productManager.GetActives();
 
-            if (search != null)
-                query.Where(x => x.Name.ToLower().Trim() == search.ToLower().Trim());
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
 
 
             List<ProductViewModel> productViewModels = await query.OrderBy(x => x.CreatedDate)

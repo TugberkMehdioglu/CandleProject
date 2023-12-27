@@ -23,6 +23,14 @@ else if (TempData["fail"] != null)
 
     <h1 class="text-center text-white mb-5">Ürünler</h1>
 
+    <div class="row mb-2">
+        <div class="col-12 col-md-6 offset-md-3">
+            <form method="get" asp-route-pageNumber=" " asp-route-pageSize=" ">
+                <input type="search" class="form-control rounded-5" placeholder="Ürünlerde ara" name="search" />
+            </form>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <table class="container table table-hover" id="myTable">
             <thead>
@@ -63,18 +71,18 @@ else if (TempData["fail"] != null)
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item @(ViewBag.pageNumber < 2 ? "disabled" : "")">
-                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="null" asp-route-pageNumber="@(ViewBag.pageNumber - 1)" asp-route-pageSize="null">
+                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search=" " asp-route-pageNumber="@(ViewBag.pageNumber - 1)" asp-route-pageSize=" ">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
             @for (int page = 1; page <= @ViewBag.totalPageCount; page++)
             {
-                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="null" asp-route-pageNumber="@(page)" asp-route-pageSize="null">@(page)</a></li>
+                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search=" " asp-route-pageNumber="@(page)" asp-route-pageSize=" ">@(page)</a></li>
             }
            
             <li class="page-item @(ViewBag.pageNumber == ViewBag.totalPageCount ? "disabled" : "")">
-                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="null" asp-route-pageNumber="@(ViewBag.pageNumber + 1)" asp-route-pageSize="null">
+                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search=" " asp-route-pageNumber="@(ViewBag.pageNumber + 1)" asp-route-pageSize=" ">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
