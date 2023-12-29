@@ -1,0 +1,124 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "ProductDetail";
+
+    short productStock = Model.Stock;
+}
+
+@section Css{
+
+    <link href="~/lib/glightbox/dist/css/glightbox.css" rel="stylesheet">
+
+    <style>
+
+        icon-shape {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .icon-sm {
+            width: 2rem;
+            height: 2rem;
+        }
+
+    </style>
+}
+
+<div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+                    <a href="~/productPics/@Model.ImagePath" class="glightbox">
+                        <img src="~/productPics/@Model.ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <h5>@Model.Name</h5>
+                    <a class="fs-5 mb-5" asp-area="Admin" asp-controller="Category" asp-action="CategoryList">@Model.CategoryName</a>
+
+                    <h4 class="d-flex align-items-center" style="color:rgb(128, 208, 199);">@Model.Price.ToString("C2")</h4>
+                    <p class="fs-6">
+                        Stok:
+                        @if (productStock >= 10)
+                        {
+                            <strong class="text-success">Var</strong>
+                        }
+                        else if (productStock >= 1)
+                        {
+                            <strong class="text-warning">Acele et tükeniyor!</strong>
+                        }
+                        else
+                        {
+                            <strong class="text-danger">Tükendi</strong>
+                        }
+                    </p>
+
+
+                    <div class="d-flex align-items-center">
+                        <div class="input-group d-inline-block" style="width:unset;">
+                            <button class="button-minus border rounded-circle  icon-shape icon-sm mx-1 text-white" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus">-</button>
+                            <input class="quantity-field border-0 text-center w-25" type="number" min="1" value="1" style="width:70px;" disabled />
+                            <button class="button-plus border rounded-circle icon-shape icon-sm text-white me-0" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="plus">+</button>
+                        </div>
+                        <div class="d-inline-block"><a disabled id="addToCartBtn" class="btn custom-btn" asp-controller="Shopping" asp-action="AddToCart" asp-route-id="@Model.Id" asp-route-categoryID="null" asp-route-pageNumber="null" asp-route-from="ProductDetail"><span class="bi bi-cart2 me-2"></span>Sepete Ekle</a></div>
+                    </div>                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="~/lib/glightbox/dist/js/glightbox.js"></script>
+
+    <script type="text/javascript">
+
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            autoplayVideos: true
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Event listener'ları ekleyelim
+            document.querySelector(".button-minus").addEventListener("click", function () {
+                updateQuantity("minus");
+            });
+
+            document.querySelector(".button-plus").addEventListener("click", function () {
+                updateQuantity("plus");
+            });
+        });
+
+        function updateQuantity(type) {
+            // Sayı alanını seçelim
+            var quantityField = document.querySelector(".quantity-field");
+
+            // Mevcut değeri alalım ve bir tamsayıya çevirelim
+            var currentValue = parseInt(quantityField.value, 10);
+
+            let productStock = @productStock;
+
+            // Artırma veya azaltma işlemlerini yapalım
+            if (type === "minus" && currentValue > 1) {
+                quantityField.value = currentValue - 1;
+            } else if (type === "plus" && currentValue < productStock) {
+                quantityField.value = currentValue + 1;
+            }
+        }
+
+    </script>
+
+}

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
+using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
+using System.Xml.Linq;
 
 namespace Project.MVCUI.Areas.Admin.Controllers
 {
@@ -59,6 +61,31 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             ViewBag.totalItemsCount = totalItemsCount;
 
             return View(productViewModels);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ProductDetail(int id)
+        {
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Select(x => new ProductViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Price = x.Price,
+                Stock = x.Stock,
+                ImagePath = x.ImagePath,
+                CategoryID = x.Category.Id,
+                CategoryName = x.Category.Name,
+                CategoryDescription = x.Category.Description
+            }).FirstOrDefaultAsync();
+
+            if(productViewModel == null)
+            {
+                TempData["fail"] = "Ürün bulunamadı";
+                return RedirectToAction(nameof(ProductList));
+            }
+
+            return View(productViewModel);
         }
     }
 }
