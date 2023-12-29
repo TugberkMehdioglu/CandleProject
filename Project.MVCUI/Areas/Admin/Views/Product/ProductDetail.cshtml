@@ -68,7 +68,7 @@
                             <input class="quantity-field border-0 text-center w-25" type="number" min="1" value="1" style="width:70px;" disabled />
                             <button class="button-plus border rounded-circle icon-shape icon-sm text-white me-0" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="plus">+</button>
                         </div>
-                        <div class="d-inline-block"><a disabled id="addToCartBtn" class="btn custom-btn" asp-controller="Shopping" asp-action="AddToCart" asp-route-id="@Model.Id" asp-route-categoryID="null" asp-route-pageNumber="null" asp-route-from="ProductDetail"><span class="bi bi-cart2 me-2"></span>Sepete Ekle</a></div>
+                        <div class="d-inline-block"><a disabled id="addToCartBtn" class="btn custom-btn" asp-controller="Shopping" asp-action="AddToCart" asp-route-id="@Model.Id" asp-route-categoryID="null" asp-route-pageNumber="null" asp-route-from="ProductDetail"><span class="bi bi-cart2 me-2"></span><span class="d-none d-sm-inline-block">Sepete Ekle</span></a></div>
                     </div>                  
                 </div>
 
