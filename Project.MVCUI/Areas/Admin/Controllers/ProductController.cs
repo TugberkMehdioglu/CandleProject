@@ -24,7 +24,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
 
         [HttpGet("{search?}/{pageNumber?}/{pageSize?}")]
-        public async Task<IActionResult> ProductList(string? search, int pageNumber = 1, int pageSize = 1)
+        public async Task<IActionResult> ProductList(string? search, int pageNumber = 1, int pageSize = 6)
         {
             IQueryable<Product> query = _productManager.GetActives();
 
@@ -35,7 +35,6 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 
             }
                 
-
 
             List<ProductViewModel> productViewModels = await query.OrderBy(x => x.CreatedDate)
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)
