@@ -19,20 +19,20 @@ else if (TempData["fail"] != null)
 
 <div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
 
-<div class="col-lg-8 offset-lg-2 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+<div class="col-lg-10 offset-lg-1 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
     <h1 class="text-center text-white mb-5">Ürünler</h1>
 
     <div class="row mb-2">
         <div class="col-12 col-md-6 offset-md-3">
-            <form method="get" id="myForm" asp-route-search="" asp-route-pageNumber="" asp-route-pageSize="">
+            <form method="get" id="myForm" asp-route-search="" asp-route-categoryId="" asp-route-pageNumber="" asp-route-pageSize="">
                 <input type="search" class="form-control rounded-5" placeholder="Ürünlerde ara" name="search"/>
             </form>
         </div>
     </div>
 
     <div class="table-responsive">
-        <table class="container table table-hover" id="myTable">
+        <table class="table table-hover" id="myTable">
             <thead>
                 <tr class="align-middle">
                     <th class="text-center">Ürün Resmi</th>
@@ -40,6 +40,7 @@ else if (TempData["fail"] != null)
                     <th class="text-center">Açıklama</th>
                     <th class="text-center">Fiyat</th>
                     <th class="text-center">Stok</th>
+                    <th class="text-center">Kategorisi</th>
                     <th colspan="3" class="text-center">
                         <a asp-area="Admin" asp-controller="Product" asp-action="AddProduct" class="btn btn-success rounded-5">Ürün Ekle</a>
                     </th>
@@ -55,7 +56,25 @@ else if (TempData["fail"] != null)
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.Price.ToString("C2")</td>
-                        <td>@item.Stock Adet</td>
+                        <td>
+                            @{
+                                short productStock = item.Stock;
+
+                                if(productStock > 10 && productStock <= 20)
+                                {
+                                    <span class="text-primary fw-bolder" style="opacity:20;">@productStock</span>
+                                }
+                                else if(productStock <= 10)
+                                {
+                                    <span class="text-danger fw-bolder">@productStock</span>
+                                }
+                                else
+                                {
+                                    <span>@productStock</span>
+                                }
+                            }
+                        </td>
+                        <td>@item.CategoryName</td>
                         <td>
                             <a asp-area="Admin" asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.Id" class="btn btn-primary rounded-5">Gözat</a>
                         </td>
@@ -74,18 +93,18 @@ else if (TempData["fail"] != null)
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item @(ViewBag.pageNumber < 2 ? "disabled" : "")">
-                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-pageNumber="@(ViewBag.pageNumber - 1)" asp-route-pageSize=" ">
+                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-pageNumber="@(ViewBag.pageNumber - 1)" asp-route-pageSize=" ">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
             @for (int page = 1; page <= @ViewBag.totalPageCount; page++)
             {
-                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-pageNumber="@(page)" asp-route-pageSize=" ">@(page)</a></li>
+                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-pageNumber="@(page)" asp-route-pageSize=" ">@(page)</a></li>
             }
            
             <li class="page-item @(ViewBag.pageNumber == ViewBag.totalPageCount ? "disabled" : "")">
-                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-pageNumber="@(ViewBag.pageNumber + 1)" asp-route-pageSize=" ">
+                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(ViewBag.filter??" ")" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-pageNumber="@(ViewBag.pageNumber + 1)" asp-route-pageSize=" ">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

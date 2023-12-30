@@ -25,8 +25,8 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         }
 
 
-        [HttpGet("{search?}/{pageNumber?}/{pageSize?}")]
-        public async Task<IActionResult> ProductList(string? search, int pageNumber = 1, int pageSize = 6)
+        [HttpGet("{search?}/{categoryId?}/{pageNumber?}/{pageSize?}")]
+        public async Task<IActionResult> ProductList(string? search,int? categoryId, int pageNumber = 1, int pageSize = 6)
         {
             IQueryable<Product> query = _productManager.GetActives();
 
@@ -35,6 +35,11 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 ViewBag.filter = search;
                 query = query.Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
                 
+            }
+            else if (categoryId.HasValue)
+            {
+                ViewBag.categoryId = categoryId.Value;
+                query = query.Where(x => x.CategoryID == categoryId.Value);
             }
                 
 

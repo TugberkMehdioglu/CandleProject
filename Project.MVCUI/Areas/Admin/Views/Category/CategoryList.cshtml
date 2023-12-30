@@ -29,7 +29,7 @@ else if (TempData["fail"] != null)
                 <tr class="align-middle">
                     <th class="text-center">Ad</th>
                     <th class="text-center">Açıklama</th>
-                    <th colspan="2" class="text-center">
+                    <th colspan="3" class="text-center">
                         <a asp-area="Admin" asp-controller="Category" asp-action="AddCategory" class="btn btn-success rounded-5">Kategori Ekle</a>
                     </th>
                 </tr>
@@ -40,6 +40,9 @@ else if (TempData["fail"] != null)
                     <tr class="align-middle text-center">
                         <td>@item.Name</td>
                         <td>@(item.Description??"Açıklama Yok")</td>
+                        <td class="text-end">
+                            <a asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search=" " asp-route-categoryId="@item.Id" class="btn btn-primary rounded-5">Ürünlerine gözat</a>
+                        </td>
                         <td>
                             <a asp-area="Admin" asp-controller="Category" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-warning rounded-5">Güncelle</a>
                         </td>
