@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Project.MVCUI.Areas.Admin.AdminViewModels
 {
@@ -17,8 +19,12 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
 
         [Display(Name = "Fiyat")]
         [Required(ErrorMessage = "{0} zorunludur")]
-        [RegularExpression(@"^[0-9]+(\.[0-9]{1,2})$", ErrorMessage = "{0} alanında noktadan sonra en fazla 2 basamak olmalıdır")]
+        //[RegularExpression(@"^[0-9]+(\.[0-9]{1,3})$", ErrorMessage = "{0} alanında noktadan sonra en fazla 3 basamak olmalıdır")]
         public decimal Price { get; set; }
+
+        [Display(Name = "Fiyat")]
+        [Required(ErrorMessage = "{0} zorunludur")]
+        public string PriceText { get; set; } = null!;//For priceBind on html
 
         [Display(Name = "Stok")]
         [Required(ErrorMessage = "{0} zorunludur")]
@@ -29,6 +35,7 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
         [Display(Name = "Ürün Resmi")]
         [Required(ErrorMessage = "{0} zorunludur")]
         public string ImagePath { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
         [Display(Name = "Ürün Kategorisi")]
         [Required(ErrorMessage = "{0} zorunludur")]

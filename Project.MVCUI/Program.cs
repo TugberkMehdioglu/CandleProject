@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.FileProviders;
 using Project.BLL.ServiceExtensions;
 using System.Globalization;
 using System.Reflection;
@@ -14,6 +15,7 @@ builder.Services.AddIdentityService();
 builder.Services.AddManagerRepositoy();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

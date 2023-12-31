@@ -6,13 +6,13 @@
 
 @if (TempData["success"] != null)
 {
-    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+    <div class="container col-lg-8 offset-lg-2 col-sm-12">
         <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
     </div>
 }
 else if (TempData["fail"] != null)
 {
-    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+    <div class="container col-lg-8 offset-lg-2 col-sm-12">
         <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
     </div>
 }
@@ -62,7 +62,7 @@ else if (TempData["fail"] != null)
 
                                 if(productStock > 10 && productStock <= 20)
                                 {
-                                    <span class="text-primary fw-bolder" style="opacity:20;">@productStock</span>
+                                    <span class="text-primary fw-bolder">@productStock</span>
                                 }
                                 else if(productStock <= 10)
                                 {
