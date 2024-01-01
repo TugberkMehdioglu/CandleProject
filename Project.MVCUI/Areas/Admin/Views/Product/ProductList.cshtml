@@ -6,13 +6,13 @@
 
 @if (TempData["success"] != null)
 {
-    <div class="container col-lg-8 offset-lg-2 col-sm-12">
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
         <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
     </div>
 }
 else if (TempData["fail"] != null)
 {
-    <div class="container col-lg-8 offset-lg-2 col-sm-12">
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
         <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
     </div>
 }

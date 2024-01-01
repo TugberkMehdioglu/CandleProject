@@ -282,5 +282,26 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             TempData["success"] = "Ürün başarıyla güncellendi";
             return RedirectToAction(nameof(ProductList));
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            Product? product = await _productManager.FindAsync(id);
+            if (product == null)
+            {
+                TempData["fail"] = "Ürün bulunamadı";
+                return RedirectToAction(nameof(ProductList));
+            }
+
+            string? error = await _productManager.DeleteAsync(product!);
+            if( error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(ProductList));
+            }
+
+            TempData["success"] = "Ürün silindi";
+            return RedirectToAction(nameof(ProductList));
+        }
     }
 }
