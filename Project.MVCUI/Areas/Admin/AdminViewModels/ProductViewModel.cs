@@ -43,5 +43,8 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
 
         public string? CategoryName { get; set; }
         public string? CategoryDescription { get; set; }
+
+        public string? FormerName { get; set; }
+        public string? FormerImagePath { get; set; }
     }
 }

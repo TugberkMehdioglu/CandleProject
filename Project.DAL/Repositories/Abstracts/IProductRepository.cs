@@ -9,6 +9,6 @@ namespace Project.DAL.Repositories.Abstracts
 {
     public interface IProductRepository : IRepository<Product>
     {
-
+        public Task<Product?> GetActiveProductWithCategory(int id);
     }
 }

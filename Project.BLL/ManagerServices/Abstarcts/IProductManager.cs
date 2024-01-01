@@ -9,6 +9,6 @@ namespace Project.BLL.ManagerServices.Abstarcts
 {
     public interface IProductManager : IManager<Product>
     {
-
+        public Task<(string?, Product?)> GetActiveProductWithCategory(int id);
     }
 }

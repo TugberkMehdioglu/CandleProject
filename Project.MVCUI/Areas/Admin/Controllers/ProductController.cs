@@ -188,5 +188,99 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
             TempData["categorySelectList"] = new SelectList(categoryViewModels, nameof(CategoryViewModel.Id), nameof(CategoryViewModel.Name));
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id)
+        {
+            var (error, product) = await _productManager.GetActiveProductWithCategory(id);
+            if(error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(ProductList));
+            }
+
+            ProductViewModel productViewModel = new()
+            {
+                Name = product!.Name,
+                Description = product.Description,
+                PriceText = product.Price.ToString(),
+                Stock = product.Stock,
+                ImagePath = product.ImagePath,
+                CategoryID = product.CategoryID,
+                CategoryName = product.Category.Name,
+                FormerName = product.Name,
+                FormerImagePath = product.ImagePath
+            };
+            await categorySelectListForProduct();
+
+            return View(productViewModel);
+        }
+
+        [HttpPost("{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProduct(ProductViewModel request)
+        {
+            ModelState.Remove("ImagePath");
+            if (!ModelState.IsValid)
+            {
+                await categorySelectListForProduct();
+                request.ImagePath = request.FormerImagePath!;
+                return View(request);
+            }
+            else if (request.FormerName!.ToLower().Trim() != request.Name.ToLower().Trim() && await _productManager.AnyAsync(x => x.Name.ToLower().Trim() == request.Name.ToLower().Trim() && x.Status != DataStatus.Deleted))
+            {
+                ModelState.AddModelErrorWithOutKey("Güncellemek istediğiniz ürün adı zaten mevcut");
+                await categorySelectListForProduct();
+                request.ImagePath = request.FormerImagePath!;
+                return View(request);
+            }
+
+            bool isConverted = decimal.TryParse(request.PriceText, NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal price);
+            if (!isConverted)
+            {
+                ModelState.AddModelErrorWithOutKey("Doğru formatta fiyat girişi yapın");
+                await categorySelectListForProduct();
+                request.ImagePath = request.FormerImagePath!;
+                return View(request);
+            }
+
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                string? result = ImageUploader.UploadImageToWwwroot(request.Image!, _fileProvider, "productPics", out string? entityImagePath);
+                if (result != null)
+                {
+                    ModelState.AddModelErrorWithOutKey(result);
+                    await categorySelectListForProduct();
+                    request.ImagePath = request.FormerImagePath!;
+                    return View(request);
+                }
+
+                request.ImagePath = entityImagePath!;
+            }
+            else request.ImagePath = request.FormerImagePath!;
+
+            Product product = new()
+            {
+                Id = request.Id!.Value,
+                Name = request.Name,
+                Description = request.Description,
+                Price = price,
+                Stock = request.Stock,
+                ImagePath = request.ImagePath,
+                CategoryID = request.CategoryID
+            };
+
+            string? error = await _productManager.UpdateAsync(product);
+            if(error != null)
+            {
+                ModelState.AddModelErrorWithOutKey(error);
+                await categorySelectListForProduct();
+                request.ImagePath = request.FormerImagePath!;
+                return View(request);
+            }
+
+            TempData["success"] = "Ürün başarıyla güncellendi";
+            return RedirectToAction(nameof(ProductList));
+        }
     }
 }
