@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
+using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
 using Project.MVCUI.ViewModels.WrapperClasses;
@@ -119,9 +120,27 @@ namespace Project.MVCUI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ProductDetail(int id)
+        public async Task<IActionResult> ProductDetail(int id)
         {
-            return View();
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Select(x => new ProductViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ImagePath = x.ImagePath,
+                Price = x.Price,
+                Stock = x.Stock,
+                CategoryID = x.CategoryID,
+                CategoryName = x.Category.Name
+            }).FirstOrDefaultAsync();
+
+            if(productViewModel == null)
+            {
+                TempData["fail"] = "Ürün bulunamadı";
+                return RedirectToAction(nameof(ShoppingList));
+            }
+
+            return View(productViewModel);
         }
     }
 }
