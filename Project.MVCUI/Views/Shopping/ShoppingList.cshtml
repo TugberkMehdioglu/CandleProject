@@ -1,0 +1,157 @@
+﻿@model ShoppingWrapper
+
+@{
+    ViewData["Title"] = "Shopping";
+    string sort = ViewBag.selectSort;
+}
+
+@section Css{
+
+
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+<div class="col-xl-10 offset-xl-1 col-sm-12" style="padding:5px; border-radius:10px; border:5px solid rgb(128, 208, 199); background-color:white;">
+
+    <div class="mb-3 mt-1">
+        <div class="row text-center align-items-center">
+            <div class="col-md-2 offset-md-1">@ViewBag.totalItemsCount ürün görüntüleniyor</div>
+
+            <div class="col-md-4">
+                <select class="form-select rounded-5" id="productSort">
+                    @if (sort == "eyu")
+                    {
+                        <option value="eyu" selected>En Yeni Ürünler</option>
+                    }
+                    else
+                    {
+                        <option value="eyu">En Yeni Ürünler</option>
+                    }
+                    @if (sort == "edf")
+                    {
+                        <option value="edf" selected>En Düşük Fiyat</option>
+                    }
+                    else
+                    {
+                        <option value="edf">En Düşük Fiyat</option>
+                    }
+                    @if (sort == "eyf")
+                    {
+                        <option value="eyf" selected>En Yüksek Fiyat</option>
+                    }
+                    else
+                    {
+                        <option value="eyf">En Yüksek Fiyat</option>
+                    }
+                    @if (sort == "aaz")
+                    {
+                        <option value="aaz" selected>Ürün Adına Göre Sırala A > Z</option>
+                    }
+                    else
+                    {
+                        <option value="aaz">Ürün Adına Göre Sırala A > Z</option>
+                    }
+                    @if (sort == "aza")
+                    {
+                        <option value="aza" selected>Ürün Adına Göre Sırala Z > A</option>
+                    }
+                    else
+                    {
+                        <option value="aza">Ürün Adına Göre Sırala Z > A</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <form method="get" asp-route-categoryId="" asp-route-search="" asp-route-selectSort="" asp-route-pageNumber="" asp-route-pageSize="">
+                    <input type="search" class="form-control rounded-5" placeholder="Ürünlerde ara" name="search" id="search" value="@ViewBag.Search" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        @foreach (ProductViewModel item in Model.Products!)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="custom-block bg-white shadow-lg">
+                    <a asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Id" class="text-center">
+
+                        <img src="~/productPics/@item.ImagePath" alt="Resim Yüklenemedi" width="300px;" height="400px;" class="img-fluid" />
+
+                        <div>
+
+                            <strong>@item.Name</strong>
+                            <p>@item.Description</p>
+                            <h6 class="" style="color:rgb(128, 208, 199);">@item.Price.ToString("C2")</h6>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.pageNumber < 2 ? "disabled" : "")">
+                <a class="page-link" aria-label="Previous" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-search="@(ViewBag.Search??" ")" asp-route-selectSort="@(ViewBag.selectSort??" ")" asp-route-pageNumber="@(ViewBag.pageNumber - 1)" asp-route-pageSize=" ">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int page = 1; page <= @ViewBag.totalPagesCount; page++)
+            {
+                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-search="@(ViewBag.Search??" ")" asp-route-selectSort="@(ViewBag.selectSort??" ")" asp-route-pageNumber="@(page)" asp-route-pageSize=" ">@(page)</a></li>
+            }
+
+            <li class="page-item @(ViewBag.pageNumber == ViewBag.totalPagesCount ? "disabled" : "")">
+                <a class="page-link" aria-label="Next" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId="@(ViewBag.categoryId??" ")" asp-route-search="@(ViewBag.Search??" ")" asp-route-selectSort="@(ViewBag.selectSort??" ")" asp-route-pageNumber="@(ViewBag.pageNumber + 1)" asp-route-pageSize=" ">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#productSort").change(function () {
+                let selectedSort = $(this).val();
+                let search = '@(ViewBag.Search ?? "")';//Js'de c# kodunun düzgün çalışması için '' içine eklendi
+                let searchInput = $("#search").val();
+                let url;
+
+                if (search != "" && searchInput != "") {
+                    url = "/Shopping/ShoppingList?categoryId=" + '@(ViewBag.CategoryId ?? "")' + "&search=" + search + "&selectSort=" + selectedSort;
+                }
+                else {
+                    url = "/Shopping/ShoppingList?categoryId=" + '@(ViewBag.CategoryId ?? "")' + "&search=" + "" + "&selectSort=" + selectedSort;
+                }
+                window.location.href = url;
+            });
+        });
+
+    </script>
+}
