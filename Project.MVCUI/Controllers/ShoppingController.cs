@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
+using Project.COMMON.Extensions;
 using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
+using Project.MVCUI.ShoppingTools;
 using Project.MVCUI.ViewModels.WrapperClasses;
 
 namespace Project.MVCUI.Controllers
@@ -141,6 +143,51 @@ namespace Project.MVCUI.Controllers
             }
 
             return View(productViewModel);
+        }
+
+        public IActionResult CartPage()
+        {
+            Cart? basket = HttpContext.Session.GetSession<Cart>("cart");
+
+            if (basket == null)
+            {
+                TempData["fail"] = "Sepetinizde ürün bulunmamaktadır";
+                return RedirectToAction(nameof(ShoppingList));
+            }
+
+            return View(basket);
+        }
+
+        [HttpGet("{id}/{from}/{quantity}")]
+        public async Task<IActionResult> AddToCart(int id, string from, short quantity)
+        {
+            Product? product = await _productManager.FindAsync(id);
+
+            if (product == null) return RedirectToAction(nameof(ShoppingList));
+
+            Cart? basket = HttpContext.Session.GetSession<Cart>("cart");
+            if (basket == null) basket = new Cart();
+
+            CartItem cartItem = new()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImagePath = product.ImagePath
+            };
+
+            if (quantity > 0 && quantity <= product.Stock) cartItem.Amount = quantity;
+            else return RedirectToAction(nameof(ShoppingList));
+
+            basket.AddToBasket(cartItem);
+            HttpContext.Session.SetSession("cart", basket);
+
+            TempData["success"] = "Ürün sepetinize eklendi";
+
+            //There are two options for from parameter, it comes from CartPage or ProductDetail pages.
+            if (from == "cart") return RedirectToAction(nameof(CartPage));
+            else return RedirectToAction(nameof(ProductDetail), "Shopping", new { id });
         }
     }
 }

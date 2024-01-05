@@ -1,0 +1,94 @@
+﻿@model Cart
+
+@{
+    ViewData["Title"] = "CartPage";
+}
+
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0.1);"></div>
+
+<div class="col-xl-10 offset-xl-1 col-sm-12" style="padding:5px; border-radius:10px; border:5px solid rgb(128, 208, 199); background-color:white;">
+
+    <div class="">
+
+        <div class="p-3">
+            <div class="row justify-content-between">
+                <div class="col-md-auto">
+                    <h5 class="mb-3 mb-md-0" style="color:rgb(128, 208, 199);">Sepetim (@(Model.TotalItemCount))</h5>
+                </div>
+                <div class="col-md-auto">
+                    <a class="btn btn-outline-secondary rounded-5 me-2" asp-controller="Shopping" asp-action="ShoppingList">
+                        <span class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                            </svg>
+                            Alışverişe Devam Et
+                        </span>
+                    </a><a class="btn btn-sm custom-btn" asp-controller="Shopping" asp-action="ConfirmOrder">Siparişi Tamamla</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-3 table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="color:rgb(128, 208, 199);">Ürünlerim</th>
+                        <th style="color:rgb(128, 208, 199);">Adet</th>
+                        <th style="color:rgb(128, 208, 199);">Fiyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (CartItem item in Model.Basket)
+                    {
+                        <tr class="align-items-center">
+                            <td>
+                                <img class="img-fluid rounded-1 me-3 d-none d-md-inline" src="~/productPics/@item.ImagePath" style="max-width: 60px;" />
+                                <a asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Id">@($"{item.Name} - {item.Description}")</a>
+                            </td>
+                            <td style="vertical-align:middle;">@item.Amount</td>
+                            <td style="vertical-align:middle;">@item.SubTotal.ToString("C2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row fw-bold mx-0">
+                <div class="col-9 col-md-8 py-2 text-end" style="color:rgb(128, 208, 199);">Toplam</div>
+                <div class="col px-0">
+                    <div class="row mx-0">
+                        <div class="col-md-8 py-2 d-none d-md-block text-center" style="color:rgb(128, 208, 199);">@Model.TotalItemCount (Ürün)</div>
+                        <div class="col-12 col-md-4 text-end py-2" style="color:rgb(128, 208, 199);">@Model.TotalPrice.ToString("C2")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end p-3">
+            <div class="col-md-auto">
+                <a class="btn btn-outline-secondary rounded-5 me-2" asp-controller="Shopping" asp-action="ShoppingList">
+                    <span class="me-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Alışverişe Devam Et
+                    </span>
+                </a><a class="btn btn-sm custom-btn" asp-controller="Shopping" asp-action="ConfirmOrder">Siparişi Tamamla</a>
+            </div>
+        </div>
+    </div>
+
+</div>
