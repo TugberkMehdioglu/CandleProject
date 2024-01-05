@@ -21,6 +21,9 @@ namespace Project.MVCUI.ShoppingTools
         public short Amount { get; set; }
 
         [JsonProperty]
+        public short MaxAmount { get; set; }//For stock information
+
+        [JsonProperty]
         public string ImagePath { get; set; } = null!;
 
         [JsonProperty]

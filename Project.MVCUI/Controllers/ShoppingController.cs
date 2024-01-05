@@ -174,7 +174,8 @@ namespace Project.MVCUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImagePath = product.ImagePath
+                ImagePath = product.ImagePath,
+                MaxAmount = product.Stock
             };
 
             if (quantity > 0 && quantity <= product.Stock) cartItem.Amount = quantity;

@@ -4,6 +4,25 @@
     ViewData["Title"] = "CartPage";
 }
 
+@section Css{
+
+    <style>
+
+        icon-shape {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .icon-sm {
+            width: 2rem;
+            height: 2rem;
+        }
+
+    </style>
+}
 
 @if (TempData["success"] != null)
 {
@@ -59,7 +78,17 @@ else if (TempData["fail"] != null)
                                 <img class="img-fluid rounded-1 me-3 d-none d-md-inline" src="~/productPics/@item.ImagePath" style="max-width: 60px;" />
                                 <a asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Id">@($"{item.Name} - {item.Description}")</a>
                             </td>
-                            <td style="vertical-align:middle;">@item.Amount</td>
+                            <td style="vertical-align:middle; min-width:200px;">
+
+                                <div class="d-flex align-items-center text-center">
+                                    <div class="input-group d-inline-block" style="width:unset;">
+                                        <a class="button-minus border rounded-circle icon-shape icon-sm text-white text-center" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus">-</a>
+                                        <input class="quantity-field border-0 text-center w-25 mx-3" type="number" min="1" value="@item.Amount" max="@item.MaxAmount" style="width:70px;"  disabled id="quantity" />
+                                        <a class="button-plus border rounded-circle icon-shape icon-sm text-white text-center" style="background-color:rgb(128, 208, 199);" asp-controller="Shopping" asp-action="AddToCart" asp-route-id="@item.Id" asp-route-from="cart" asp-route-quantity="1">+</a>
+                                    </div>
+                                </div>
+
+                            </td>
                             <td style="vertical-align:middle;">@item.SubTotal.ToString("C2")</td>
                         </tr>
                     }
