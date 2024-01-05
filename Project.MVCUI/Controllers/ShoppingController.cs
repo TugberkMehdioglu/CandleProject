@@ -190,5 +190,28 @@ namespace Project.MVCUI.Controllers
             if (from == "cart") return RedirectToAction(nameof(CartPage));
             else return RedirectToAction(nameof(ProductDetail), "Shopping", new { id });
         }
+
+        [HttpGet("{id}/{from}")]
+        public IActionResult DeleteFromCart(int id, string from)
+        {
+            Cart? basket = HttpContext.Session.GetSession<Cart>("cart");
+            if (basket == null) return RedirectToAction(nameof(ShoppingList));
+
+            basket.RemoveFromBasket(id);
+
+            if (!basket.Basket.Any())
+            {
+                HttpContext.Session.Remove("cart");
+                TempData["fail"] = "Sepetinizde ürün bulunmamaktadır";
+                return RedirectToAction(nameof(ShoppingList));
+            }
+
+            HttpContext.Session.SetSession("cart", basket);
+
+            TempData["success"] = "Ürün sepetten silindi";
+
+            if (from == "cart") return RedirectToAction(nameof(CartPage));
+            else return RedirectToAction(nameof(ProductDetail));
+        }
     }
 }

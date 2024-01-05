@@ -82,7 +82,7 @@ else if (TempData["fail"] != null)
 
                                 <div class="d-flex align-items-center text-center">
                                     <div class="input-group d-inline-block" style="width:unset;">
-                                        <a class="button-minus border rounded-circle icon-shape icon-sm text-white text-center" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus">-</a>
+                                        <a class="button-minus border rounded-circle icon-shape icon-sm text-white text-center" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus" asp-controller="Shopping" asp-action="DeleteFromCart" asp-route-id="@item.Id" asp-route-from="cart">-</a>
                                         <input class="quantity-field border-0 text-center w-25 mx-3" type="number" min="1" value="@item.Amount" max="@item.MaxAmount" style="width:70px;"  disabled id="quantity" />
                                         <a class="button-plus border rounded-circle icon-shape icon-sm text-white text-center" style="background-color:rgb(128, 208, 199);" asp-controller="Shopping" asp-action="AddToCart" asp-route-id="@item.Id" asp-route-from="cart" asp-route-quantity="1">+</a>
                                     </div>
