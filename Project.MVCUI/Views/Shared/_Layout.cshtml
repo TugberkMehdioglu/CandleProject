@@ -62,23 +62,37 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav m-lg-auto">
+                        <li class="nav-item d-none">
+                            <a class="nav-link"></a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_1">Home</a>
+                            <a class="nav-link @(ViewData["Title"] != null && ViewData["Title"]!.ToString() == "Home Page" ? "active" : "inactive")" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_3">How it works</a>
+                            <a class="nav-link @(ViewData["Title"] != null && ViewData["Title"]!.ToString() == "Shopping" ? "active" : "inactive")" asp-controller="Shopping" asp-action="ShoppingList">Mağaza</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
-
-                                <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["Title"] != null && ViewData["Title"]!.ToString() == "CartPage" ? "active" : "inactive")" asp-controller="Shopping" asp-action="CartPage">Sepetim</a>
                         </li>
+
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Admin Panel</a></li>
+                                    <li><a class="dropdown-item" href="/Home">Ana Sayfa</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Kullanıcılar</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="CategoryList">Kategoriler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="ProductList">Ürünler</a></li>
+                                </ul>
+                            </li>
+                        }
+                        
                         @if (isAuthenticated)
                         {
                             <li class="nav-item dropdown d-lg-none">
@@ -128,7 +142,7 @@
 
         @await RenderSectionAsync("HomePage", required: false)
 
-        <section class="section-padding" id="section_2">
+        <section class="section-padding">
             <div>
 
                 @RenderBody()
