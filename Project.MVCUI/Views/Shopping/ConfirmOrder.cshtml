@@ -43,11 +43,16 @@ else if (TempData["fail"] != null)
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
+
+                        <div class="text-center">
+                            <span asp-validation-for="AddressId" class="text-danger" style="font-weight: bold;"></span>
+                        </div>
+                        
                         @for (int i = 0; i < addresses.Count; i++)
                         {
                             <div class="col-md-6 mb-3 mb-md-0 mt-3">
                                 <div class="form-check mb-0">
-                                    @if(i == 0)
+                                    @if(addresses.Count < 2)
                                     {
                                         <input checked class="form-check-input" asp-for="AddressId" type="radio" id="@addresses[i].Id" value="@addresses[i].Id">
                                     }
@@ -92,29 +97,29 @@ else if (TempData["fail"] != null)
                             <div class="form-floating mb-3">
                                 <input class="form-control" asp-for="CardUserName" placeholder="Ad Soyad" style="border-radius:20px;">
                                 <label asp-for="CardUserName"></label>
-                                <span asp-validation-for="CardUserName" class="text-center" style="font-weight: bold;"></span>
+                                <span asp-validation-for="CardUserName" class="text-danger" style="font-weight: bold;"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" asp-for="CardNumber" placeholder="****************" style="border-radius:20px;">
                                 <label asp-for="CardNumber"></label>
-                                <span asp-validation-for="CardNumber" class="text-center" style="font-weight: bold;"></span>
+                                <span asp-validation-for="CardNumber" class="text-danger" style="font-weight: bold;"></span>
                             </div>                          
                             <div class="row align-middle align-items-center">
                                 <div class="form-floating mb-3 col-6">
                                     <input class="form-control" asp-for="CardExpiryMounth" placeholder="12" style="border-radius:20px;">
                                     <label asp-for="CardExpiryMounth"></label>
-                                    <span asp-validation-for="CardExpiryMounth" class="text-center" style="font-weight: bold;"></span>
+                                    <span asp-validation-for="CardExpiryMounth" class="text-danger" style="font-weight: bold;"></span>
                                 </div>
                                 <div class="form-floating mb-3 col-6">
                                     <input class="form-control" asp-for="CardExpiryYear" placeholder="2024" style="border-radius:20px;">
                                     <label asp-for="CardExpiryYear"></label>
-                                    <span asp-validation-for="CardExpiryYear" class="text-center" style="font-weight: bold;"></span>
+                                    <span asp-validation-for="CardExpiryYear" class="text-danger" style="font-weight: bold;"></span>
                                 </div>                                
                             </div>  
                             <div class="form-floating mb-3">
                                 <input class="form-control" asp-for="SecurityNumber" placeholder="250" style="border-radius:20px;">
                                 <label asp-for="SecurityNumber"></label>
-                                <span asp-validation-for="SecurityNumber" class="text-center" style="font-weight: bold;"></span>
+                                <span asp-validation-for="SecurityNumber" class="text-danger" style="font-weight: bold;"></span>
                             </div>
                         </div>
                         <div class="col-4 ps-3 text-center pt-2 d-none d-sm-block">
@@ -165,3 +170,9 @@ else if (TempData["fail"] != null)
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial"></partial>
+}

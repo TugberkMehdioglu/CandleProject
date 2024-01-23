@@ -179,7 +179,7 @@ namespace Project.MVCUI.Controllers
                 return RedirectToAction(nameof(CartPage));
             }
 
-            if(!await _addressManager.AnyAsync(x => x.AppUserProfileID == appUser!.AppUserProfile!.Id))
+            if (!await _addressManager.AnyAsync(x => x.AppUserProfileID == appUser!.AppUserProfile!.Id && x.Status != DataStatus.Deleted))
             {
                 TempData["fail"] = "Sipariş verebilmeniz için en az bir tane adres girmiş olmalısınız";
                 return RedirectToAction(nameof(CartPage));
@@ -188,6 +188,14 @@ namespace Project.MVCUI.Controllers
             OrderWrapper wrapper = new() { AppUser = _mapper.Map<ViewModels.AppUserViewModel>(appUser) };
 
             return View(wrapper);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmOrder(OrderWrapper request)
+        {
+            return View();
         }
 
         [HttpGet("{id}/{from}/{quantity}")]

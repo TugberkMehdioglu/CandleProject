@@ -9,7 +9,7 @@ namespace Project.MVCUI.ViewModels.WrapperClasses
 
         //----------------------------Address Information--------------------
         [Display(Name = "Adres")]
-        [Required(ErrorMessage = "{0} zorunludur")]
+        [Required(ErrorMessage = "{0} seçimi zorunludur")]
         public int AddressId { get; set; }
         public string FullAddress { get; set; } = null!;
         //----------------------------Address Information--------------------
@@ -20,6 +20,7 @@ namespace Project.MVCUI.ViewModels.WrapperClasses
         //----------------------------Card Information--------------------
         [Display(Name = "Kart Sahibinin Adı Soyadı")]
         [Required(ErrorMessage = "Bu alan boş bırakılamaz")]
+        [StringLength(200, MinimumLength = 4, ErrorMessage = "{2} ile {1} karakter arasında olmalıdır")]
         [DataType(DataType.Text)]
         public string CardUserName { get; set; } = null!;
 
