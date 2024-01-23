@@ -87,5 +87,24 @@ namespace Project.BLL.ManagerServices.Concretes
 
             return (null, null);
         }
+
+        public async Task<(string?, AppUser?)> GetUserWithProfileAndAddressesAsync(string userName)
+        {
+            if (userName == null) return ("Kullanıcı adı boş olamaz", null);
+
+            AppUser? appUser;
+
+            try
+            {
+                appUser = await _appUserRepository.GetUserWithProfileAndAddressesAsync(userName);
+            }
+            catch (Exception exception)
+            {
+                return ($"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}", null);
+            }
+
+            if (appUser == null) return ("Kullanıcı bulunamadı", null);
+            else return (null, appUser);
+        }
     }
 }

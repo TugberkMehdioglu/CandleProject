@@ -70,7 +70,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link @(ViewData["Title"] != null && ViewData["Title"]!.ToString() == "Shopping" ? "active" : "inactive")" asp-controller="Shopping" asp-action="ShoppingList">Mağaza</a>
+                            <a class="nav-link @(ViewData["Title"] != null && ViewData["Title"]!.ToString() == "Shopping" ? "active" : "inactive")" asp-area="" asp-route-categoryId="" asp-route-search="" asp-route-selectSort="" asp-route-pageNumber="" asp-controller="Shopping" asp-action="ShoppingList">Mağaza</a>
                         </li>
 
                         <li class="nav-item">

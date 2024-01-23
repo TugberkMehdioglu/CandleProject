@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Project.MVCUI.Areas.Member.MemberViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project.MVCUI.ViewModels
@@ -26,7 +27,9 @@ namespace Project.MVCUI.ViewModels
         [ValidateNever]
         public IFormFile? Image { get; set; }
 
-        //Navigation Properties
 
+        //Navigation Properties
+        [ValidateNever]
+        public ICollection<AddressViewModel>? Addresses { get; set; }
     }
 }

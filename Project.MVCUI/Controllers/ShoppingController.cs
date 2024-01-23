@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
 using Project.COMMON.Extensions;
 using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
+using Project.MVCUI.Areas.Member.MemberViewModels;
 using Project.MVCUI.ShoppingTools;
 using Project.MVCUI.ViewModels.WrapperClasses;
 
@@ -15,11 +18,17 @@ namespace Project.MVCUI.Controllers
     {
         private readonly IProductManager _productManager;
         private readonly ICategoryManager _categoryManager;
+        private readonly IAppUserManager _appUserManager;
+        private readonly IAddressManager _addressManager;
+        private readonly IMapper _mapper;
 
-        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager)
+        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager, IAppUserManager appUserManager, IAddressManager addressManager, IMapper mapper)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
+            _appUserManager = appUserManager;
+            _addressManager = addressManager;
+            _mapper = mapper;
         }
 
         [Route("/Shop")]
@@ -156,6 +165,29 @@ namespace Project.MVCUI.Controllers
             }
 
             return View(basket);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ConfirmOrder()
+        {
+            string userName = User.Identity!.Name!;
+
+            var (error, appUser) = await _appUserManager.GetUserWithProfileAndAddressesAsync(userName);
+            if(error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(CartPage));
+            }
+
+            if(!await _addressManager.AnyAsync(x => x.AppUserProfileID == appUser!.AppUserProfile!.Id))
+            {
+                TempData["fail"] = "Sipariş verebilmeniz için en az bir tane adres girmiş olmalısınız";
+                return RedirectToAction(nameof(CartPage));
+            }
+
+            OrderWrapper wrapper = new() { AppUser = _mapper.Map<ViewModels.AppUserViewModel>(appUser) };
+
+            return View(wrapper);
         }
 
         [HttpGet("{id}/{from}/{quantity}")]

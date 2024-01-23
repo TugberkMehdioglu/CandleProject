@@ -18,5 +18,7 @@ namespace Project.DAL.Repositories.Abstracts
         new Task<IEnumerable<IdentityError>?> UpdateAsync(AppUser entity);
 
         public Task<IEnumerable<IdentityError>?> ChangePasswordAsync(AppUser appUser, string currentPassword, string newPassword);
+
+        public Task<AppUser?> GetUserWithProfileAndAddressesAsync(string userName);
     }
 }

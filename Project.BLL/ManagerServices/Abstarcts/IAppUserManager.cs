@@ -14,5 +14,6 @@ namespace Project.BLL.ManagerServices.Abstarcts
         public Task<(AppUser?, string?)> GetUserWithProfile(string userName);
         public Task<(string?, IEnumerable<IdentityError>?)> UpdateUserByIdentityAsync(AppUser entity);
         public Task<(IEnumerable<IdentityError>?, string?)> ChangePasswordAsync(AppUser appUser, string currentPassword, string newPassword);
+        public Task<(string?, AppUser?)> GetUserWithProfileAndAddressesAsync(string userName);
     }
 }

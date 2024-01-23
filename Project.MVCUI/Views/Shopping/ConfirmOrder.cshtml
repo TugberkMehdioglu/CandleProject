@@ -1,0 +1,167 @@
+﻿@using Project.COMMON.Extensions
+@using Project.MVCUI.Areas.Member.MemberViewModels
+
+@model OrderWrapper
+
+@{
+    ViewData["Title"] = "ConfirmOrder";
+    Cart basket = Context.Session.GetSession<Cart>("cart")!;
+    List<AddressViewModel> addresses = Model.AppUser.AppUserProfile!.Addresses!.ToList();
+}
+
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+
+<div class="row container-fluid">
+    <div class="col-lg-8">
+        <form method="post">
+            <div class="card mb-3 shadow" style="border-radius:15px; border:5px solid rgb(128, 208, 199);">
+                <div class="card-header border-0 bg-light">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col-sm-auto">
+                            <h5 class="mb-2 mb-sm-0" style="color:rgb(128, 208, 199);">Teslimat Adresi</h5>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a class="btn  btn-white fw-semibold" asp-area="Member" asp-controller="Address" asp-action="AddAddress" style="color:rgb(128, 208, 199);">
+                                <span class="bi bi-plus"></span>
+                                Yeni Adres Ekle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        @for (int i = 0; i < addresses.Count; i++)
+                        {
+                            <div class="col-md-6 mb-3 mb-md-0 mt-3">
+                                <div class="form-check mb-0">
+                                    @if(i == 0)
+                                    {
+                                        <input checked class="form-check-input" asp-for="AddressId" type="radio" id="@addresses[i].Id" value="@addresses[i].Id">
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" asp-for="AddressId" type="radio" id="@addresses[i].Id" value="@addresses[i].Id">
+                                    }
+                                    <label class="form-check-label" for="@addresses[i].Id">
+                                        <span style="color:rgb(128, 208, 199);" class="fw-bold">@addresses[i].Name</span>
+                                        <div style="padding:5px; border-radius:10px; border:2px solid rgb(128, 208, 199);">
+                                            @addresses[i].Neighborhood Mahallesi @addresses[i].Street Sokak No:@addresses[i].AptNo @if (addresses[i].Flat.HasValue)
+                                            {
+                                                <span>Daire:@addresses[i].Flat!.Value</span>
+                                            }
+                                            <br>@addresses[i].District / @addresses[i].City / @addresses[i].Country <span class="d-block mb-0 pt-2">@Model.AppUser!.PhoneNumber</span>
+                                        </div> 
+                                    </label> <br>
+                                    <a asp-area="Member" asp-controller="Address" asp-action="UpdateAddress" asp-route-id="@addresses[i].Id" style="color:rgb(128, 208, 199);">Düzenle</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow" style="border-radius:15px; border:5px solid rgb(128, 208, 199);">
+                <div class="card-header border-0 bg-light text-center">
+                    <h5 class="mb-0 mt-2" style="color:rgb(128, 208, 199);">Ödeme Yöntemi</h5>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" asp-for="AppUser.AppUserProfile!.FirstName"/>
+                    <input type="hidden" asp-for="AppUser.AppUserProfile!.LastName" />
+                    <input type="hidden" asp-for="AppUser.AppUserProfile!.FullName" />
+                    <input type="hidden" asp-for="AppUser.Id" />
+                    <input type="hidden" asp-for="AppUser.Email" />
+                    <input type="hidden" asp-for="AppUser.PhoneNumber" />
+
+                    <div class="ps-2">
+                        <h5 style="color:rgb(128, 208, 199);">Kredi Kartı Bilgileri</h5>
+                    </div>
+                    <div class="row gx-0 ps-2 mb-4">
+                        <div class="col-sm-8">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" asp-for="CardUserName" placeholder="Ad Soyad" style="border-radius:20px;">
+                                <label asp-for="CardUserName"></label>
+                                <span asp-validation-for="CardUserName" class="text-center" style="font-weight: bold;"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" asp-for="CardNumber" placeholder="****************" style="border-radius:20px;">
+                                <label asp-for="CardNumber"></label>
+                                <span asp-validation-for="CardNumber" class="text-center" style="font-weight: bold;"></span>
+                            </div>                          
+                            <div class="row align-middle align-items-center">
+                                <div class="form-floating mb-3 col-6">
+                                    <input class="form-control" asp-for="CardExpiryMounth" placeholder="12" style="border-radius:20px;">
+                                    <label asp-for="CardExpiryMounth"></label>
+                                    <span asp-validation-for="CardExpiryMounth" class="text-center" style="font-weight: bold;"></span>
+                                </div>
+                                <div class="form-floating mb-3 col-6">
+                                    <input class="form-control" asp-for="CardExpiryYear" placeholder="2024" style="border-radius:20px;">
+                                    <label asp-for="CardExpiryYear"></label>
+                                    <span asp-validation-for="CardExpiryYear" class="text-center" style="font-weight: bold;"></span>
+                                </div>                                
+                            </div>  
+                            <div class="form-floating mb-3">
+                                <input class="form-control" asp-for="SecurityNumber" placeholder="250" style="border-radius:20px;">
+                                <label asp-for="SecurityNumber"></label>
+                                <span asp-validation-for="SecurityNumber" class="text-center" style="font-weight: bold;"></span>
+                            </div>
+                        </div>
+                        <div class="col-4 ps-3 text-center pt-2 d-none d-sm-block">
+                            <div class="rounded-3 p-2 mt-3">
+                                <div class="text-uppercase fs-2 fw-bold">
+                                    <p>Anlaşmalı Şirketlerimiz</p>
+                                    <img src="~/outerTools/icon-payment-methods-grid.png" alt="Resim Görüntülenemiyor" width="120"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-5"/>
+
+                    <div class="text-center">
+                        <p class="fs-4 fw-bold">Toplam Tutar: <span class="text-primary">@basket.TotalPrice.ToString("C2")</span></p>
+                        <button type="submit" class="btn btn-lg btn-success mt-3 px-5" style="border-radius:20px;">Onayla &amp; Öde</button>
+                        <p class="fs-5 mt-3 mb-0">
+                            <strong>Onayla &amp; Öde</strong> butonuna bastığınızda <a class="fw-bold" asp-controller ="Home" asp-action="Terms">Yükümlülük &amp; Koşullar</a>'ı kabul etmiş sayılırsınız.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow" style="border-radius:15px; border:5px solid rgb(128, 208, 199);">
+            <div class="card-header border-0 bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0" style="color:rgb(128, 208, 199);">Sipariş Özeti</h5><a class="btn btn-link btn-sm" asp-controller="Shopping" asp-action="CartPage"><span class="bi bi-pencil"></span></a>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @foreach (CartItem item in basket.Basket)
+                    {
+                        <tr class="align-items-center p-3">
+                            <th class="ps-0">
+                                @item.Name &emsp; X @item.Amount Adet
+                            </th>
+                            <th class="pe-0 text-end">@item.SubTotal.ToString("C2")</th>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-light align-items-center" style="color:rgb(128, 208, 199);">
+                <div class="fw-semibold">Toplam Tutar</div>
+                <div class="fw-bold">@basket.TotalPrice.ToString("C2")</div>
+            </div>
+        </div>
+    </div>
+</div>
