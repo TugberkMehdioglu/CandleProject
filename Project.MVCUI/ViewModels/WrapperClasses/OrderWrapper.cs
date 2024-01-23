@@ -43,8 +43,8 @@ namespace Project.MVCUI.ViewModels.WrapperClasses
 
         [Display(Name = "S.K. Yıl")]
         [Required(ErrorMessage = "Bu alan boş bırakılamaz")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "4 karakter olmalıdır")]
-        [RegularExpression(@"^\d{4}$", ErrorMessage = "Bu alan sadece rakamlardan oluşmalıdır")]
+        [StringLength(2, MinimumLength = 2, ErrorMessage = "{1} karakter olmalıdır")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "Bu alan sadece rakamlardan oluşmalıdır")]
         public string CardExpiryYear { get; set; } = null!;
         public decimal ShoppingPrice { get; set; }
         //----------------------------Card Information--------------------

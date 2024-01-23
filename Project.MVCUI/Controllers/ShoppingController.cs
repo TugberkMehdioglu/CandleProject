@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
 using Project.COMMON.Extensions;
+using Project.COMMON.Tools;
 using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
 using Project.MVCUI.Areas.Member.MemberViewModels;
+using Project.MVCUI.Extensions;
 using Project.MVCUI.ShoppingTools;
 using Project.MVCUI.ViewModels.WrapperClasses;
 
@@ -21,14 +23,18 @@ namespace Project.MVCUI.Controllers
         private readonly IAppUserManager _appUserManager;
         private readonly IAddressManager _addressManager;
         private readonly IMapper _mapper;
+        private readonly IOrderManager _orderManager;
+        private readonly IOrderDetailManager _orderDetailManager;
 
-        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager, IAppUserManager appUserManager, IAddressManager addressManager, IMapper mapper)
+        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager, IAppUserManager appUserManager, IAddressManager addressManager, IMapper mapper, IOrderManager orderManager, IOrderDetailManager orderDetailManager)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
             _appUserManager = appUserManager;
             _addressManager = addressManager;
             _mapper = mapper;
+            _orderManager = orderManager;
+            _orderDetailManager = orderDetailManager;
         }
 
         [Route("/Shop")]
@@ -72,7 +78,7 @@ namespace Project.MVCUI.Controllers
                     CategoryName = x.Category.Name
                 }).ToListAsync();
             }
-            else if(!string.IsNullOrEmpty(search))
+            else if (!string.IsNullOrEmpty(search))
             {
                 query = _productManager.GetActives().Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
 
@@ -145,7 +151,7 @@ namespace Project.MVCUI.Controllers
                 CategoryName = x.Category.Name
             }).FirstOrDefaultAsync();
 
-            if(productViewModel == null)
+            if (productViewModel == null)
             {
                 TempData["fail"] = "Ürün bulunamadı";
                 return RedirectToAction(nameof(ShoppingList));
@@ -173,7 +179,7 @@ namespace Project.MVCUI.Controllers
             string userName = User.Identity!.Name!;
 
             var (error, appUser) = await _appUserManager.GetUserWithProfileAndAddressesAsync(userName);
-            if(error != null)
+            if (error != null)
             {
                 TempData["fail"] = error;
                 return RedirectToAction(nameof(CartPage));
@@ -195,7 +201,123 @@ namespace Project.MVCUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmOrder(OrderWrapper request)
         {
-            return View();
+            ModelState.Remove("FullAddress");
+            ModelState.Remove("AppUser.Password");
+            ModelState.Remove("AppUser.UserName");
+            ModelState.Remove("AppUser.PhoneNumber");
+            ModelState.Remove("AppUser.PasswordConfirm");
+            if (!ModelState.IsValid) return View(request);
+
+            Cart? cart = HttpContext.Session.GetSession<Cart>("cart");
+            if (cart == null)
+            {
+                TempData["fail"] = "Sepetinizde ürün bulunamadı";
+                return RedirectToAction(nameof(ShoppingList));
+            }
+
+            Order order = new()
+            {
+                TotalPrice = cart.TotalPrice,
+                AppUserProfileID = request.AppUser.Id,
+                AddressID = request.AddressId
+            };
+
+            string? error = await _orderManager.AddAsync(order);
+            if (error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(ShoppingList));
+            }
+
+            List<string> orderedProductsForMailBody = new List<string>();
+
+            foreach (CartItem item in cart.Basket)
+            {
+                OrderDetail orderDetail = new()
+                {
+                    OrderID = order.Id,
+                    ProductID = item.Id,
+                    Quentity = item.Amount,
+                    SubTotal = item.SubTotal
+                };
+
+                orderedProductsForMailBody.Add(
+                    @$"
+                    <li style='margin-bottom: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
+                    <strong>Ürün:</strong> {item.Name}
+                    <br>
+                    <strong>Fiyat:</strong> {item.Price.ToString("C2")}
+                    <br>
+                    <strong>Adet:</strong> {item.Amount}
+                    </li>
+                    ");
+
+                string? odError = await _orderDetailManager.AddWithOutSaveAsync(orderDetail);
+                if (odError != null)
+                {
+                    TempData["fail"] = odError;
+                    return RedirectToAction(nameof(ShoppingList));
+                }
+
+                Product? product = await _productManager.FindAsync(item.Id);
+                if (product == null)
+                {
+                    TempData["fail"] = "Ürün bulunamadı";
+                    return RedirectToAction(nameof(ShoppingList));
+                }
+
+                product!.Stock -= item.Amount;
+
+                if (product.Stock < 1)
+                {
+                    TempData["fail"] = "Stok aşımı yaşandığı için sipariş alınmadı";
+                    return RedirectToAction(nameof(ShoppingList));
+                }
+
+                string? pError = await _productManager.UpdateWithOutSaveAsync(product);
+                if (pError != null)
+                {
+                    TempData["fail"] = pError;
+                    return RedirectToAction(nameof(ShoppingList));
+                }
+            }
+
+            await _orderDetailManager.SaveChangesAsync();
+
+            //string.Concat'de olur.
+            string organizedProductsForMailBody = string.Join(null, orderedProductsForMailBody);
+
+            string? fullAddress = (await _addressManager.Where(x => x.Id == request.AddressId && x.Status != DataStatus.Deleted).Select(x => x.FullAddress).FirstOrDefaultAsync())!;
+
+            string mailBody =
+                @$"
+                <div style='display: flex; justify-content: center; align-items: center;'>
+             <div style='max-width: 800px; margin-top: 1%; padding: 20px; background-color: white; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 10px;'>
+                <div style='background-color: #2c7be5; color: white; text-align: center; padding: 15px; border-radius: 10px 10px 10px 10px; font-family: sans-serif;'>
+                    <h1>Candle Project</h1>
+                </div>
+                <div style='margin-top: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
+                  <div style='margin-bottom: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
+                    <h2 style='text-align: center;'>Fatura Bilgileri</h2>
+                    <p><strong>Müşteri Adı:</strong> {request.AppUser.AppUserProfile!.FullName}</p>
+                    <p><strong>Adres:</strong> {fullAddress}</p>
+                    <p><strong>Telefon:</strong> {request.AppUser.PhoneNumber}</p>
+                  </div>
+
+                    <h2 style='text-align: center;'>Sipariş Detayları</h2>
+                    <ul style='list-style-type: none; padding: 0; margin: 0;'>
+                        {organizedProductsForMailBody}
+                    </ul>
+                    <p style='margin-top: 20px; text-align: right; font-size: 20px;'><strong>Toplam Tutar:</strong> {order.TotalPrice.ToString("C2")}</p>
+                </div>
+             </div>
+        </div>";
+
+            HttpContext.Session.Remove("cart");
+            await MailService.SendMailAsync(request.AppUser.Email, mailBody, "Fatura Bilgisi | Candle Project");
+
+            TempData["success"] = "Siparişiniz için teşekkürler, faturanız mail adresinize gönderildi";
+            return RedirectToAction(nameof(ShoppingList));
         }
 
         [HttpGet("{id}/{from}/{quantity}")]
@@ -266,7 +388,7 @@ namespace Project.MVCUI.Controllers
 
             basket.RemoveItemWithAllAmountFromBasket(id);
 
-            if(!basket.Basket.Any())
+            if (!basket.Basket.Any())
             {
                 HttpContext.Session.Remove("cart");
                 TempData["fail"] = "Sepetinizde ürün bulunmamaktadır";
