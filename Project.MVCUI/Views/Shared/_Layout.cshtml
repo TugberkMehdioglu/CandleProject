@@ -86,6 +86,7 @@
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Admin Panel</a></li>
                                     <li><a class="dropdown-item" href="/Home">Ana Sayfa</a></li>
                                     <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="OrderList">Siparişler</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Kullanıcılar</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="CategoryList">Kategoriler</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="ProductList">Ürünler</a></li>
@@ -101,6 +102,7 @@
                                     @if (isAdmin)
                                     {
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Admin Panel</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="OrderList">Siparişler</a></li>
                                     }
                                     <li><a class="dropdown-item" asp-area="Member" asp-controller="Profile" asp-action="Details">Profilim</a></li>
                                     <li><a class="dropdown-item" asp-area="Member" asp-controller="Address" asp-action="Addresses">Adreslerim</a></li>
@@ -120,6 +122,7 @@
                                     @if (isAdmin)
                                     {
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserList">Admin Panel</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="OrderList">Siparişler</a></li>
                                     }
                                     <li><a class="dropdown-item" asp-area="Member" asp-controller="Profile" asp-action="Details">Profilim</a></li>
                                     <li><a class="dropdown-item" asp-area="Member" asp-controller="Address" asp-action="Addresses">Adreslerim</a></li>

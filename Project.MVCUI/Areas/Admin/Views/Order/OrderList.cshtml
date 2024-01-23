@@ -1,0 +1,102 @@
+﻿@model List<OrderViewModel>
+
+@{
+    ViewData["Title"] = "OrderList";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0.1);"></div>
+
+<div class="col-lg-8 offset-lg-2 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <h1 class="text-center text-white mb-5">Siparişler</h1>
+
+    <div class="table-responsive">
+        <table class="container table table-hover" id="myTable">
+            <thead>
+                <tr class="align-middle">
+                    <th class="text-center">Sipariş Id</th>
+                    <th class="text-center">Müşteri Ad Soyad</th>
+                    <th class="text-center">Toplam tutar</th>
+                    <th class="text-center">Sipariş Tarihi</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrderViewModel item in Model)
+                {
+                    <tr class="align-middle text-center">
+                        <td>@item.Id</td>
+                        <td>@($"{item.AppUserProfile.FirstName} {item.AppUserProfile.LastName}")</td>
+                        <td>@item.TotalPrice.ToString("C2")</td>
+                        <td>@item.CreatedDate.Value.ToShortDateString() / @item.CreatedDate.Value.ToShortTimeString()</td>
+                        <td class="text-end">
+                            <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" class="btn btn-primary rounded-5">Detaylar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+@*------------MODAL------------*@
+<div class="modal fade" id="modal5" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Kategori silinsin mi?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Kapat</button>
+                <button type="submit" class="btn btn-danger" id="deleteCategoryButton" data-bs-dismiss="modal">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*------------MODAL------------*@
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#myTable").on("click", "#deleteCategoryId", function () {
+
+                let name = $(this).data("name");
+                let modalBodyText = name + " kategorisini silmek istediğinize emin misiniz?";
+                $(".modal-body").text(modalBodyText);
+
+                let id = $(this).data("id");
+
+                $("#deleteCategoryButton").off("click");
+                //Önerimdeki $("#deleteCategoryButton").off("click.deleteCategory") kullanımı, sadece belirli bir olayın (.deleteCategory) kaldırılmasını sağlamak için daha spesifik bir şekilde olayları yönetmek içindi. Ancak, $("#deleteCategoryButton").off("click") kullanarak tüm click olaylarını kaldırmanız da aynı sonucu verecektir.
+
+                $("#deleteCategoryButton").click(function () {
+
+                    window.location.href = "/Admin/Category/DeleteCategory/" + id;
+                });
+            });
+        });
+
+    </script>
+}

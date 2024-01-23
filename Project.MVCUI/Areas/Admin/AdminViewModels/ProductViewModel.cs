@@ -46,5 +46,11 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
 
         public string? FormerName { get; set; }
         public string? FormerImagePath { get; set; }
+
+
+        //Navigation Properties
+
+        [ValidateNever]
+        public ICollection<OrderDetailViewModel>? OrderDetails { get; set; }
     }
 }
