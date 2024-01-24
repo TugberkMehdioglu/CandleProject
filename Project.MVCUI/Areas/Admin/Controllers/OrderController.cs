@@ -86,6 +86,20 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             return View(orderViewModels);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> OrderDetail(int id)
+        {
+            var (error, order) = await _orderManager.GetOrderWithAddressProfileDetailProduct(id);
+            if (error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(OrderList));
+            }
+
+            OrderViewModel orderViewModel = _mapper.Map<OrderViewModel>(order);
+
+            return View(orderViewModel);
+        }
 
         public IQueryable<Order> OrderSort(IQueryable<Order> query, string? orderSort)
         {

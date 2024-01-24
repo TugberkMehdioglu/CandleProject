@@ -19,13 +19,13 @@ namespace Project.BLL.ManagerServices.Concretes
 
         public IQueryable<Order> GetOrdersWithProfiles() => _orderRepository.GetOrdersWithProfiles();
 
-        public async Task<(string?, Order?)> GetOrderWithDetailsAddressProfileProduct(int orderId)
+        public async Task<(string?, Order?)> GetOrderWithAddressProfileDetailProduct(int orderId)
         {
             Order? order;
 
             try
             {
-                order = await _orderRepository.GetOrderWithDetailsAddressProfileProduct(orderId);
+                order = await _orderRepository.GetOrderWithAddressProfileDetailProduct(orderId);
             }
             catch (Exception exception)
             {

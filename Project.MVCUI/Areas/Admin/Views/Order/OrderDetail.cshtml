@@ -1,0 +1,67 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "OrderDetail";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+@*<div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+                    <a href="~/productPics/@Model.ImagePath" class="glightbox">
+                        <img src="~/productPics/@Model.ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <h5>@Model.Name</h5>
+                    <a class="fs-5 mb-5" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId=@Model.CategoryID>@Model.CategoryName</a>
+
+                    <h4 class="d-flex align-items-center" style="color:rgb(128, 208, 199);">@Model.Price.ToString("C2")</h4>
+                    <p class="fs-6">
+                        Stok:
+                        @if (productStock >= 10)
+                        {
+                            <strong class="text-success">Var</strong>
+                        }
+                        else if (productStock >= 1)
+                        {
+                            <strong class="text-warning">Acele et tükeniyor!</strong>
+                        }
+                        else
+                        {
+                            <strong class="text-danger">Tükendi</strong>
+                        }
+                    </p>
+
+
+                    <div class="d-flex align-items-center">
+                        <div class="input-group d-inline-block" style="width:unset;">
+                            <button class="button-minus border rounded-circle  icon-shape icon-sm mx-1 text-white" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus">-</button>
+                            <input class="quantity-field border-0 text-center w-25" type="number" min="1" value="1" style="width:70px;" disabled id="quantity" />
+                            <button class="button-plus border rounded-circle icon-shape icon-sm text-white me-0" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="plus">+</button>
+                        </div>
+                        <div class="d-inline-block"><a disabled id="addToCartBtn" class="btn custom-btn" data-id="@Model.Id"><span class="bi bi-cart2 me-2"></span><span class="d-none d-sm-inline-block">Sepete Ekle</span></a></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@

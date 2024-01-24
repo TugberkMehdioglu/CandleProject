@@ -10,6 +10,6 @@ namespace Project.DAL.Repositories.Abstracts
     public interface IOrderRepository : IRepository<Order>
     {
         public IQueryable<Order> GetOrdersWithProfiles();
-        public Task<Order?> GetOrderWithDetailsAddressProfileProduct(int orderId);
+        public Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId);
     }
 }

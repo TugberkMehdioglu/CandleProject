@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Member.MemberViewModels;
 
 namespace Project.MVCUI.Areas.Admin.AdminViewModels
@@ -18,5 +19,8 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
 
         [ValidateNever]
         public AppUserProfileViewModel? AppUserProfile { get; set; }
+
+        [ValidateNever]
+        public AddressViewModel? Address { get; set; }
     }
 }

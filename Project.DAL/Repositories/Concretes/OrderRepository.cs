@@ -31,7 +31,7 @@ namespace Project.DAL.Repositories.Concretes
             }
         });
 
-        public async Task<Order?> GetOrderWithDetailsAddressProfileProduct(int orderId) => await _context.Orders.Where(x => x.Status != DataStatus.Deleted && x.Id == orderId).Include(x => x.OrderDetails).Include(x => x.AppUserProfile).Select(x => new Order()
+        public async Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId) => await _context.Orders.Where(x => x.Id == orderId).Include(x => x.Address).Include(x => x.AppUserProfile).Include(x => x.OrderDetails).ThenInclude(x => x.Product).Select(x => new Order()
         {
             Id = x.Id,
             TotalPrice = x.TotalPrice,
@@ -55,7 +55,7 @@ namespace Project.DAL.Repositories.Concretes
                 FirstName = x.AppUserProfile.FirstName,
                 LastName = x.AppUserProfile.LastName
             },
-            OrderDetails = x.OrderDetails.Where(x => x.Status != DataStatus.Deleted).Select(x => new OrderDetail()
+            OrderDetails = x.OrderDetails.Select(x => new OrderDetail()
             {
                 OrderID = x.OrderID,
                 ProductID = x.ProductID,
