@@ -18,7 +18,7 @@ namespace Project.DAL.Repositories.Concretes
 
         }
 
-        public async Task<List<Order>> GetOrdersWithProfiles() => await _context.Orders.Where(x => x.Status != DataStatus.Deleted).Include(x => x.AppUserProfile).Select(x => new Order()
+        public IQueryable<Order> GetOrdersWithProfiles() => _context.Orders.Where(x => x.Status != DataStatus.Deleted).Include(x => x.AppUserProfile).Select(x => new Order()
         {
             Id = x.Id,
             TotalPrice = x.TotalPrice,
@@ -29,7 +29,7 @@ namespace Project.DAL.Repositories.Concretes
                 FirstName = x.AppUserProfile.FirstName,
                 LastName = x.AppUserProfile.LastName,
             }
-        }).ToListAsync();
+        });
 
         public async Task<Order?> GetOrderWithDetailsAddressProfileProduct(int orderId) => await _context.Orders.Where(x => x.Status != DataStatus.Deleted && x.Id == orderId).Include(x => x.OrderDetails).Include(x => x.AppUserProfile).Select(x => new Order()
         {

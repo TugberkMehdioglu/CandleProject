@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "OrderList";
+    string? customerName = ViewBag.customerName;
+    string? customerSurname = ViewBag.customerSurname;
+    string? orderDate = ViewBag.orderDate;
+    string? orderSort = ViewBag.orderSort;
+    string? orderDateSort = ViewBag.orderDateSort;
+    int? totalPagesCount = ViewBag.totalPagesCount;
+    int? pageNumber = ViewBag.pageNumber;
+    int totalOrdersCount = ViewBag.totalOrdersCount;
 }
 
 @if (TempData["success"] != null)
@@ -21,9 +29,127 @@ else if (TempData["fail"] != null)
 
 <div class="col-lg-8 offset-lg-2 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
-    <h1 class="text-center text-white mb-5">Siparişler</h1>
+    <h1 class="text-center text-white mb-3">Siparişler</h1>
 
-    <div class="table-responsive">
+    <p class="text-center text-white">@totalOrdersCount adet sipariş bulundu</p>
+
+    <div class="row d-flex align-middle align-items-center">
+        <form method="get" class="col-12 col-md-6 mb-4 mb-md-3" asp-area="Admin" asp-controller="Order" asp-action="OrderList" asp-route-customerName="" asp-route-customerSurname="" asp-route-orderDate="" asp-route-orderSort="" asp-route-orderDateSort="">
+            <div class="input-group">
+                <input type="text" class="form-control rounded-5 col-6 col-md-1" placeholder="Müşteri Adı" name="customerName" value="@(customerName!=null?customerName:null)">
+                <input type="text" class="form-control rounded-5 col-6 col-md-1" placeholder="Soyadı" name="customerSurname" value="@(customerSurname!=null?customerSurname:null)">
+                <input type="hidden" name="orderDate" value="@(orderDate ?? "")" />
+                <input type="hidden" name="orderSort" value="@(orderSort ?? "")" />
+                <input type="hidden" name="orderDateSort" value="@(orderDateSort ?? "")" />
+                <button type="submit" class="btn btn-outline-primary rounded-5 col-12 col-md-4 mt-1 mt-md-0">Siparişlerde ara</button>
+            </div>
+        </form>
+        <div class="col-12 col-md-6 mb-md-3">
+            <select class="form-select rounded-5 p-2" aria-label="Default select example" id="orderSort">
+                @if (orderSort == null)
+                {
+                    <option selected>Sıralama kriteri</option>
+                }
+                else
+                {
+                    <option>Sıralama kriteri</option>
+                }
+                @if (orderSort == "ESGS")
+                {
+                    <option value="ESGS" selected>En son gelen siparişler</option>
+                }
+                else
+                {
+                    <option value="ESGS">En son gelen siparişler</option>
+                }
+                @if (orderSort == "IGS")
+                {
+                    <option value="IGS" selected>İlk gelen siparişler</option>
+                }
+                else
+                {
+                    <option value="IGS">İlk gelen siparişler</option>
+                }
+                @if (orderSort == "EYTS")
+                {
+                    <option value="EYTS" selected>En yüksek tutarlı siparişler</option>
+                }
+                else
+                {
+                    <option value="EYTS">En yüksek tutarlı siparişler</option>
+                }
+                @if (orderSort == "EDTS")
+                {
+                    <option value="EDTS" selected>En düşük tutarlı siparişler</option>
+                }
+                else
+                {
+                    <option value="EDTS">En düşük tutarlı siparişler</option>
+                }
+                @if (orderSort == "MAAZ")
+                {
+                    <option value="MAAZ" selected>Müşteri adına göre A > Z</option>
+                }
+                else
+                {
+                    <option value="MAAZ">Müşteri adına göre A > Z</option>
+                }
+                @if (orderSort == "MAZA")
+                {
+                    <option value="MAZA" selected>Müşteri adına göre Z &lt; A</option>
+                }
+                else
+                {
+                    <option value="MAZA">Müşteri adına göre Z &gt; A</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-floating col-12 col-md-6 my-3 my-md-0">
+            <input type="date" class="form-control" id="orderDate" name="orderDate" placeholder="name@example.com" value="@(orderDate)">
+            <label for="orderDate">Sipariş tarihine göre ara</label>
+        </div>
+        <div class="col-12 col-md-6">
+            <select class="form-select rounded-5 p-2" aria-label="Default select example" id="orderDateSort">
+                @if (orderDateSort == null)
+                {
+                    <option selected>Tarihe göre sıralama</option>
+                }
+                else
+                {
+                    <option>Tarihe göre sıralama</option>
+                }
+                @if (orderDateSort == "BGS")
+                {
+                    <option value="BGS" selected>Bugün gelen siparişler</option>
+                }
+                else
+                {
+                    <option value="BGS">Bugün gelen siparişler</option>
+                }
+                @if (orderDateSort == "DGS")
+                {
+                    <option value="DGS" selected>Dün gelen siparişler</option>
+                }
+                else
+                {
+                    <option value="DGS">Dün gelen siparişler</option>
+                }
+                @if (orderDateSort == "OGGS")
+                {
+                    <option value="OGGS" selected>Önceki gün gelen siparişler</option>
+                }
+                else
+                {
+                    <option value="OGGS">Önceki gün gelen siparişler</option>
+                }
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="table-responsive mt-4">
         <table class="container table table-hover" id="myTable">
             <thead>
                 <tr class="align-middle">
@@ -42,14 +168,35 @@ else if (TempData["fail"] != null)
                         <td>@($"{item.AppUserProfile.FirstName} {item.AppUserProfile.LastName}")</td>
                         <td>@item.TotalPrice.ToString("C2")</td>
                         <td>@item.CreatedDate.Value.ToShortDateString() / @item.CreatedDate.Value.ToShortTimeString()</td>
-                        <td class="text-end">
-                            <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" class="btn btn-primary rounded-5">Detaylar</a>
+                        <td class="">
+                            <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@item.Id" class="btn btn-primary rounded-5">Detaylar</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(pageNumber < 2 ? "disabled" : "")">
+                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Order" asp-action="OrderList" asp-route-customerName="@(customerName??" ")" asp-route-customerSurname="@(customerSurname??" ")" asp-route-orderDate="@(orderDate??" ")" asp-route-orderSort="@(orderSort??" ")" asp-route-orderDateSort="@(orderDateSort??" ")" asp-route-pageNumber="@(pageNumber - 1)">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int page = 1; page <= totalPagesCount; page++)
+            {
+                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Order" asp-action="OrderList" asp-route-customerName="@(customerName??" ")" asp-route-customerSurname="@(customerSurname??" ")" asp-route-orderDate="@(orderDate??" ")" asp-route-orderSort="@(orderSort??" ")" asp-route-orderDateSort="@(orderDateSort??" ")" asp-route-pageNumber="@(page)">@(page)</a></li>
+            }
+
+            <li class="page-item @(pageNumber == totalPagesCount ? "disabled" : "")">
+                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Order" asp-action="OrderList" asp-route-customerName="@(customerName??" ")" asp-route-customerSurname="@(customerSurname??" ")" asp-route-orderDate="@(orderDate??" ")" asp-route-orderSort="@(orderSort??" ")" asp-route-orderDateSort="@(orderDateSort??" ")" asp-route-pageNumber="@(pageNumber + 1)">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
 </div>
 
@@ -95,6 +242,52 @@ else if (TempData["fail"] != null)
 
                     window.location.href = "/Admin/Category/DeleteCategory/" + id;
                 });
+            });
+
+
+            $("#orderSort").change(function () {
+                let orderSort = $(this).val();
+                let customerName = '@(customerName ?? " ")';
+                let customerSurname = '@(customerSurname ?? " ")';
+                let orderDateSort = '@(orderDateSort ?? " ")';
+                let orderDate = '@(orderDate ?? " ")';
+
+                let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "/" + orderDateSort + "/" + "";
+
+                window.location.href = url;
+            });
+
+
+            $("#orderDateSort").change(function () {
+                let orderDateSort = $(this).val();
+                let customerName = '@(customerName ?? " ")';
+                let customerSurname = '@(customerSurname ?? " ")';
+                let orderSort = '@(orderSort ?? " ")';
+
+                let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "/" + orderDateSort + "/";
+
+                window.location.href = url;
+            });
+
+            $('#orderDate').change(function () {
+
+                let orderDate = $(this).val();
+                let customerName = '@(customerName ?? " ")';
+                let customerSurname = '@(customerSurname ?? " ")';
+                let orderSort = '@(orderSort ?? " ")';
+
+                if(orderDate){
+
+                    let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "" + "";
+
+                    window.location.href = url;
+                }
+                else{
+
+                    let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "";
+
+                    window.location.href = url;
+                };
             });
         });
 

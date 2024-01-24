@@ -17,7 +17,7 @@ namespace Project.BLL.ManagerServices.Concretes
             _orderRepository = orderRepository;
         }
 
-        public async Task<List<Order>> GetOrdersWithProfiles() => await _orderRepository.GetOrdersWithProfiles();
+        public IQueryable<Order> GetOrdersWithProfiles() => _orderRepository.GetOrdersWithProfiles();
 
         public async Task<(string?, Order?)> GetOrderWithDetailsAddressProfileProduct(int orderId)
         {
