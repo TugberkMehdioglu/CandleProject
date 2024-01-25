@@ -31,6 +31,13 @@ namespace Project.DAL.Repositories.Concretes
             }
         });
 
+        public IQueryable<Order> GetOrderByUserId(string userId) => _context.Orders.Where(x => x.Status != DataStatus.Deleted && x.AppUserProfileID == userId).OrderByDescending(x => x.CreatedDate).Select(x => new Order()
+        {
+            Id = x.Id,
+            TotalPrice = x.TotalPrice,
+            CreatedDate = x.CreatedDate
+        });
+
         public async Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId) => await _context.Orders.Where(x => x.Id == orderId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).Select(x => new Order()
         {
             Id = x.Id,

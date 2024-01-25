@@ -10,6 +10,7 @@ namespace Project.BLL.ManagerServices.Abstarcts
     public interface IOrderManager : IManager<Order>
     {
         public IQueryable<Order> GetOrdersWithProfiles();
+        public IQueryable<Order> GetOrderByUserId(string userId);
         public Task<(string?, Order?)> GetOrderWithAddressProfileDetailProduct(int orderId);
     }
 }
