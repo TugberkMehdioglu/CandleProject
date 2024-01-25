@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "OrderDetail";
+    DateTime dateTime = Model.CreatedDate!.Value.ToLocalTime();
 }
 
 @if (TempData["success"] != null)
@@ -17,51 +18,84 @@ else if (TempData["fail"] != null)
     </div>
 }
 
-@*<div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+<div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
     <div class="card">
         <div class="card-body">
-            <div class="row">
 
-                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
-                    <a href="~/productPics/@Model.ImagePath" class="glightbox">
-                        <img src="~/productPics/@Model.ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
-                    </a>
+            <div class="row card-body shadow-sm mb-3">
+                <h5 class="col-12" style="color:rgb(128, 208, 199);">
+                    Sipariş Detayı: #@Model.Id
+                </h5>
+                <div class="col-12">
+                    <span class="text-secondary">@dateTime.Day @dateTime.ToString("MMMM"),</span>
+                    <span class="text-secondary">@dateTime.Year,</span>
+                    <span class="text-secondary">@dateTime.Hour:@dateTime.Minute</span>
                 </div>
+            </div>
 
-                <div class="col-lg-6">
-                    <h5>@Model.Name</h5>
-                    <a class="fs-5 mb-5" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId=@Model.CategoryID>@Model.CategoryName</a>
-
-                    <h4 class="d-flex align-items-center" style="color:rgb(128, 208, 199);">@Model.Price.ToString("C2")</h4>
-                    <p class="fs-6">
-                        Stok:
-                        @if (productStock >= 10)
-                        {
-                            <strong class="text-success">Var</strong>
-                        }
-                        else if (productStock >= 1)
-                        {
-                            <strong class="text-warning">Acele et tükeniyor!</strong>
-                        }
-                        else
-                        {
-                            <strong class="text-danger">Tükendi</strong>
-                        }
-                    </p>
-
-
-                    <div class="d-flex align-items-center">
-                        <div class="input-group d-inline-block" style="width:unset;">
-                            <button class="button-minus border rounded-circle  icon-shape icon-sm mx-1 text-white" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="minus">-</button>
-                            <input class="quantity-field border-0 text-center w-25" type="number" min="1" value="1" style="width:70px;" disabled id="quantity" />
-                            <button class="button-plus border rounded-circle icon-shape icon-sm text-white me-0" style="background-color:rgb(128, 208, 199);" data-field="quantity" data-type="plus">+</button>
-                        </div>
-                        <div class="d-inline-block"><a disabled id="addToCartBtn" class="btn custom-btn" data-id="@Model.Id"><span class="bi bi-cart2 me-2"></span><span class="d-none d-sm-inline-block">Sepete Ekle</span></a></div>
-                    </div>
+            <div class="row card-body shadow-sm mb-3">
+                <div class="col-12 col-md-6">
+                    <h5 class="fs-5 mb-3" style="color:rgb(128, 208, 199);">Fatura Adresi</h5>
+                    <p class="mb-2 fs-6 fw-bold">@Model.AppUserProfile!.FullName</p>
+                    <p class="text-secondary mb-1 fs-6">@Model.Address!.FullAddress</p>
+                    <p class="mb-0 fs-6"><strong>Email:</strong> <a href="mailto:@Model.AppUserProfile!.AppUser!.Email" class="text-primary" style="text-decoration:underline!important;">@Model.AppUserProfile!.AppUser!.Email</a></p>
+                    <p class="mb-0 fs-6"><strong>Telefon:</strong> <a href="tel:@Model.AppUserProfile.AppUser.PhoneNumber" class="text-primary" style="text-decoration:underline!important;">@Model.AppUserProfile.AppUser.PhoneNumber</a></p>
                 </div>
+                <div class="col-12 col-md-6">
+                    <h5 class="fs-5 mb-3" style="color:rgb(128, 208, 199);">Teslimat Adresi</h5>
+                    <p class="mb-2 fs-6 fw-bold">@Model.AppUserProfile!.FullName</p>
+                    <p class="text-secondary mb-1 fs-6">@Model.Address!.FullAddress</p>
+                </div>
+            </div>
 
+            <div class="row card-body shadow-sm mb-3">
+                <div class="col-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Ürün ismi</th>
+                                <th class="text-center">Açıklaması</th>
+                                <th class="text-center">Resmi</th>
+                                <th class="text-center">Fiyat</th>
+                            </tr>                          
+                        </thead>
+                        <tbody>
+                            @foreach (OrderDetailViewModel item in Model.OrderDetails!)
+                            {
+                                <tr class="align-middle">
+                                    <td class="text-center">@item.Product!.Name</td>
+                                    <td class="text-center">@item.Product!.Description</td>
+                                    <td class="text-center">
+                                        <div class="">
+                                            <a href="~/productPics/@item.Product!.ImagePath" class="glightbox">
+                                                <img src="~/productPics/@item.Product!.ImagePath" alt="Resim Yüklenemedi" width="40px;" height="50px;" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@item.Product!.Price.ToString("C2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <h5></h5>
+                </div>
             </div>
         </div>
     </div>
-</div>*@
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+            const lightbox = GLightbox({
+                touchNavigation: true,
+                autoplayVideos: true
+            });
+
+    </script>
+}
