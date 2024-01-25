@@ -72,8 +72,12 @@ else if (TempData["fail"] != null)
                                 @foreach (OrderDetailViewModel item in Model.OrderDetails!)
                                 {
                                     <tr class="align-middle">
-                                        <td class="text-center">@item.Product!.Name</td>
-                                        <td class="text-center">@item.Product!.Description</td>
+                                        <td class="text-center">
+                                            <a asp-area="" asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Product!.Id">@item.Product!.Name</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-area="" asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Product!.Id">@item.Product!.Description</a>                                            
+                                        </td>
                                         <td class="text-center">
                                             <div class="">
                                                 <a href="~/productPics/@item.Product!.ImagePath" class="glightbox">
