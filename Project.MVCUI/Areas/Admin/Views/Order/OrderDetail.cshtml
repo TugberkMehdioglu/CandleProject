@@ -18,6 +18,11 @@ else if (TempData["fail"] != null)
     </div>
 }
 
+@section Css{
+
+    <link href="~/lib/glightbox/dist/css/glightbox.css" rel="stylesheet">
+}
+
 <div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
     <div class="card">
@@ -42,7 +47,7 @@ else if (TempData["fail"] != null)
                     <p class="mb-0 fs-6"><strong>Email:</strong> <a href="mailto:@Model.AppUserProfile!.AppUser!.Email" class="text-primary" style="text-decoration:underline!important;">@Model.AppUserProfile!.AppUser!.Email</a></p>
                     <p class="mb-0 fs-6"><strong>Telefon:</strong> <a href="tel:@Model.AppUserProfile.AppUser.PhoneNumber" class="text-primary" style="text-decoration:underline!important;">@Model.AppUserProfile.AppUser.PhoneNumber</a></p>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 mt-5 mt-sm-0">
                     <h5 class="fs-5 mb-3" style="color:rgb(128, 208, 199);">Teslimat Adresi</h5>
                     <p class="mb-2 fs-6 fw-bold">@Model.AppUserProfile!.FullName</p>
                     <p class="text-secondary mb-1 fs-6">@Model.Address!.FullAddress</p>
@@ -51,36 +56,42 @@ else if (TempData["fail"] != null)
 
             <div class="row card-body shadow-sm mb-3">
                 <div class="col-12">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Ürün ismi</th>
-                                <th class="text-center">Açıklaması</th>
-                                <th class="text-center">Resmi</th>
-                                <th class="text-center">Fiyat</th>
-                            </tr>                          
-                        </thead>
-                        <tbody>
-                            @foreach (OrderDetailViewModel item in Model.OrderDetails!)
-                            {
-                                <tr class="align-middle">
-                                    <td class="text-center">@item.Product!.Name</td>
-                                    <td class="text-center">@item.Product!.Description</td>
-                                    <td class="text-center">
-                                        <div class="">
-                                            <a href="~/productPics/@item.Product!.ImagePath" class="glightbox">
-                                                <img src="~/productPics/@item.Product!.ImagePath" alt="Resim Yüklenemedi" width="40px;" height="50px;" class="img-fluid" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">@item.Product!.Price.ToString("C2")</td>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ürün ismi</th>
+                                    <th class="text-center">Açıklaması</th>
+                                    <th class="text-center">Resmi</th>
+                                    <th class="text-center">Adet</th>
+                                    <th class="text-center">Fiyat</th>
+                                    <th class="text-center">Ara Toplam</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (OrderDetailViewModel item in Model.OrderDetails!)
+                                {
+                                    <tr class="align-middle">
+                                        <td class="text-center">@item.Product!.Name</td>
+                                        <td class="text-center">@item.Product!.Description</td>
+                                        <td class="text-center">
+                                            <div class="">
+                                                <a href="~/productPics/@item.Product!.ImagePath" class="glightbox">
+                                                    <img src="~/productPics/@item.Product!.ImagePath" alt="Resim Yüklenemedi" width="40px;" height="50px;" class="img-fluid" />
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@item.Quentity Adet</td>
+                                        <td class="text-center">@item.Product!.Price.ToString("C2")</td>
+                                        <td class="text-center">@item.SubTotal.ToString("C2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>                   
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <h5></h5>
+                    <p class="mt-3"><strong style="color:rgb(128, 208, 199);">Toplam Fiyat:</strong> &emsp; @Model.TotalPrice.ToString("C2")</p>
                 </div>
             </div>
         </div>
@@ -90,7 +101,9 @@ else if (TempData["fail"] != null)
 
 @section Scripts{
 
-    <script>
+    <script src="~/lib/glightbox/dist/js/glightbox.js"></script>
+
+    <script type="text/javascript">
 
             const lightbox = GLightbox({
                 touchNavigation: true,
