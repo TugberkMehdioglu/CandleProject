@@ -1,7 +1,11 @@
-﻿@model List<OrderViewModel>
+﻿@using Microsoft.AspNetCore.Html;
+@using System.Web;
+@using System.Net;
+@model List<OrderViewModel>
 
 @{
     ViewData["Title"] = "OrderList";
+    
     string? customerName = ViewBag.customerName;
     string? customerSurname = ViewBag.customerSurname;
     string? orderDate = ViewBag.orderDate;
@@ -154,7 +158,7 @@ else if (TempData["fail"] != null)
             <thead>
                 <tr class="align-middle">
                     <th class="text-center">Sipariş Id</th>
-                    <th class="text-center">Müşteri Ad Soyad</th>
+                    <th class="text-center">Müşteri Bilgileri</th>
                     <th class="text-center">Toplam tutar</th>
                     <th class="text-center">Sipariş Tarihi</th>
                     <th class="text-center">İşlemler</th>
@@ -165,9 +169,13 @@ else if (TempData["fail"] != null)
                 {
                     <tr class="align-middle text-center">
                         <td>@item.Id</td>
-                        <td>@($"{item.AppUserProfile.FirstName} {item.AppUserProfile.LastName}")</td>
+                        <td>
+                            @($"{item.AppUserProfile!.FirstName} {item.AppUserProfile.LastName}") <br>
+                            @(item.AppUserProfile!.AppUser!.Email) <br>
+                            @(item.AppUserProfile.AppUser.PhoneNumber)
+                        </td>
                         <td>@item.TotalPrice.ToString("C2")</td>
-                        <td>@item.CreatedDate.Value.ToShortDateString() / @item.CreatedDate.Value.ToShortTimeString()</td>
+                        <td>@item.CreatedDate!.Value.ToShortDateString() / @item.CreatedDate.Value.ToShortTimeString()</td>
                         <td class="">
                             <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@item.Id" class="btn btn-primary rounded-5">Detaylar</a>
                         </td>
@@ -245,26 +253,51 @@ else if (TempData["fail"] != null)
             });
 
 
-            $("#orderSort").change(function () {
-                let orderSort = $(this).val();
-                let customerName = '@(customerName ?? " ")';
-                let customerSurname = '@(customerSurname ?? " ")';
-                let orderDateSort = '@(orderDateSort ?? " ")';
-                let orderDate = '@(orderDate ?? " ")';
+            //ASP.NET Core MVC, Razor sayfalarında HTML kodlarına özel karakterlerin karşılıklarını HTML encode ederek render eder. Bu, kullanıcı tarafından sağlanan verileri güvenli bir şekilde görüntülemenizi sağlar ve potansiyel XSS saldırılarına karşı koruma sağlar.
+            //Eğer HTML encode işlemi, özel karakterlerin yanlış bir şekilde görüntülenmesine neden oluyorsa, bu durumu düzeltmek için Html.Raw fonksiyonunu kullanabilirsiniz.
 
-                let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "/" + orderDateSort + "/" + "";
+            let customerName = '@Html.Raw(customerName ?? " ")';
+            let customerSurname = '@Html.Raw(customerSurname ?? " ")';
+            let orderDateSort = '@Html.Raw(orderDateSort ?? " ")';
+            let orderDate = '@Html.Raw(orderDate ?? " ")';
+            let orderSort = '@Html.Raw(orderSort ?? " ")';
+
+
+            $("#orderSort").change(function () {
+
+                let orderSort = $(this).val();
+                let url;
+
+                console.log(orderSort);
+
+                if (orderSort !== "Sıralama kriteri") {
+
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "/" + orderDateSort + "/" + "";
+                }
+                else{
+
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + " " + "/" + orderDateSort + "/" + "";
+                };
+                
 
                 window.location.href = url;
             });
 
 
             $("#orderDateSort").change(function () {
-                let orderDateSort = $(this).val();
-                let customerName = '@(customerName ?? " ")';
-                let customerSurname = '@(customerSurname ?? " ")';
-                let orderSort = '@(orderSort ?? " ")';
 
-                let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "/" + orderDateSort + "/";
+                let orderDateSort = $(this).val();
+                let url;
+
+                if (orderDateSort !== "Tarihe göre sıralama") {
+
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "/" + orderDateSort + "/";
+                }
+                else{
+
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "/" + " " + "/";
+                };
+                
 
                 window.location.href = url;
             });
@@ -272,22 +305,18 @@ else if (TempData["fail"] != null)
             $('#orderDate').change(function () {
 
                 let orderDate = $(this).val();
-                let customerName = '@(customerName ?? " ")';
-                let customerSurname = '@(customerSurname ?? " ")';
-                let orderSort = '@(orderSort ?? " ")';
+                let url;
 
                 if(orderDate){
 
-                    let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "" + "";
-
-                    window.location.href = url;
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + orderDate + "/" + orderSort + "" + "";
                 }
                 else{
 
-                    let url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "";
-
-                    window.location.href = url;
+                    url = "/Admin/Order/OrderList/" + customerName + "/" + customerSurname + "/" + " " + "/" + orderSort + "" + "";
                 };
+
+                window.location.href = url;
             });
         });
 

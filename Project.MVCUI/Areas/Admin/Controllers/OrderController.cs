@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project.BLL.ManagerServices.Abstarcts;
 using Project.ENTITIES.Enums;
 using Project.ENTITIES.Models;
 using Project.MVCUI.Areas.Admin.AdminViewModels;
+using System.Net;
+using System.Text.Encodings.Web;
+using System.Web;
 
 namespace Project.MVCUI.Areas.Admin.Controllers
 {
@@ -29,7 +33,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             int pageSize = 10;
             int totalOrdersCount;
 
-            IQueryable<Order> order = _orderManager.GetActives().Include(x => x.AppUserProfile);
+            IQueryable<Order> order = _orderManager.GetActives().Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser);
 
             if(customerName != null)
             {
@@ -74,6 +78,13 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                     Id = x.AppUserProfile!.Id,
                     FirstName = x.AppUserProfile.FirstName,
                     LastName = x.AppUserProfile.LastName,
+                    AppUser = new AppUser()
+                    {
+                        Id = x.AppUserProfile.AppUser.Id,
+                        UserName = x.AppUserProfile.AppUser.UserName,
+                        Email = x.AppUserProfile.AppUser.Email,
+                        PhoneNumber = x.AppUserProfile.AppUser.PhoneNumber
+                    }
                 }
             }).ToListAsync();
 
