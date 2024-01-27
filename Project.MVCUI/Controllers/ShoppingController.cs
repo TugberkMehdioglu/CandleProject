@@ -91,7 +91,7 @@ namespace Project.MVCUI.Controllers
             if (!string.IsNullOrEmpty(sort)) ViewBag.selectSort = sort;
             else return query;
 
-            if (sort == "eyu") return query.OrderBy(x => x.CreatedDate);
+            if (sort == "eyu") return query.OrderByDescending(x => x.CreatedDate);
             else if (sort == "edf") return query.OrderBy(x => x.Price).ThenBy(x => x.CreatedDate);
             else if (sort == "eyf") return query.OrderByDescending(x => x.Price).ThenBy(x => x.CreatedDate);
             else if (sort == "aaz") return query.OrderBy(x => x.Name).ThenBy(x => x.CreatedDate);
