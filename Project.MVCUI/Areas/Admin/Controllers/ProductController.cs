@@ -34,9 +34,11 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         }
 
 
-        [HttpGet("{search?}/{categoryId?}/{pageNumber?}/{pageSize?}")]
-        public async Task<IActionResult> ProductList(string? search,int? categoryId, int pageNumber = 1, int pageSize = 6)
+        [HttpGet("{search?}/{categoryId?}/{productSort?}/{pageNumber?}")]
+        public async Task<IActionResult> ProductList(string? search,int? categoryId, string? productSort, int pageNumber = 1)
         {
+            int pageSize = 6;
+
             IQueryable<Product> query = _productManager.GetActives();
 
             if (!string.IsNullOrEmpty(search))
@@ -50,9 +52,10 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 ViewBag.categoryId = categoryId.Value;
                 query = query.Where(x => x.CategoryID == categoryId.Value);
             }
-                
 
-            List<ProductViewModel> productViewModels = await query.OrderBy(x => x.CreatedDate)
+            query = Sort(query, productSort);
+
+            List<ProductViewModel> productViewModels = await query
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)
                 .Include(x => x.Category).Select(x => new ProductViewModel()
                 {
@@ -75,6 +78,21 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             ViewBag.totalItemsCount = totalItemsCount;
 
             return View(productViewModels);
+        }
+
+        public IQueryable<Product> Sort(IQueryable<Product> query, string? productSort)
+        {
+            if (!string.IsNullOrEmpty(productSort)) ViewBag.productSort = productSort;
+            else return query;
+
+            if (productSort == "ESEU") return query.OrderByDescending(x => x.CreatedDate);
+            else if (productSort == "SEYU") return query.OrderByDescending(x => x.Stock);
+            else if (productSort == "SEDU") return query.OrderBy(x => x.Stock);
+            else if (productSort == "IEU") return query.OrderBy(x => x.CreatedDate);
+            else if (productSort == "EYTU") return query.OrderByDescending(x => x.Price);
+            else if (productSort == "EDTU") return query.OrderBy(x => x.Price);
+            else if (productSort == "UAAZ") return query.OrderBy(x => x.Name);
+            else return query.OrderByDescending(x => x.Name);
         }
 
         [HttpGet("{id}")]
