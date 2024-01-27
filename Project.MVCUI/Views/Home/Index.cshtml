@@ -13,13 +13,13 @@
 
                     <h6 class="text-center">Tüm Türkiye ve Dünyaya ücretsiz kargo fırsatı</h6>
 
-                    <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+                    <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search" asp-area="" asp-controller="Shopping" asp-action="ShoppingList" asp-route-categoryId="" asp-route-selectSort="" asp-route-pageNumber="">
                         <div class="input-group input-group-lg">
                             <span class="input-group-text bi-search" id="basic-addon1" style="background-color: transparent;">
 
                             </span>
 
-                            <input name="keyword" type="search" class="form-control" id="keyword" placeholder="Kendine uygun mum bul..." aria-label="Search">
+                            <input name="search" type="search" class="form-control" id="keyword" placeholder="Markasına göre mum ara..." aria-label="Search">
 
                             <button type="submit" class="form-control">Ara</button>
                         </div>
