@@ -39,81 +39,43 @@ namespace Project.MVCUI.Controllers
 
         [Route("/Shop")]
         [Route("/ShoppingList")]
-        [HttpGet("{categoryId?}/{search?}/{selectSort?}/{pageNumber?}/{pageSize?}")]
-        public async Task<IActionResult> ShoppingList(int? categoryId, string? search, string? selectSort, int pageNumber = 1, int pageSize = 6)
+        [HttpGet("{categoryId?}/{search?}/{selectSort?}/{pageNumber?}")]
+        public async Task<IActionResult> ShoppingList(int? categoryId, string? search, string? selectSort, int? pageNumber = 1)
         {
+            int pageSize = 6;
             int totalItemsCount;
+
+            IQueryable<Product> query = _productManager.GetActives();
 
             if (categoryId.HasValue)
             {
                 ViewBag.CategoryId = categoryId.Value;
-                totalItemsCount = await _productManager.GetActives().Where(x => x.CategoryID == categoryId.Value).CountAsync();
+                query = query.Where(x => x.CategoryID == categoryId.Value);
             }
             else if (!string.IsNullOrEmpty(search))
             {
                 ViewBag.Search = search;
-                totalItemsCount = await _productManager.GetActives().Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim())).CountAsync();
+                query = query.Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
             }
-            else totalItemsCount = await _productManager.GetActives().CountAsync();
 
+            query = SortProducts(query, selectSort);
+
+            totalItemsCount = await query.CountAsync();
 
             ShoppingWrapper wrapper = new ShoppingWrapper();
-            IQueryable<Product> query;
 
-            if (categoryId.HasValue)
+            wrapper.Products = await query.Skip((pageNumber!.Value - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
             {
-                query = _productManager.GetActives().Where(x => x.CategoryID == categoryId.Value);
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ImagePath = x.ImagePath,
+                Price = x.Price,
+                Stock = x.Stock,
+                CategoryID = x.CategoryID,
+                CategoryName = x.Category.Name
+            }).ToListAsync();
 
-                query = SortProducts(query, selectSort);
-
-                wrapper.Products = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImagePath = x.ImagePath,
-                    Price = x.Price,
-                    Stock = x.Stock,
-                    CategoryID = x.CategoryID,
-                    CategoryName = x.Category.Name
-                }).ToListAsync();
-            }
-            else if (!string.IsNullOrEmpty(search))
-            {
-                query = _productManager.GetActives().Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
-
-                query = SortProducts(query, selectSort);
-
-                wrapper.Products = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImagePath = x.ImagePath,
-                    Price = x.Price,
-                    Stock = x.Stock,
-                    CategoryID = x.CategoryID,
-                    CategoryName = x.Category.Name
-                }).ToListAsync();
-            }
-            else
-            {
-                query = _productManager.GetActives();
-
-                query = SortProducts(query, selectSort);
-
-                wrapper.Products = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImagePath = x.ImagePath,
-                    Price = x.Price,
-                    Stock = x.Stock,
-                    CategoryID = x.CategoryID,
-                    CategoryName = x.Category.Name
-                }).ToListAsync();
-            }
 
             wrapper.Categories = await _categoryManager.GetActives().Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Description = x.Description }).ToListAsync();
 
