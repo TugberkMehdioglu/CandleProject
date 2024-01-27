@@ -83,5 +83,52 @@ namespace Project.DAL.Repositories.Concretes
                 }
             }).ToList()
         }).FirstOrDefaultAsync();
+
+
+        public async Task<Order?> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId) => await _context.Orders.Where(x => x.Id == orderId && x.AppUserProfileID == userId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).Select(x => new Order()
+        {
+            Id = x.Id,
+            TotalPrice = x.TotalPrice,
+            CreatedDate = x.CreatedDate,
+            Address = new Address()
+            {
+                Id = x.Address.Id,
+                Name = x.Address.Name,
+                Country = x.Address.Country,
+                City = x.Address.City,
+                District = x.Address.District,
+                Neighborhood = x.Address.Neighborhood,
+                Street = x.Address.Street,
+                AptNo = x.Address.AptNo,
+                Flat = x.Address.Flat,
+                AppUserProfileID = x.Address.AppUserProfileID
+            },
+            AppUserProfile = new AppUserProfile()
+            {
+                Id = x.AppUserProfile.Id,
+                FirstName = x.AppUserProfile.FirstName,
+                LastName = x.AppUserProfile.LastName,
+                AppUser = new AppUser()
+                {
+                    Email = x.AppUserProfile.AppUser.Email,
+                    PhoneNumber = x.AppUserProfile.AppUser.PhoneNumber
+                }
+            },
+            OrderDetails = x.OrderDetails.Select(x => new OrderDetail()
+            {
+                OrderID = x.OrderID,
+                ProductID = x.ProductID,
+                Quentity = x.Quentity,
+                SubTotal = x.SubTotal,
+                Product = new Product()
+                {
+                    Id = x.Product.Id,
+                    Name = x.Product.Name,
+                    Description = x.Product.Description,
+                    Price = x.Product.Price,
+                    ImagePath = x.Product.ImagePath
+                }
+            }).ToList()
+        }).FirstOrDefaultAsync();
     }
 }

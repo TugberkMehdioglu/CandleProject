@@ -37,5 +37,22 @@ namespace Project.BLL.ManagerServices.Concretes
             if (order == null) return ("Sipariş bulunamadı", null);
             else return (null, order);
         }
+
+        public async Task<(string?, Order?)> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId)
+        {
+            Order? order;
+
+            try
+            {
+                order = await _orderRepository.GetOrderViaUserIdWithAddressProfileDetailProduct(orderId, userId);
+            }
+            catch (Exception exception)
+            {
+                return ($"Veritabanı işlemi sırasında hata oluştu, ALINAN HATA => {exception.Message}, İÇERİĞİ => {exception.InnerException}", null);
+            }
+
+            if (order == null) return ("Sipariş bulunamadı", null);
+            else return (null, order);
+        }
     }
 }

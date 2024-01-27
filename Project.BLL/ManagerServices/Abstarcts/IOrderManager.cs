@@ -12,5 +12,6 @@ namespace Project.BLL.ManagerServices.Abstarcts
         public IQueryable<Order> GetOrdersWithProfiles();
         public IQueryable<Order> GetOrderByUserId(string userId);
         public Task<(string?, Order?)> GetOrderWithAddressProfileDetailProduct(int orderId);
+        public Task<(string?, Order?)> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId);
     }
 }

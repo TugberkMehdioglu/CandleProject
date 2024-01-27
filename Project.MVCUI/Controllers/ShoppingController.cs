@@ -215,6 +215,19 @@ namespace Project.MVCUI.Controllers
                 return RedirectToAction(nameof(ShoppingList));
             }
 
+            foreach (CartItem item in cart.Basket)
+            {
+                short productStock = await _productManager.Where(x => x.Id == item.Id && x.Status != DataStatus.Deleted).Select(x => x.Stock).FirstOrDefaultAsync();
+
+                int result = productStock - item.Amount;
+
+                if(result < 0)
+                {
+                    TempData["fail"] = "Stok aşımı yaşandığı için sipariş alınmadı";
+                    return RedirectToAction(nameof(ShoppingList));
+                }
+            }
+
             Order order = new()
             {
                 TotalPrice = cart.TotalPrice,
@@ -230,6 +243,7 @@ namespace Project.MVCUI.Controllers
             }
 
             List<string> orderedProductsForMailBody = new List<string>();
+            List<string> productForAlertMailBody = new List<string>();
 
             foreach (CartItem item in cart.Basket)
             {
@@ -246,6 +260,8 @@ namespace Project.MVCUI.Controllers
                     <li style='margin-bottom: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
                     <strong>Ürün:</strong> {item.Name}
                     <br>
+                    <strong>Ürün Açıklaması:</strong> {item.Description}
+                    <br>
                     <strong>Fiyat:</strong> {item.Price.ToString("C2")}
                     <br>
                     <strong>Adet:</strong> {item.Amount}
@@ -255,6 +271,8 @@ namespace Project.MVCUI.Controllers
                 string? odError = await _orderDetailManager.AddWithOutSaveAsync(orderDetail);
                 if (odError != null)
                 {
+                    await _orderManager.DeleteAsync(order);
+
                     TempData["fail"] = odError;
                     return RedirectToAction(nameof(ShoppingList));
                 }
@@ -262,27 +280,67 @@ namespace Project.MVCUI.Controllers
                 Product? product = await _productManager.FindAsync(item.Id);
                 if (product == null)
                 {
+                    await _orderManager.DeleteAsync(order);
+
                     TempData["fail"] = "Ürün bulunamadı";
                     return RedirectToAction(nameof(ShoppingList));
                 }
 
                 product!.Stock -= item.Amount;
 
-                if (product.Stock < 1)
+                if (product.Stock < 5)
                 {
-                    TempData["fail"] = "Stok aşımı yaşandığı için sipariş alınmadı";
-                    return RedirectToAction(nameof(ShoppingList));
+                    productForAlertMailBody.Add(
+                        $@"
+                            <li style='margin-bottom: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; word-wrap: break-word;'>
+                                <strong>Ürün Id:</strong> {product.Id}
+                                <br>
+                                <strong>Ürün:</strong> {product.Name}
+                                <br>
+                                <strong>Ürün Açıklaması:</strong> {product.Description}
+                                <br>
+                                <strong>Kalan Adet:</strong> <span style=""color: red; font-weight: bold;"">{product.Stock}</span>
+                            </li>
+                        ");
                 }
 
                 string? pError = await _productManager.UpdateWithOutSaveAsync(product);
                 if (pError != null)
                 {
+                    await _orderManager.DeleteAsync(order);
+
                     TempData["fail"] = pError;
                     return RedirectToAction(nameof(ShoppingList));
                 }
             }
 
             await _orderDetailManager.SaveChangesAsync();
+
+            if(productForAlertMailBody.Count > 0)
+            {
+                string orginizedProductsForAlertMailBody = string.Join(null, productForAlertMailBody);
+
+                string alertMailBody = $@"
+                    <div style='display: flex; justify-content: center; align-items: center;'>
+        <div style='max-width: 800px; margin-top: 1%; padding: 20px; background-color: white; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 10px;'>
+           <div style='background-color: rgb(128, 208, 199); color: white; text-align: center; padding: 15px; border-radius: 10px 10px 10px 10px; font-family: sans-serif;'>
+               <h1>Candle Project</h1>
+           </div>
+           <div style='margin-top: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
+
+               <h2 style='text-align: center;'>Stok Uyarısı</h2>
+               <ul style='list-style-type: none; padding: 0; margin: 0;'>
+                   
+                {orginizedProductsForAlertMailBody}
+
+               </ul>
+           </div>
+        </div>
+   </div>
+                ";
+
+                await MailService.SendMailAsync("tugberkmehdioglu@gmail.com", alertMailBody, "Stok Uyarısı | Candle Project");
+            }
 
             //string.Concat'de olur.
             string organizedProductsForMailBody = string.Join(null, orderedProductsForMailBody);
@@ -293,13 +351,14 @@ namespace Project.MVCUI.Controllers
                 @$"
                 <div style='display: flex; justify-content: center; align-items: center;'>
              <div style='max-width: 800px; margin-top: 1%; padding: 20px; background-color: white; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 10px;'>
-                <div style='background-color: #2c7be5; color: white; text-align: center; padding: 15px; border-radius: 10px 10px 10px 10px; font-family: sans-serif;'>
+                <div style='background-color: rgb(128, 208, 199); color: white; text-align: center; padding: 15px; border-radius: 10px 10px 10px 10px; font-family: sans-serif;'>
                     <h1>Candle Project</h1>
                 </div>
                 <div style='margin-top: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
                   <div style='margin-bottom: 20px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;'>
                     <h2 style='text-align: center;'>Fatura Bilgileri</h2>
                     <p><strong>Müşteri Adı:</strong> {request.AppUser.AppUserProfile!.FullName}</p>
+                    <p><strong>Sipariş No:</strong> {order.Id}</p>
                     <p><strong>Adres:</strong> {fullAddress}</p>
                     <p><strong>Telefon:</strong> {request.AppUser.PhoneNumber}</p>
                   </div>

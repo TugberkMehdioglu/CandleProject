@@ -12,5 +12,6 @@ namespace Project.DAL.Repositories.Abstracts
         public IQueryable<Order> GetOrdersWithProfiles();
         public IQueryable<Order> GetOrderByUserId(string userId);
         public Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId);
+        public Task<Order?> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId);
     }
 }

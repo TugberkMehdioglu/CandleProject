@@ -47,5 +47,23 @@ namespace Project.MVCUI.Areas.Member.Controllers
 
             return View(orderViewModels);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> MyOrderDetail(int id)
+        {
+            string userName = User.Identity!.Name!;
+            string userId = (await _appUserManager.Where(x => x.UserName == userName && x.Status != DataStatus.Deleted).Select(x => x.Id).FirstOrDefaultAsync())!;
+
+            var (error, order) = await _orderManager.GetOrderViaUserIdWithAddressProfileDetailProduct(id, userId);
+            if(error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(MyOrders));
+            }
+
+            OrderViewModel orderViewModel = _mapper.Map<OrderViewModel>(order);
+
+            return View(orderViewModel);
+        }
     }
 }

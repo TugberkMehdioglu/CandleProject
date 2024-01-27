@@ -7,6 +7,19 @@
     int totalPagesCount = ViewBag.totalPagesCount;
 }
 
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-4 offset-lg-4 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
 <div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0.1);"></div>
 
 <div class="col-lg-8 offset-lg-2 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
