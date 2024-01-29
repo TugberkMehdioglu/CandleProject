@@ -64,16 +64,21 @@ namespace Project.MVCUI.Controllers
 
             ShoppingWrapper wrapper = new ShoppingWrapper();
 
-            wrapper.Products = await query.Skip((pageNumber!.Value - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
+            wrapper.Products = await query.Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Skip((pageNumber!.Value - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                ImagePath = x.ImagePath,
                 Price = x.Price,
                 Stock = x.Stock,
                 CategoryID = x.CategoryID,
-                CategoryName = x.Category.Name
+                CategoryName = x.Category.Name,
+                Photos = x.Photos.Select(x => new PhotoViewModel()
+                {
+                    Id = x.Id,
+                    ImagePath = x.ImagePath,
+                    ProductId = x.ProductId
+                }).ToList()
             }).ToListAsync();
 
 
@@ -101,16 +106,21 @@ namespace Project.MVCUI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ProductDetail(int id)
         {
-            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Select(x => new ProductViewModel()
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                ImagePath = x.ImagePath,
                 Price = x.Price,
                 Stock = x.Stock,
                 CategoryID = x.CategoryID,
-                CategoryName = x.Category.Name
+                CategoryName = x.Category.Name,
+                Photos = x.Photos.Select(x => new PhotoViewModel()
+                {
+                    Id = x.Id,
+                    ImagePath = x.ImagePath,
+                    ProductId = x.ProductId
+                }).ToList()
             }).FirstOrDefaultAsync();
 
             if (productViewModel == null)
@@ -357,9 +367,11 @@ namespace Project.MVCUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImagePath = product.ImagePath,
+                //ImagePath = product.ImagePath,
                 MaxAmount = product.Stock
             };
+
+            //Todo: ürünün ilk fotosunu eklettirt
 
             if (quantity > 0 && quantity <= product.Stock) cartItem.Amount = quantity;
             else return RedirectToAction(nameof(ShoppingList));

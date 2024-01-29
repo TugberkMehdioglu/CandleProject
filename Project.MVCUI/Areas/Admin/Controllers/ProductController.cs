@@ -57,16 +57,21 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
             List<ProductViewModel> productViewModels = await query
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)
-                .Include(x => x.Category).Select(x => new ProductViewModel()
+                .Include(x => x.Category).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     Price = x.Price,
                     Stock = x.Stock,
-                    ImagePath = x.ImagePath,
                     CategoryID = x.Category.Id,
-                    CategoryName = x.Category.Name
+                    CategoryName = x.Category.Name,
+                    Photos = x.Photos.Select(x => new PhotoViewModel()
+                    {
+                        Id = x.Id,
+                        ImagePath = x.ImagePath,
+                        ProductId = x.ProductId
+                    }).ToList()
                 }).ToListAsync();
 
 
@@ -98,17 +103,22 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ProductDetail(int id)
         {
-            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Select(x => new ProductViewModel()
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Price = x.Price,
                 Stock = x.Stock,
-                ImagePath = x.ImagePath,
                 CategoryID = x.Category.Id,
                 CategoryName = x.Category.Name,
-                CategoryDescription = x.Category.Description
+                CategoryDescription = x.Category.Description,
+                Photos = x.Photos.Select(x => new PhotoViewModel()
+                {
+                    Id = x.Id,
+                    ImagePath = x.ImagePath,
+                    ProductId = x.ProductId
+                }).ToList()
             }).FirstOrDefaultAsync();
 
             if(productViewModel == null)
@@ -180,9 +190,10 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 Description = request.Description,
                 Price = request.Price,
                 Stock = request.Stock,
-                ImagePath = request.ImagePath,
                 CategoryID = request.CategoryID
             };
+
+            //Todo: Fotolarınıda eklemeyi yap.
 
             string? error = await _productManager.AddAsync(toBeAdded);
             if(error != null)
@@ -223,13 +234,14 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 Description = product.Description,
                 PriceText = product.Price.ToString(),
                 Stock = product.Stock,
-                ImagePath = product.ImagePath,
                 CategoryID = product.CategoryID,
                 CategoryName = product.Category.Name,
                 FormerName = product.Name,
-                FormerImagePath = product.ImagePath
+                //FormerImagePath = product.ImagePath
             };
             await categorySelectListForProduct();
+
+            //Todo: Fotolarını güncellemeyi yap.
 
             return View(productViewModel);
         }
@@ -284,9 +296,10 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 Description = request.Description,
                 Price = price,
                 Stock = request.Stock,
-                ImagePath = request.ImagePath,
                 CategoryID = request.CategoryID
             };
+
+            //Todo: Fotolarını güncellemeyi yap.
 
             string? error = await _productManager.UpdateAsync(product);
             if(error != null)

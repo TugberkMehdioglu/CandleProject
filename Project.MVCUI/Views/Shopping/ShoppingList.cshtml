@@ -102,7 +102,7 @@ else if (TempData["fail"] != null)
                 <div class="custom-block bg-white shadow-lg">
                     <a asp-controller="Shopping" asp-action="ProductDetail" asp-route-id="@item.Id" class="text-center">
 
-                        <img src="~/productPics/@item.ImagePath" alt="Resim Yüklenemedi" width="300px;" height="400px;" class="img-fluid" />
+                        <img src="~/productPics/@item.Photos[0].ImagePath" alt="Resim Yüklenemedi" width="300px;" height="400px;" class="img-fluid" />
 
                         <div>
 

@@ -23,6 +23,7 @@ namespace Project.BLL.ServiceExtensions
             services.AddScoped<IOrderDetailManager, OrderDetailManager>();
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<IProductManager, ProductManager>();
+            services.AddScoped<IPhotoManager, PhotoManager>();
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IAddressRepository, AddressRepository>();
@@ -32,6 +33,7 @@ namespace Project.BLL.ServiceExtensions
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
 
             return services;
         }

@@ -52,5 +52,8 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
 
         [ValidateNever]
         public ICollection<OrderDetailViewModel>? OrderDetails { get; set; }
+
+        [ValidateNever]
+        public List<PhotoViewModel>? Photos { get; set; }
     }
 }

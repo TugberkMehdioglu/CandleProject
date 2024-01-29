@@ -12,7 +12,6 @@ namespace Project.ENTITIES.Models
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public short Stock { get; set; }
-        public string ImagePath { get; set; } = null!;
 
 
         public int CategoryID { get; set; }
@@ -21,5 +20,6 @@ namespace Project.ENTITIES.Models
         //Navigation Properties
         public Category Category { get; set; } = null!;
         public ICollection<OrderDetail>? OrderDetails { get; set; }
+        public ICollection<Photo>? Photos { get; set; }
     }
 }

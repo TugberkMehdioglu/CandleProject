@@ -33,6 +33,7 @@ namespace Project.DAL.ContextClasses
         public DbSet<Order>? Orders { get; set; }
         public DbSet<OrderDetail>? OrderDetails { get; set; }
         public DbSet<Product>? Products { get; set; }
+        public DbSet<Photo>? Photos { get; set; }
 
         private void SeedRoles(ModelBuilder builder)
         {

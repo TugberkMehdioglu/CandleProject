@@ -12,7 +12,7 @@ using Project.DAL.ContextClasses;
 namespace Project.DAL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20231206104926_Initial")]
+    [Migration("20240129103708_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,14 +54,14 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "4d7b3bc1-f3aa-48ce-b587-5e7dc5557634",
-                            ConcurrencyStamp = "4fddc2f3-bf4b-4c7b-a818-1ccf1cb8a800",
+                            ConcurrencyStamp = "205ef380-37cc-4485-89b9-992edfc4d505",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "4d7b3bc1-f3aa-48ce-b587-5e7dc5553134",
-                            ConcurrencyStamp = "3ce18d41-e4b1-4b05-95bd-b793e3ba848e",
+                            ConcurrencyStamp = "20b31218-037a-4e4b-a692-cdbb0a0f39d0",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -253,7 +253,7 @@ namespace Project.DAL.Migrations
                             AptNo = 11,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7533),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 79, DateTimeKind.Local).AddTicks(3191),
                             District = "Kağıthane",
                             Flat = (byte)8,
                             Name = "Ev",
@@ -268,7 +268,7 @@ namespace Project.DAL.Migrations
                             AptNo = 7,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7540),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 79, DateTimeKind.Local).AddTicks(3196),
                             District = "Beşiktaş",
                             Name = "İş Yeri",
                             Neighborhood = "Nispetiye",
@@ -282,7 +282,7 @@ namespace Project.DAL.Migrations
                             AptNo = 9,
                             City = "İstanbul",
                             Country = "Türkiye",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(7542),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 79, DateTimeKind.Local).AddTicks(3198),
                             District = "Ataşehir",
                             Name = "Ev",
                             Neighborhood = "Küçükbakkalköy",
@@ -372,17 +372,17 @@ namespace Project.DAL.Migrations
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3c88936-f216-4cc5-9479-51736c976087",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8768),
+                            ConcurrencyStamp = "11a75701-187b-4944-873a-0db49d99d66c",
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 79, DateTimeKind.Local).AddTicks(4531),
                             Email = "Admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENc/gj/QZzfTPxop3y4Ba9LqyvCetW3lNczRvDifVIbKITeEBboy6Yss4EHSti76IA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEn/RAVdV8626ZngvMzCG2+uZErFrA41JKuDyx5UorxRezONkHnwEb0vGwTMKWVhwg==",
                             PhoneNumber = "5312292928",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "1275b19e-fed2-4443-a14f-ed83ed0fe010",
+                            SecurityStamp = "d0827e8e-79bf-4230-bf72-3ab2933657c8",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "Admin"
@@ -391,17 +391,17 @@ namespace Project.DAL.Migrations
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546fec5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b69e06f-18d5-4466-9cf8-6cd6dbb913a1",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 153, DateTimeKind.Local).AddTicks(8807),
+                            ConcurrencyStamp = "9c83dfd7-fe0e-494a-be52-090335450e0d",
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 79, DateTimeKind.Local).AddTicks(4554),
                             Email = "Member@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEMBER@GMAIL.COM",
                             NormalizedUserName = "MEMBER",
-                            PasswordHash = "AQAAAAEAACcQAAAAED5b+67kz8MN9FBzqjKL//DLrHMtI9Rke4xYh/Nb7uan96D9hbn3HaeXNzC8zIfDcA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB/sXA/np5YJMAY+pSCt5oUP7kSfNcweSV0ay4XATmzdsGAIUJbp67lhEm2U5Lv0Og==",
                             PhoneNumber = "5446340539",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "3abe98a2-5f1a-4f52-9323-9d0e2dbed3e2",
+                            SecurityStamp = "9a0aab12-74cb-4275-b9f9-8fdf2f028b1c",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "Member"
@@ -441,7 +441,7 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546dec4",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2305),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(4541),
                             FirstName = "Tuğberk",
                             LastName = "Mehdioğlu",
                             Status = 1
@@ -449,7 +449,7 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = "5c8defd5-91f2-4256-9f16-e7fa7546fec5",
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2310),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(4545),
                             FirstName = "Dilan",
                             LastName = "Polat",
                             Status = 1
@@ -491,21 +491,21 @@ namespace Project.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2876),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(4938),
                             Name = "Oda Kokusu & Mum",
                             Status = 1
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2879),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(4940),
                             Name = "Difüzör",
                             Status = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(2881),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(4941),
                             Name = "Ev Parfümü",
                             Status = 1
                         });
@@ -584,6 +584,170 @@ namespace Project.DAL.Migrations
                     b.ToTable("OrderDetails");
                 });
 
+            modelBuilder.Entity("Project.ENTITIES.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Photos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6241),
+                            ImagePath = "Dr.VranjesFirenze.jpg",
+                            ProductId = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6244),
+                            ImagePath = "AtelierRebul.jpg",
+                            ProductId = 2,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6245),
+                            ImagePath = "LeatherOud100mlDifüzör.jpg",
+                            ProductId = 3,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6246),
+                            ImagePath = "5pnyh3oo.g0a_IMG_01_2110095020048.jpg",
+                            ProductId = 4,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6248),
+                            ImagePath = "qsbkczrj.lq0_IMG_01_2110089386044.jpg",
+                            ProductId = 5,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6271),
+                            ImagePath = "kh1gwhxa.2uh_IMG_01_2110089385948.jpg",
+                            ProductId = 6,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6272),
+                            ImagePath = "ptowbl3w.zkq_MP_1b565ca5-4923-4c99-9313-e81502939778_1_43487206954810324050030543535_563.jpg",
+                            ProductId = 7,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6273),
+                            ImagePath = "x5p2g5gu.4fw_IMG_01_3700559608067.jpg",
+                            ProductId = 8,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6274),
+                            ImagePath = "ihlf3u2z.vwy_IMG_01_8691226631783.jpg",
+                            ProductId = 9,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6275),
+                            ImagePath = "rblnyed2.jvf_IMG_02_2110095020048.jpg",
+                            ProductId = 4,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6276),
+                            ImagePath = "vb0cwnjy.qfj_IMG_03_2110095020048.jpg",
+                            ProductId = 4,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6277),
+                            ImagePath = "0fbp5mpz.kbk_IMG_05_8691226631783.jpg",
+                            ProductId = 9,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6278),
+                            ImagePath = "q5hq1lxg.y3y_IMG_03_8691226631783.jpg",
+                            ProductId = 9,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6279),
+                            ImagePath = "3334.jpg",
+                            ProductId = 3,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6280),
+                            ImagePath = "fpzkb4bw.di1_IMG_03_3700559608067.jpg",
+                            ProductId = 8,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6281),
+                            ImagePath = "iz2behpe.ci3_IMG_02_3700559608067.jpg",
+                            ProductId = 8,
+                            Status = 1
+                        });
+                });
+
             modelBuilder.Entity("Project.ENTITIES.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -602,10 +766,6 @@ namespace Project.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -637,9 +797,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 1,
                             CategoryID = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4447),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6794),
                             Description = "Oud Nobile Sprey Cam Şişe Koku 100 ml",
-                            ImagePath = "Dr.VranjesFirenze.jpg",
                             Name = "Dr. Vranjes Firenze",
                             Price = 1199m,
                             Status = 1,
@@ -649,9 +808,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 2,
                             CategoryID = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4453),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6800),
                             Description = "Bereket Çubuklu Oda Kokusu 200ml",
-                            ImagePath = "Dr.VranjesFirenze.jpg",
                             Name = "Atelier Rebul",
                             Price = 1249m,
                             Status = 1,
@@ -661,9 +819,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 3,
                             CategoryID = 2,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4455),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6802),
                             Description = "Leather Oud 100 ml Difüzör",
-                            ImagePath = "LeatherOud100mlDifüzör.jpg",
                             Name = "Dr. Vranjes Firenze",
                             Price = 1199m,
                             Status = 1,
@@ -673,9 +830,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 4,
                             CategoryID = 2,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4456),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6803),
                             Description = "Ginger Lime 2500 ml Difüzör",
-                            ImagePath = "5pnyh3oo.g0a_IMG_01_2110095020048.jpg",
                             Name = "Dr. Vranjes Firenze",
                             Price = 8950m,
                             Status = 1,
@@ -685,9 +841,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 5,
                             CategoryID = 3,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4458),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6804),
                             Description = "Penelope Refill 500 ml Oda Kokusu",
-                            ImagePath = "qsbkczrj.lq0_IMG_01_2110089386044.jpg",
                             Name = "Etro",
                             Price = 1249m,
                             Status = 1,
@@ -697,9 +852,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 6,
                             CategoryID = 3,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4460),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6806),
                             Description = "Eos 100 ml Oda Kokusu",
-                            ImagePath = "kh1gwhxa.2uh_IMG_01_2110089385948.jpg",
                             Name = "Etro",
                             Price = 1449m,
                             Status = 1,
@@ -709,9 +863,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 7,
                             CategoryID = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4461),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6808),
                             Description = "Bubble Mor Pembe ve Su Yeşili 3'lü Mum Seti",
-                            ImagePath = "ptowbl3w.zkq_MP_1b565ca5-4923-4c99-9313-e81502939778_1_43487206954810324050030543535_563.jpg",
                             Name = "Lagom Candle",
                             Price = 1280m,
                             Status = 1,
@@ -721,9 +874,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 8,
                             CategoryID = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4463),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6809),
                             Description = "Baccarat Rouge 540 Kokulu Mum 280 gr",
-                            ImagePath = "x5p2g5gu.4fw_IMG_01_3700559608067.jpg",
                             Name = "Maison Francis Kurkdjian",
                             Price = 4590m,
                             Status = 1,
@@ -733,9 +885,8 @@ namespace Project.DAL.Migrations
                         {
                             Id = 9,
                             CategoryID = 1,
-                            CreatedDate = new DateTime(2023, 12, 6, 13, 49, 26, 156, DateTimeKind.Local).AddTicks(4464),
+                            CreatedDate = new DateTime(2024, 1, 29, 13, 37, 8, 81, DateTimeKind.Local).AddTicks(6810),
                             Description = "İstanbul Çubuklu Oda Kokusu 2500ml",
-                            ImagePath = "ihlf3u2z.vwy_IMG_01_8691226631783.jpg",
                             Name = "Atelier Rebul",
                             Price = 10250m,
                             Status = 1,
@@ -852,6 +1003,17 @@ namespace Project.DAL.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Project.ENTITIES.Models.Photo", b =>
+                {
+                    b.HasOne("Project.ENTITIES.Models.Product", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Project.ENTITIES.Models.Product", b =>
                 {
                     b.HasOne("Project.ENTITIES.Models.Category", "Category")
@@ -893,6 +1055,8 @@ namespace Project.DAL.Migrations
             modelBuilder.Entity("Project.ENTITIES.Models.Product", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
