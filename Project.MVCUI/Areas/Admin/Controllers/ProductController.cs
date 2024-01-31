@@ -24,13 +24,15 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly ICategoryManager _categoryManager;
         private readonly IFileProvider _fileProvider;
+        private readonly IPhotoManager _photoManager;
 
-        public ProductController(IProductManager productManager, IMapper mapper, ICategoryManager categoryManager, IFileProvider fileProvider)
+        public ProductController(IProductManager productManager, IMapper mapper, ICategoryManager categoryManager, IFileProvider fileProvider, IPhotoManager photoManager)
         {
             _productManager = productManager;
             _mapper = mapper;
             _categoryManager = categoryManager;
             _fileProvider = fileProvider;
+            _photoManager = photoManager;
         }
 
 
@@ -170,19 +172,24 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 return View(request);
             }
 
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string? result = ImageUploader.UploadImageToWwwroot(request.Image!, _fileProvider, "productPics", out string? entityImagePath);
-                if (result != null)
-                {
-                    ModelState.AddModelErrorWithOutKey(result);
-                    await categorySelectListForProduct();
-                    return View(request);
-                }
+            List<string> entitiesImagePaths = new List<string>();
 
-                request.ImagePath = entityImagePath!;
+            if (request.Images != null && request.Images.Count > 0)
+            {
+                foreach (IFormFile item in request.Images)
+                {
+                    string? result = ImageUploader.UploadImageToWwwroot(item, _fileProvider, "productPics", out string? entityImagePath);
+                    if (result != null)
+                    {
+                        ModelState.AddModelErrorWithOutKey(result);
+                        await categorySelectListForProduct();
+                        return View(request);
+                    }
+
+                    entitiesImagePaths.Add(entityImagePath!);
+                }
             }
-            else request.ImagePath = "no-image-icon.png";
+            else entitiesImagePaths.Add("no-image-icon.png");
 
             Product toBeAdded = new Product()
             {
@@ -202,6 +209,24 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 await categorySelectListForProduct();
                 return View(request);
             }
+
+            foreach (string item in entitiesImagePaths)
+            {
+                string? photoError = await _photoManager.AddWithOutSaveAsync(new()
+                {
+                    ImagePath = item,
+                    ProductId = toBeAdded.Id
+                });
+
+                if (photoError != null)
+                {
+                    ModelState.AddModelErrorWithOutKey(photoError);
+                    await categorySelectListForProduct();
+                    return View(request);
+                }
+            }
+
+            await _photoManager.SaveChangesAsync();
 
             TempData["success"] = "Ürün başarıyla oluşturuldu";
             return RedirectToAction(nameof(ProductList));

@@ -13,7 +13,7 @@
 
         <h1 class="text-center text-white mb-4">Ürün Ekle</h1>
 
-        <form method="post" enctype="multipart/form-data" class="col-12 custom-form contact-form">
+        <form method="post" enctype="multipart/form-data" class="col-12 custom-form contact-form dropzone">
 
             <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder=" " id="Name" asp-for="Name" />
@@ -41,8 +41,9 @@
 
             <div class="mb-3">
                 <label class="form-label" asp-for="Image">Ürün Resmi :</label>
-                <input class="form-control form-control-lg mb-0" type="file" asp-for="Image" />
-                <span asp-validation-for="Image" class="text-danger p-2" style="font-weight: bold;"></span>
+                <input class="form-control form-control-lg mb-0" type="file" multiple asp-for="Images" id="fileInput" />
+                <span asp-validation-for="Image" class="text-danger p-2" style="font-weight: bold;" id="validationMessage"></span>
+                <div class="row" id="imagePreview"></div>
             </div>
 
             <div class="form-floating mb-3">
@@ -65,4 +66,47 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial"></partial>
+
+    <script type="text/javascript">
+
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const validationMessage = document.getElementById('validationMessage');
+
+        fileInput.addEventListener("change", handleFileSelect);
+
+        function handleFileSelect() {
+            validationMessage.textContent = ''; // Hata mesajını temizle
+
+            const files = fileInput.files;
+
+            // Dosya sayısını kontrol et
+            if (files.length === 0) {
+                validationMessage.textContent = 'Lütfen bir veya daha fazla dosya seçin.';
+                return;
+            }
+
+            // Dosyaları sırala ve önizleme yap
+            const sortedFiles = Array.from(files);
+            imagePreview.innerHTML = '';
+
+            sortedFiles.forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    // Resimler
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100px';
+                    img.style.maxHeight = '100px';
+                    img.className = 'img-fluid mb-2';
+                    imagePreview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+    </script>
 }

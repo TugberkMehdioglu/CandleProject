@@ -37,6 +37,8 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
         public string ImagePath { get; set; } = null!;
         public IFormFile? Image { get; set; }
 
+        public List<IFormFile>? Images { get; set; }
+
         [Display(Name = "Ürün Kategorisi")]
         [Required(ErrorMessage = "{0} zorunludur")]
         public int CategoryID { get; set; }
