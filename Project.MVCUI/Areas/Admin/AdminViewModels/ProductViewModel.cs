@@ -32,11 +32,6 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
         [DataType(DataType.Text)]
         public short Stock { get; set; }
 
-        [Display(Name = "Ürün Resmi")]
-        [Required(ErrorMessage = "{0} zorunludur")]
-        public string ImagePath { get; set; } = null!;
-        public IFormFile? Image { get; set; }
-
         public List<IFormFile>? Images { get; set; }
 
         [Display(Name = "Ürün Kategorisi")]
@@ -47,7 +42,6 @@ namespace Project.MVCUI.Areas.Admin.AdminViewModels
         public string? CategoryDescription { get; set; }
 
         public string? FormerName { get; set; }
-        public string? FormerImagePath { get; set; }
 
 
         //Navigation Properties

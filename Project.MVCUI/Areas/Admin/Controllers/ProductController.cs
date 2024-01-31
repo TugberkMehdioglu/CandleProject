@@ -200,7 +200,6 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 CategoryID = request.CategoryID
             };
 
-            //Todo: Fotolarınıda eklemeyi yap.
 
             string? error = await _productManager.AddAsync(toBeAdded);
             if(error != null)
@@ -262,11 +261,16 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 CategoryID = product.CategoryID,
                 CategoryName = product.Category.Name,
                 FormerName = product.Name,
-                //FormerImagePath = product.ImagePath
+                Photos = product.Photos.Select(x => new PhotoViewModel()
+                {
+                    Id = x.Id,
+                    ImagePath = x.ImagePath,
+                    ProductId = x.ProductId
+                }).ToList()
             };
+
             await categorySelectListForProduct();
 
-            //Todo: Fotolarını güncellemeyi yap.
 
             return View(productViewModel);
         }
@@ -279,14 +283,12 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 await categorySelectListForProduct();
-                request.ImagePath = request.FormerImagePath!;
                 return View(request);
             }
             else if (request.FormerName!.ToLower().Trim() != request.Name.ToLower().Trim() && await _productManager.AnyAsync(x => x.Name.ToLower().Trim() == request.Name.ToLower().Trim() && x.Status != DataStatus.Deleted))
             {
                 ModelState.AddModelErrorWithOutKey("Güncellemek istediğiniz ürün adı zaten mevcut");
                 await categorySelectListForProduct();
-                request.ImagePath = request.FormerImagePath!;
                 return View(request);
             }
 
@@ -295,24 +297,26 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             {
                 ModelState.AddModelErrorWithOutKey("Doğru formatta fiyat girişi yapın");
                 await categorySelectListForProduct();
-                request.ImagePath = request.FormerImagePath!;
                 return View(request);
             }
 
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                string? result = ImageUploader.UploadImageToWwwroot(request.Image!, _fileProvider, "productPics", out string? entityImagePath);
-                if (result != null)
-                {
-                    ModelState.AddModelErrorWithOutKey(result);
-                    await categorySelectListForProduct();
-                    request.ImagePath = request.FormerImagePath!;
-                    return View(request);
-                }
+            List<string> productPhotos = new List<string>();
 
-                request.ImagePath = entityImagePath!;
+            if (request.Images != null && request.Images.Count > 0)
+            {
+                foreach (IFormFile item in request.Images)
+                {
+                    string? result = ImageUploader.UploadImageToWwwroot(item, _fileProvider, "productPics", out string? entityImagePath);
+                    if (result != null)
+                    {
+                        ModelState.AddModelErrorWithOutKey(result);
+                        await categorySelectListForProduct();
+                        return View(request);
+                    }
+
+                    productPhotos.Add(entityImagePath!);
+                }
             }
-            else request.ImagePath = request.FormerImagePath!;
 
             Product product = new()
             {
@@ -324,15 +328,29 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 CategoryID = request.CategoryID
             };
 
-            //Todo: Fotolarını güncellemeyi yap.
 
             string? error = await _productManager.UpdateAsync(product);
             if(error != null)
             {
                 ModelState.AddModelErrorWithOutKey(error);
                 await categorySelectListForProduct();
-                request.ImagePath = request.FormerImagePath!;
                 return View(request);
+            }
+
+            foreach (string item in productPhotos)
+            {
+                string? photoError = await _photoManager.AddWithOutSaveAsync(new()
+                {
+                    ImagePath = item,
+                    ProductId = product.Id
+                });
+
+                if (photoError != null)
+                {
+                    ModelState.AddModelErrorWithOutKey(photoError);
+                    await categorySelectListForProduct();
+                    return View(request);
+                }
             }
 
             TempData["success"] = "Ürün başarıyla güncellendi";

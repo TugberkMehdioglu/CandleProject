@@ -22,7 +22,7 @@
 
             <input type="hidden" asp-for="Id"/>
             <input type="hidden" asp-for="FormerName"/>
-            <input type="hidden" asp-for="FormerImagePath"/>
+            <input type="hidden" asp-for="Photos"/>
 
             <div class="form-floating mb-3">
                 <input class="form-control mb-0" placeholder=" " id="Name" asp-for="Name" />
@@ -49,16 +49,29 @@
             </div>
 
             <div class="text-center mb-3">
-                <label class="d-block" for="glightbox" style="color:white; font-weight:600;">Ürünün Mevcut Resmi</label>
-                <a href="~/productPics/@Model.ImagePath" class="glightbox" id="glightbox">
-                    <img src="~/productPics/@Model.ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
-                </a>
+                <label class="d-block" for="glightbox" style="color:white; font-weight:600;">Ürünün Mevcut Resimleri</label>
+
+                <div class="row align-middle align-items-center">
+                @foreach (PhotoViewModel item in Model.Photos)
+                {
+                    <div class="mt-3"></div>
+
+                    <div class="col-8">
+                        <a href="~/productPics/@item.ImagePath" class="glightbox" id="glightbox">
+                            <img src="~/productPics/@item.ImagePath" alt="Resim Yüklenemedi" width="100px;" height="100px;" class="img-fluid" />
+                        </a>
+                    </div>
+                    
+                    <a class="btn btn-danger col-4" style="border-radius:20px;"><i class="bi bi-arrow-left"></i> Fotoğrafı Sil</a>
+                }          
+                </div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" style="color:white; font-weight:600;" asp-for="Image">Ürünün Yeni Resmi</label>
-                <input class="form-control form-control-lg mb-0" type="file" asp-for="Image" />
-                <span asp-validation-for="Image" class="text-danger p-2" style="font-weight: bold;"></span>
+                <label class="form-label" asp-for="Images">Ürün Resmi :</label>
+                <input class="form-control form-control-lg mb-0" type="file" multiple asp-for="Images" id="fileInput" />
+                <span asp-validation-for="Images" class="text-danger p-2" style="font-weight: bold;" id="validationMessage"></span>
+                <div class="row" id="imagePreview"></div>
             </div>
 
             <div class="form-floating mb-3">
@@ -90,6 +103,45 @@
             touchNavigation: true,
             autoplayVideos: true
         });
+
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const validationMessage = document.getElementById('validationMessage');
+
+        fileInput.addEventListener("change", handleFileSelect);
+
+        function handleFileSelect() {
+            validationMessage.textContent = ''; // Hata mesajını temizle
+
+            const files = fileInput.files;
+
+            // Dosya sayısını kontrol et
+            if (files.length === 0) {
+                validationMessage.textContent = 'Lütfen bir veya daha fazla dosya seçin.';
+                return;
+            }
+
+            // Dosyaları sırala ve önizleme yap
+            const sortedFiles = Array.from(files).sort((a, b) => a.name.localeCompare(b.name));
+            imagePreview.innerHTML = '';
+
+            sortedFiles.forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    // Resimler
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100px';
+                    img.style.maxHeight = '100px';
+                    img.className = 'img-fluid mb-2';
+                    imagePreview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
 
     </script>
 }
