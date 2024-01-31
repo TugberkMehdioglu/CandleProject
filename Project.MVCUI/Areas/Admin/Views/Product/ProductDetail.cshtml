@@ -4,6 +4,7 @@
     ViewData["Title"] = "ProductDetail";
 
     short productStock = Model.Stock;
+    int productPhotoCount = Model.Photos.Count;
 }
 
 @section Css{
@@ -34,13 +35,28 @@
         <div class="card-body">
             <div class="row">
 
-                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
-                    <a href="~/productPics/@Model.ImagePath" class="glightbox">
-                        <img src="~/productPics/@Model.ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
-                    </a>
-                </div>
+                @if (productPhotoCount < 2)
+                {
+                    <div class="col-md-6 mb-4 mb-lg-0 text-center">
+                        <a href="~/productPics/@Model.Photos[0].ImagePath" class="glightbox">
+                            <img src="~/productPics/@Model.Photos[0].ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6 mb-4 mb-lg-0 align-items-center d-flex flex-wrap">
+                        @for (int i = 0; i < productPhotoCount; i++)
+                        {
+                            <a href="~/productPics/@Model.Photos[i].ImagePath" class="glightbox col-md-6 col-md-6 img-fluid text-center">
+                                <img src="~/productPics/@Model.Photos[i].ImagePath" alt="Resim Yüklenemedi" width="400px;" height="500px;" class="img-fluid" />
+                            </a>
 
-                <div class="col-lg-6">
+                        }
+                    </div>
+                }
+
+                <div class="col-md-6">
                     <h5>@Model.Name</h5>
                     <a class="fs-5 mb-5" asp-area="Admin" asp-controller="Category" asp-action="CategoryList">@Model.CategoryName</a>
 
