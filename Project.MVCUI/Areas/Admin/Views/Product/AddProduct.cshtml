@@ -43,7 +43,7 @@
                 <label class="form-label" asp-for="Images">Ürün Resmi :</label>
                 <input class="form-control form-control-lg mb-0" type="file" multiple asp-for="Images" id="fileInput" />
                 <span asp-validation-for="Images" class="text-danger p-2" style="font-weight: bold;" id="validationMessage"></span>
-                <div class="row" id="imagePreview"></div>
+                <div class="text-center" id="imagePreview"></div>
             </div>
 
             <div class="form-floating mb-3">
@@ -78,7 +78,7 @@
         function handleFileSelect() {
             validationMessage.textContent = ''; // Hata mesajını temizle
 
-            const files = fileInput.files;
+            const files = Array.from(fileInput.files);
 
             // Dosya sayısını kontrol et
             if (files.length === 0) {
@@ -86,14 +86,22 @@
                 return;
             }
 
-            // Dosyaları sırala ve önizleme yap
-            const sortedFiles = Array.from(files);
             imagePreview.innerHTML = '';
 
-            sortedFiles.forEach(file => {
+            files.forEach(file => {
                 const reader = new FileReader();
 
                 reader.onload = function (e) {
+
+                    const fileContainer = document.createElement('div');
+                    fileContainer.classList.add('text-center', 'me-3', 'mb-3');
+                    fileContainer.style.display = 'inline-block';
+
+                    // Dosya adını içeren span elementi
+                    const fileNameSpan = document.createElement('span');
+                    fileNameSpan.textContent = file.name; // Dosya adını ekleyin
+                    fileNameSpan.classList.add('text-white', 'd-block');
+                    fileContainer.appendChild(fileNameSpan);
 
                     // Resimler
                     const img = document.createElement('img');
@@ -101,7 +109,16 @@
                     img.style.maxWidth = '100px';
                     img.style.maxHeight = '100px';
                     img.className = 'img-fluid mb-2';
-                    imagePreview.appendChild(img);
+                    fileContainer.appendChild(img);
+
+                    
+                    // Dosya boyutunu içeren span elementi
+                    const fileSizeSpan = document.createElement('span');
+                    fileSizeSpan.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`; // Dosya boyutunu MB'ye dönüştürün
+                    fileSizeSpan.classList.add('text-white', 'd-block');
+                    fileContainer.appendChild(fileSizeSpan);
+
+                    imagePreview.appendChild(fileContainer);
                 };
 
                 reader.readAsDataURL(file);
