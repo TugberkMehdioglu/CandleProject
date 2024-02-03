@@ -49,7 +49,7 @@ namespace Project.MVCUI.Controllers
 
             if (categoryId.HasValue)
             {
-                ViewBag.CategoryId = categoryId.Value;
+                ViewBag.CategoryId = categoryId.Value.ToString();
                 query = query.Where(x => x.CategoryID == categoryId.Value);
             }
             else if (!string.IsNullOrEmpty(search))
