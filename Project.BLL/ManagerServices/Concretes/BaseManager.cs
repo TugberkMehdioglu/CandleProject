@@ -160,7 +160,7 @@ namespace Project.BLL.ManagerServices.Concretes
 
         public virtual async Task<string?> DestroyAsync(T entity)
         {
-            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+            if (entity == null) return "Lütfen gerekli alanları doldurun";
 
             try
             {
@@ -208,7 +208,7 @@ namespace Project.BLL.ManagerServices.Concretes
 
         public virtual string? DestroyWithOutSave(T entity)
         {
-            if (entity == null || entity.Status == DataStatus.Deleted) return "Lütfen gerekli alanları doldurun";
+            if (entity == null) return "Lütfen gerekli alanları doldurun";
 
             try
             {

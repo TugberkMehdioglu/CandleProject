@@ -422,5 +422,102 @@ namespace Project.MVCUI.Areas.Admin.Controllers
             TempData["success"] = "Fotoğraf silindi";
             return RedirectToAction(nameof(ProductDetail), new { id = productId });
         }
+
+        [HttpGet("{search?}/{categoryId?}/{productSort?}/{pageNumber?}")]
+        public async Task<IActionResult> DeletedProductList(string? search, int? categoryId, string? productSort, int pageNumber = 1)
+        {
+            int pageSize = 6;
+
+            IQueryable<Product> query = _productManager.GetPassives();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                ViewBag.filter = search;
+                query = query.Where(x => x.Name.ToLower().Trim().Contains(search.ToLower().Trim()));
+
+            }
+            else if (categoryId.HasValue)
+            {
+                ViewBag.categoryId = categoryId.Value;
+                query = query.Where(x => x.CategoryID == categoryId.Value);
+            }
+
+            query = Sort(query, productSort);
+
+            List<ProductViewModel> productViewModels = await query
+                .Skip((pageNumber - 1) * pageSize).Take(pageSize)
+                .Include(x => x.Category).Include(x => x.Photos).Select(x => new ProductViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Stock = x.Stock,
+                    CategoryID = x.Category.Id,
+                    CategoryName = x.Category.Name,
+                    Photos = x.Photos.Select(x => new PhotoViewModel()
+                    {
+                        Id = x.Id,
+                        ImagePath = x.ImagePath,
+                        ProductId = x.ProductId
+                    }).ToList()
+                }).ToListAsync();
+
+
+            int totalItemsCount = await query.CountAsync();
+
+
+            ViewBag.totalPageCount = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+            ViewBag.pageNumber = pageNumber;
+            ViewBag.totalItemsCount = totalItemsCount;
+
+            return View(productViewModels);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DestroyProduct(int id)
+        {
+            Product? product = await _productManager.Where(x => x.Id == id && x.Status == DataStatus.Deleted).Include(x => x.Photos).FirstOrDefaultAsync();
+
+            if (product == null)
+            {
+                TempData["fail"] = "Ürün bulunamadı";
+                return RedirectToAction(nameof(DeletedProductList), new { id });
+            }
+
+            string? productError = _productManager.DestroyWithOutSave(product);
+
+            if(productError != null)
+            {
+                TempData["fail"] = productError;
+                return RedirectToAction(nameof(DeletedProductList), new { id });
+            }
+
+            if (product.Photos.Count > 0)
+            {
+                string? error = await _photoManager.DestroyRangeAsync(product.Photos);
+
+                if (error != null)
+                {
+                    TempData["fail"] = error;
+                    return RedirectToAction(nameof(DeletedProductList), new { id });
+                }
+
+                foreach (Photo item in product.Photos)
+                {
+                    string? photoError = ImageUploader.DeleteImageToWwwroot(item.ImagePath, _fileProvider, "productPics");
+
+                    if (photoError != null)
+                    {
+                        TempData["fail"] = photoError;
+                        return RedirectToAction(nameof(DeletedProductList), new { id });
+                    }
+                }
+            }
+            else await _productManager.SaveChangesAsync();
+
+            TempData["success"] = "Ürün kalıcı olarak silindi";
+            return RedirectToAction(nameof(DeletedProductList));
+        }
     }
 }

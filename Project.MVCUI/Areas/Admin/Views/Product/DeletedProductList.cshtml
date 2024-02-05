@@ -1,0 +1,256 @@
+﻿@model List<ProductViewModel>
+
+@{
+    ViewData["Title"] = "DeletedProductList";
+    string? productSort = ViewBag.productSort;
+    string? categoryId = ViewBag.categoryId;
+    string? search = ViewBag.filter;
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger col-lg-4 offset-lg-4 col-sm-12" style="" padding:20px; border-radius:10px;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);"></div>
+
+<div class="col-xl-10 offset-xl-1 col-sm-12" style="padding:20px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
+
+    <h1 class="text-center text-white mb-5">Silinmiş Ürünler</h1>
+
+    <div class="row mb-2 align-items-center">
+        <div class="col-12 col-md-4 offset-md-2">
+            <form method="get" id="myForm" asp-route-search="" asp-route-categoryId="" asp-route-productSort="" asp-route-pageNumber="">
+                <input type="hidden" name="productSort" value="@(productSort)" />
+                <input type="search" class="form-control rounded-5" placeholder="Ürünlerde ara" name="search" value="@(search)" />
+            </form>
+        </div>
+        <div class="col-12 col-md-4 mt-3 mt-sm-0">
+            <select class="form-select rounded-5 p-2" aria-label="Default select example" id="productSort">
+                @if (productSort == null)
+                {
+                    <option selected>Sıralama kriteri</option>
+                }
+                else
+                {
+                    <option>Sıralama kriteri</option>
+                }
+                @if (productSort == "SEYU")
+                {
+                    <option value="SEYU" selected>Stoğu en yüksek ürünler</option>
+                }
+                else
+                {
+                    <option value="SEYU">Stoğu en yüksek ürünler</option>
+                }
+                @if (productSort == "SEDU")
+                {
+                    <option value="SEDU" selected>Stoğu en düşük ürünler</option>
+                }
+                else
+                {
+                    <option value="SEDU">Stoğu en düşük ürünler</option>
+                }
+                @if (productSort == "ESEU")
+                {
+                    <option value="ESEU" selected>En son eklenen ürünler</option>
+                }
+                else
+                {
+                    <option value="ESEU">En son eklenen ürünler</option>
+                }
+                @if (productSort == "IEU")
+                {
+                    <option value="IEU" selected>İlk eklenen ürünler</option>
+                }
+                else
+                {
+                    <option value="IEU">İlk eklenen ürünler</option>
+                }
+                @if (productSort == "EYTU")
+                {
+                    <option value="EYTU" selected>En yüksek tutarlı ürünler</option>
+                }
+                else
+                {
+                    <option value="EYTU">En yüksek tutarlı ürünler</option>
+                }
+                @if (productSort == "EDTU")
+                {
+                    <option value="EDTU" selected>En düşük tutarlı ürünler</option>
+                }
+                else
+                {
+                    <option value="EDTU">En düşük tutarlı ürünler</option>
+                }
+                @if (productSort == "UAAZ")
+                {
+                    <option value="UAAZ" selected>Ürün adına göre A > Z</option>
+                }
+                else
+                {
+                    <option value="UAAZ">Ürün adına göre A > Z</option>
+                }
+                @if (productSort == "UAZA")
+                {
+                    <option value="UAZA" selected>Ürün adına göre Z &lt; A</option>
+                }
+                else
+                {
+                    <option value="UAZA">Ürün adına göre Z &gt; A</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover" id="myTable">
+            <thead>
+                <tr class="align-middle">
+                    <th class="text-center">Ürün Resmi</th>
+                    <th class="text-center">Ad</th>
+                    <th class="text-center">Açıklama</th>
+                    <th class="text-center">Fiyat</th>
+                    <th class="text-center">Stok</th>
+                    <th class="text-center">Kategorisi</th>
+                    <th class="text-center" colspan="3">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="AddProduct" class="btn btn-success rounded-5">Ürün Ekle</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ProductViewModel item in Model)
+                {
+                    <tr class="align-middle text-center">
+                        <td>
+                            <img class="rounded-5" src="~/productPics/@item.Photos[0].ImagePath" alt="Resim Görüntülenemiyor" style="height:100px; width:100px;">
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.Price.ToString("C2")</td>
+                        <td>
+                            @{
+                                short productStock = item.Stock;
+
+                                if (productStock > 10 && productStock <= 20)
+                                {
+                                    <span class="text-primary fw-bolder">@productStock</span>
+                                }
+                                else if (productStock <= 10)
+                                {
+                                    <span class="text-danger fw-bolder">@productStock</span>
+                                }
+                                else
+                                {
+                                    <span>@productStock</span>
+                                }
+                            }
+                        </td>
+                        <td>@item.CategoryName</td>
+                        <td class="text-center">
+                            <a id="deleteProductId" data-id="@item.Id" data-name="@item.Name" data-bs-toggle="modal" data-bs-target="#modal5" class="btn btn-danger rounded-5">Kalıcı Olarak Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.pageNumber < 2 ? "disabled" : "")">
+                <a class="page-link" aria-label="Previous" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(search ??" ")" asp-route-categoryId="@(categoryId ??" ")" asp-route-productSort="@(productSort ?? " ")" asp-route-pageNumber="@(ViewBag.pageNumber - 1)">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int page = 1; page <= @ViewBag.totalPageCount; page++)
+            {
+                <li class="page-item @(ViewBag.pageNumber == page ? "active" : "")"><a class="page-link" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(search ??" ")" asp-route-categoryId="@(categoryId ??" ")" asp-route-productSort="@(productSort ?? " ")" asp-route-pageNumber="@(page)">@(page)</a></li>
+            }
+
+            <li class="page-item @(ViewBag.pageNumber == ViewBag.totalPageCount ? "disabled" : "")">
+                <a class="page-link" aria-label="Next" asp-area="Admin" asp-controller="Product" asp-action="ProductList" asp-route-search="@(search ??" ")" asp-route-categoryId="@(categoryId ??" ")" asp-route-productSort="@(productSort ?? " ")" asp-route-pageNumber="@(ViewBag.pageNumber + 1)">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+
+@*------------MODAL------------*@
+<div class="modal fade" id="modal5" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ürün silinsin mi?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Kapat</button>
+                <button type="submit" class="btn btn-danger" id="deleteProductButton" data-bs-dismiss="modal">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*------------MODAL------------*@
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#myTable").on("click", "#deleteProductId", function () {
+
+                let name = $(this).data("name");
+                let modalBodyText = name + " ürününü silmek istediğinize emin misiniz?";
+                $(".modal-body").text(modalBodyText);
+
+                let id = $(this).data("id");
+
+                $("#deleteProductButton").off("click");
+                //Önerimdeki $("#deleteCategoryButton").off("click.deleteCategory") kullanımı, sadece belirli bir olayın (.deleteCategory) kaldırılmasını sağlamak için daha spesifik bir şekilde olayları yönetmek içindi. Ancak, $("#deleteCategoryButton").off("click") kullanarak tüm click olaylarını kaldırmanız da aynı sonucu verecektir.
+
+                $("#deleteProductButton").click(function () {
+
+                    window.location.href = "/Admin/Product/DestroyProduct/" + id;
+                });
+            });
+
+            let categoryId = '@(categoryId ?? " ")';
+            let search = '@(search ?? " ")';
+
+            $("#productSort").change(function () {
+
+                let productSort = $(this).val();
+                let url;
+
+                if (productSort !== "Sıralama kriteri") {
+
+                    url = "/Admin/Product/DeletedProductList/" + search + "/" + categoryId + "/" + productSort;
+                }
+                else {
+
+                    url = "/Admin/Product/DeletedProductList/" + search + "/" + categoryId + "/";
+                }
+
+                window.location.href = url;
+            });
+        });
+
+    </script>
+}
