@@ -35,5 +35,32 @@ namespace Project.COMMON.Tools
             }
             else return "Selected file is not a picture !  Only jpg, gif, png and jpeg extensions are accepted.";
         }
+
+        public static string? DeleteImageToWwwroot(string imagePath, IFileProvider fileProvider, string nameOfTheFileToUploadImageInWwwroot)
+        {
+            if (string.IsNullOrEmpty(imagePath)) return "To be delete picture is empty !";
+
+            IDirectoryContents wwwroot = fileProvider.GetDirectoryContents("wwwroot");
+            IFileInfo? locationToDelete = wwwroot.FirstOrDefault(x => x.Name == nameOfTheFileToUploadImageInWwwroot);
+
+            if (locationToDelete == null) return "Couldn't find location to delete";
+
+            string fullPathOfFile = Path.Combine(locationToDelete.PhysicalPath, imagePath);
+
+            try
+            {
+                // İlgili dosyayı sil
+                File.Delete(fullPathOfFile);
+
+                // İlgili dosyanın var olduğu dizini sil
+                // Directory.Delete(locationToDelete.PhysicalPath);
+
+                return null;
+            }
+            catch (Exception exception)
+            {
+                return $"An error occurred while deleting the image: {exception.Message}";
+            }
+        }
     }
 }

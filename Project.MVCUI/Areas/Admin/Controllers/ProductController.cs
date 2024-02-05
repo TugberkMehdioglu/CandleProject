@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Project.BLL.ManagerServices.Abstarcts;
@@ -59,7 +60,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
             List<ProductViewModel> productViewModels = await query
                 .Skip((pageNumber - 1) * pageSize).Take(pageSize)
-                .Include(x => x.Category).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
+                .Include(x => x.Category).Include(x => x.Photos).Select(x => new ProductViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -68,7 +69,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                     Stock = x.Stock,
                     CategoryID = x.Category.Id,
                     CategoryName = x.Category.Name,
-                    Photos = x.Photos.Select(x => new PhotoViewModel()
+                    Photos = x.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new PhotoViewModel()
                     {
                         Id = x.Id,
                         ImagePath = x.ImagePath,
@@ -105,7 +106,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ProductDetail(int id)
         {
-            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -115,7 +116,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 CategoryID = x.Category.Id,
                 CategoryName = x.Category.Name,
                 CategoryDescription = x.Category.Description,
-                Photos = x.Photos.Select(x => new PhotoViewModel()
+                Photos = x.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new PhotoViewModel()
                 {
                     Id = x.Id,
                     ImagePath = x.ImagePath,
@@ -254,6 +255,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
             ProductViewModel productViewModel = new()
             {
+                Id = product.Id,
                 Name = product!.Name,
                 Description = product.Description,
                 PriceText = product.Price.ToString(),
@@ -316,6 +318,22 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
                     productPhotos.Add(entityImagePath!);
                 }
+
+                foreach (string item in productPhotos)
+                {
+                    string? photoError = await _photoManager.AddWithOutSaveAsync(new()
+                    {
+                        ImagePath = item,
+                        ProductId = request.Id!.Value
+                    });
+
+                    if (photoError != null)
+                    {
+                        ModelState.AddModelErrorWithOutKey(photoError);
+                        await categorySelectListForProduct();
+                        return View(request);
+                    }
+                }
             }
 
             Product product = new()
@@ -337,21 +355,7 @@ namespace Project.MVCUI.Areas.Admin.Controllers
                 return View(request);
             }
 
-            foreach (string item in productPhotos)
-            {
-                string? photoError = await _photoManager.AddWithOutSaveAsync(new()
-                {
-                    ImagePath = item,
-                    ProductId = product.Id
-                });
-
-                if (photoError != null)
-                {
-                    ModelState.AddModelErrorWithOutKey(photoError);
-                    await categorySelectListForProduct();
-                    return View(request);
-                }
-            }
+            
 
             TempData["success"] = "Ürün başarıyla güncellendi";
             return RedirectToAction(nameof(ProductList));
@@ -360,11 +364,24 @@ namespace Project.MVCUI.Areas.Admin.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            Product? product = await _productManager.FindAsync(id);
+            Product? product = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted)
+                .Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).FirstOrDefaultAsync();
+
             if (product == null)
             {
                 TempData["fail"] = "Ürün bulunamadı";
                 return RedirectToAction(nameof(ProductList));
+            }
+
+            if(product.Photos!.Count > 0)
+            {
+                string? photoError = _photoManager.DeleteRangeWithOutSave(product.Photos);
+
+                if(photoError != null)
+                {
+                    TempData["fail"] = photoError;
+                    return RedirectToAction(nameof(ProductDetail), new { id });
+                }
             }
 
             string? error = await _productManager.DeleteAsync(product!);
@@ -376,6 +393,34 @@ namespace Project.MVCUI.Areas.Admin.Controllers
 
             TempData["success"] = "Ürün silindi";
             return RedirectToAction(nameof(ProductList));
+        }
+
+        [HttpGet("{id}/{productId}")]
+        public async Task<IActionResult> DeletePhoto(int id, int productId)
+        {
+            Photo? photo = await _photoManager.FindAsync(id);
+            if (photo == null)
+            {
+                TempData["fail"] = "Resim bulunamadı";
+                return RedirectToAction(nameof(ProductDetail), new { id = productId });
+            }
+
+            string? photoError = ImageUploader.DeleteImageToWwwroot(photo.ImagePath, _fileProvider, "productPics");
+            if (photoError != null)
+            {
+                TempData["fail"] = photoError;
+                return RedirectToAction(nameof(ProductDetail), new { id = productId });
+            }
+
+            string? error = await _photoManager.DestroyAsync(photo);
+            if (error != null)
+            {
+                TempData["fail"] = error;
+                return RedirectToAction(nameof(ProductDetail), new { id = productId });
+            }
+
+            TempData["success"] = "Fotoğraf silindi";
+            return RedirectToAction(nameof(ProductDetail), new { id = productId });
         }
     }
 }

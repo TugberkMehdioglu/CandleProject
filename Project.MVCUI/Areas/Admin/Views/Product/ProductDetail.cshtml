@@ -29,6 +29,20 @@
     </style>
 }
 
+@if (TempData["success"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertSuccessPartial" model=@(TempData["success"]!.ToString())></partial>
+    </div>
+}
+else if (TempData["fail"] != null)
+{
+    <div class="container col-lg-6 offset-lg-3 col-sm-12">
+        <partial name="_AlertWarningPartial" model=@(TempData["fail"]!.ToString())></partial>
+    </div>
+}
+
+
 <div class="container" style="padding:5px; border-radius:10px; background-color:rgb(128, 208, 199); box-shadow:0 0 10px rgba(0, 0, 0, 0.1);">
 
     <div class="card">

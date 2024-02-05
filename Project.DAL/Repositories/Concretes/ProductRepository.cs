@@ -18,6 +18,6 @@ namespace Project.DAL.Repositories.Concretes
 
         }
 
-        public async Task<Product?> GetActiveProductWithCategory(int id) => await _context.Products!.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Category).Include(x => x.Photos).FirstOrDefaultAsync();
+        public async Task<Product?> GetActiveProductWithCategory(int id) => await _context.Products!.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Category).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).FirstOrDefaultAsync();
     }
 }

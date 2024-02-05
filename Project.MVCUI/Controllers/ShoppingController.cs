@@ -64,7 +64,7 @@ namespace Project.MVCUI.Controllers
 
             ShoppingWrapper wrapper = new ShoppingWrapper();
 
-            wrapper.Products = await query.Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Skip((pageNumber!.Value - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
+            wrapper.Products = await query.Include(x => x.Photos).Skip((pageNumber!.Value - 1) * pageSize).Take(pageSize).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -73,7 +73,7 @@ namespace Project.MVCUI.Controllers
                 Stock = x.Stock,
                 CategoryID = x.CategoryID,
                 CategoryName = x.Category.Name,
-                Photos = x.Photos.Select(x => new PhotoViewModel()
+                Photos = x.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new PhotoViewModel()
                 {
                     Id = x.Id,
                     ImagePath = x.ImagePath,
@@ -106,7 +106,7 @@ namespace Project.MVCUI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ProductDetail(int id)
         {
-            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new ProductViewModel()
+            ProductViewModel? productViewModel = await _productManager.Where(x => x.Id == id && x.Status != DataStatus.Deleted).Include(x => x.Photos).Select(x => new ProductViewModel()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -115,7 +115,7 @@ namespace Project.MVCUI.Controllers
                 Stock = x.Stock,
                 CategoryID = x.CategoryID,
                 CategoryName = x.Category.Name,
-                Photos = x.Photos.Select(x => new PhotoViewModel()
+                Photos = x.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new PhotoViewModel()
                 {
                     Id = x.Id,
                     ImagePath = x.ImagePath,

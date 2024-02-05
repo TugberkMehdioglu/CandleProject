@@ -38,7 +38,7 @@ namespace Project.DAL.Repositories.Concretes
             CreatedDate = x.CreatedDate
         });
 
-        public async Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId) => await _context.Orders.Where(x => x.Id == orderId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Photos).Select(x => new Order()
+        public async Task<Order?> GetOrderWithAddressProfileDetailProduct(int orderId) => await _context.Orders.Where(x => x.Id == orderId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new Order()
         {
             Id = x.Id,
             TotalPrice = x.TotalPrice,
@@ -79,7 +79,7 @@ namespace Project.DAL.Repositories.Concretes
                     Name = x.Product.Name,
                     Description = x.Product.Description,
                     Price = x.Product.Price,
-                    Photos = x.Product.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new Photo()
+                    Photos = x.Product.Photos.Select(x => new Photo()
                     {
                         Id = x.Id,
                         ImagePath = x.ImagePath,
@@ -90,7 +90,7 @@ namespace Project.DAL.Repositories.Concretes
         }).FirstOrDefaultAsync();
 
 
-        public async Task<Order?> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId) => await _context.Orders.Where(x => x.Id == orderId && x.AppUserProfileID == userId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Photos).Select(x => new Order()
+        public async Task<Order?> GetOrderViaUserIdWithAddressProfileDetailProduct(int orderId, string userId) => await _context.Orders.Where(x => x.Id == orderId && x.AppUserProfileID == userId).Include(x => x.Address).Include(x => x.AppUserProfile).ThenInclude(x => x.AppUser).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Photos.Where(x => x.Status != DataStatus.Deleted)).Select(x => new Order()
         {
             Id = x.Id,
             TotalPrice = x.TotalPrice,
@@ -131,7 +131,7 @@ namespace Project.DAL.Repositories.Concretes
                     Name = x.Product.Name,
                     Description = x.Product.Description,
                     Price = x.Product.Price,
-                    Photos = x.Product.Photos.Where(x => x.Status != DataStatus.Deleted).Select(x => new Photo()
+                    Photos = x.Product.Photos.Select(x => new Photo()
                     {
                         Id = x.Id,
                         ImagePath = x.ImagePath,
