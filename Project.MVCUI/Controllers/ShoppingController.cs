@@ -354,7 +354,7 @@ namespace Project.MVCUI.Controllers
         [HttpGet("{id}/{from}/{quantity}")]
         public async Task<IActionResult> AddToCart(int id, string from, short quantity)
         {
-            Product? product = await _productManager.FindAsync(id);
+            Product? product = await _productManager.Where(x => x.Status != DataStatus.Deleted && x.Id == id).Include(x => x.Photos).FirstOrDefaultAsync();
 
             if (product == null) return RedirectToAction(nameof(ShoppingList));
 
@@ -367,11 +367,9 @@ namespace Project.MVCUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                //ImagePath = product.ImagePath,
+                ImagePath = product.Photos!.ToList()[0].ImagePath,
                 MaxAmount = product.Stock
             };
-
-            //Todo: ürünün ilk fotosunu eklettirt
 
             if (quantity > 0 && quantity <= product.Stock) cartItem.Amount = quantity;
             else return RedirectToAction(nameof(ShoppingList));

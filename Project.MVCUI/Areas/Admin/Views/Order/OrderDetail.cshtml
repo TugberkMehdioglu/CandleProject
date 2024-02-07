@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "OrderDetail";
-    DateTime dateTime = Model.CreatedDate!.Value.ToLocalTime();
+    DateTime dateTime = Model.CreatedDate!.Value;
 }
 
 @if (TempData["success"] != null)
@@ -35,7 +35,7 @@ else if (TempData["fail"] != null)
                 <div class="col-12">
                     <span class="text-secondary">@dateTime.Day @dateTime.ToString("MMMM"),</span>
                     <span class="text-secondary">@dateTime.Year,</span>
-                    <span class="text-secondary">@dateTime.Hour:@dateTime.Minute</span>
+                    <span class="text-secondary">@dateTime.ToShortTimeString()</span>
                 </div>
             </div>
 
