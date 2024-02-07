@@ -1,9 +1,10 @@
 # [Showcase and Guid](https://www.youtube.com/watch?v=ZojDNJhmgcQ)
 
-
-
-
 > [!TIP]
-> Admin için: email => Admin@gmail.com &nbsp; şifre => Password12* <br>
+> Admin login:&nbsp; email => Admin@gmail.com &nbsp; şifre => Password12* <br>
 ><br>
-> Member için: email => Member@gmail.com &nbsp; şifre => Password12*
+> Member login:&nbsp; email => Member@gmail.com &nbsp; şifre => Password12*
+
+<br>
+
+### Tech Stack: .Net6, MsSql, EntityFrameworkCore, Bootstrap5
